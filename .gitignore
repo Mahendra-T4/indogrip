@@ -1,0 +1,42 @@
+﻿# Flutter & Dart
+.dart_tool/
+.packages
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+
+# Android
+android/.gradle/
+android/app/*.iml
+android/local.properties
+android/captures/
+
+# iOS
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+
+# Build products
+*.apk
+*.aab
+*.app
+
+# Logs
+*.log
+
+# Misc
+.DS_Store
+*.lock

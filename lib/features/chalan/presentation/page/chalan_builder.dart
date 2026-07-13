@@ -1,0 +1,733 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:indogrip/core/responsive/responsive.dart';
+import 'package:indogrip/core/theme/color_conts.dart';
+import 'package:indogrip/core/utils/scroll_behavier.dart';
+import 'package:indogrip/core/widgets/labal_text.dart';
+import 'package:indogrip/features/chalan/data/chalan_datasource.dart';
+import 'package:indogrip/features/chalan/data/model/chalanlist_model.dart';
+import 'package:indogrip/features/chalan/presentation/bloc/challan_bloc.dart';
+import 'package:indogrip/features/chalan/presentation/page/bill/bill_formate.dart';
+import 'package:indogrip/features/chalan/presentation/page/chalan_panel.dart';
+import 'package:indogrip/features/global/data/repositories/global_manager_repo.dart';
+import 'package:indogrip/features/global/presentation/bloc/global_bloc.dart';
+import 'package:indogrip/features/global/presentation/widget/refresh_button.dart';
+import 'package:indogrip/features/global/presentation/widget/search_fields.dart';
+import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
+
+abstract class ChalanBuilder extends State<ChalanPanel> {
+  final TextEditingController searchController = TextEditingController();
+  final fromDateController = TextEditingController();
+  final toDateController = TextEditingController();
+
+  final TextEditingController batchCodeController = TextEditingController();
+  final manualDateDateController = TextEditingController();
+  final manualChallanNOController = TextEditingController();
+  Key refreshKey = UniqueKey();
+  List<DataGridRow> selectedRows = [];
+  bool isMultipleSelection = false;
+  String? clientKey;
+  int? highlightedRowIndex;
+  var recordValue, filterValue, entryValue;
+  late final ChallanBloc challanBloc;
+  late final GlobalBloc globalBloc;
+  final GlobalKey key = GlobalKey();
+  String? staffKey;
+  int? pageNo = 1;
+  int? pageQty = 1;
+  String? pageText;
+  bool isNotEmpty = false;
+  bool isShowBatch = false;
+  @override
+  void initState() {
+    super.initState();
+    challanBloc = ChallanBloc();
+    globalBloc = GlobalBloc(globalRepository: GlobalManagerRepository());
+    challanBloc.add(FetchChallanRecordsEvent(param: ViewRecordApiParam()));
+  }
+
+  dataLoadingEventCall() {
+    challanBloc.add(
+      FetchChallanRecordsEvent(
+        param: ViewRecordApiParam(
+          keyword: searchController.text,
+          filterBy: recordValue,
+          orderBy: filterValue.toString(),
+          pageNo: pageNo.toString(),
+          sortBy: entryValue.toString(),
+          fromDate: fromDateController.text,
+          toDate: toDateController.text,
+          clientKey: clientKey,
+          staffKey: staffKey,
+          batchCode: batchCodeController.text,
+          manualChallanNo: manualChallanNOController.text,
+          manualChallanDate: manualDateDateController.text,
+        ),
+      ),
+    );
+    setState(() {
+      pageNo = 1;
+    });
+  }
+
+  clearFiltersOnRefresh() {
+    searchController.clear();
+    fromDateController.clear();
+    toDateController.clear();
+    batchCodeController.clear();
+    batchCodeController.text = '';
+    fromDateController.text = '';
+    toDateController.text = '';
+    searchController.text = '';
+    manualChallanNOController.text = '';
+    manualDateDateController.text = '';
+    manualChallanNOController.clear();
+    manualDateDateController.clear();
+    setState(() {
+      recordValue = null;
+      filterValue = null;
+      entryValue = null;
+      clientKey = null;
+      staffKey = null;
+      isShowBatch = false;
+    });
+
+    refreshKey = UniqueKey();
+
+    dataLoadingEventCall();
+  }
+
+  ChalanDataSource? dataSource;
+  late Map<String, double> columnWidths = {};
+  bool isChecked = false;
+
+  // Mock data for demonstration - replace with actual BLoC later
+  late List<ChalanRecord> dummyData;
+
+  Widget get refreshButton => Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      SizedBox(
+        width: MediaQuery.sizeOf(context).width * .15,
+        height: 35,
+        child: RefreshButton(
+          onPressed: () {
+            clearFiltersOnRefresh();
+          },
+        ),
+      ),
+    ],
+  );
+
+  Future<void> _selectDate(
+    BuildContext context,
+    TextEditingController controller,
+    void Function(String)? onChanged,
+  ) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null) {
+      final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+      setState(() {
+        controller.text = formattedDate;
+      });
+      onChanged?.call(formattedDate);
+    }
+  }
+
+  Widget get buildCallanFilterations => Padding(
+    padding: const EdgeInsets.all(16),
+    child: Row(
+      spacing: Responsive.betweenSpace,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 5,
+            children: [
+              LabelText('Batch Code'),
+              Container(
+                height: 37,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: batchCodeController,
+
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Enter BatchCode',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 13,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF2D8FCF),
+                      size: 20,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Color(0xFF2D8FCF),
+                        width: 1.5,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 0,
+                    ),
+                  ),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: ColourPalette.textFieldLabelColor,
+                  ),
+                  onChanged: (value) {
+                    if (value.isNotEmpty || value != '') {
+                      setState(() {
+                        isShowBatch = true;
+                      });
+                    } else {
+                      setState(() {
+                        isShowBatch = false;
+                      });
+                    }
+                    dataLoadingEventCall();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 5,
+            children: [
+              LabelText('Manual Challan Date'),
+              Container(
+                height: 37,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: manualDateDateController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Select From Date',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 13,
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.calendar_today,
+                      color: Color(0xFF2D8FCF),
+                      size: 20,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFF2D8FCF),
+                        width: 1.5,
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 0,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: ColourPalette.textFieldLabelColor,
+                  ),
+                  readOnly: true,
+                  onChanged: (value) {},
+                  onTap: () =>
+                      _selectDate(context, manualDateDateController, (date) {
+                        setState(() {
+                          toDateController.text = date;
+                        });
+                        dataLoadingEventCall();
+                      }),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 5,
+            children: [
+              LabelText('Manual Challan Number'),
+              Container(
+                height: 37,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: manualChallanNOController,
+
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Enter Manual Challan Number',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 13,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF2D8FCF),
+                      size: 20,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Color(0xFF2D8FCF),
+                        width: 1.5,
+                      ),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 0,
+                    ),
+                  ),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: ColourPalette.textFieldLabelColor,
+                  ),
+                  onChanged: (value) {
+                    dataLoadingEventCall();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(child: SizedBox()),
+      ],
+    ),
+  );
+
+  Widget get searchFields => SearchFields(
+    key: refreshKey,
+    isStatus: true,
+    controller: searchController,
+    onSearch: (keyword) {
+      dataLoadingEventCall();
+    },
+    onChangedStatus: (status) {
+      setState(() {
+        recordValue = status;
+      });
+      dataLoadingEventCall();
+    },
+    onChangedOrder: (order) {
+      setState(() {
+        filterValue = order;
+      });
+      dataLoadingEventCall();
+    },
+    onChangedSort: (sortBy) {
+      setState(() {
+        entryValue = sortBy ?? 10;
+      });
+      dataLoadingEventCall();
+    },
+  );
+
+  Widget get buildContentTableWidget => BlocConsumer(
+    bloc: challanBloc,
+    listener: (context, state) {
+      if (state is ChallanRecordLoadedSuccessState) {
+        setState(() {
+          pageQty = state.model.pageQty ?? 1;
+          pageText = state.model.pageText ?? '';
+        });
+
+        if (state.model.status == 1) {
+          setState(() {
+            isNotEmpty = true;
+          });
+        } else {
+          setState(() {
+            isNotEmpty = false;
+          });
+        }
+      }
+    },
+    builder: (context, state) {
+      switch (state.runtimeType) {
+        case ChallanLoadingState:
+          return const Center(child: CircularProgressIndicator());
+        case ChallanRecordLoadedSuccessState:
+          final successState = state as ChallanRecordLoadedSuccessState;
+          dummyData = successState.model.record ?? [];
+          if (state.model.status == 1) {
+            dataSource = ChalanDataSource(
+              context: context,
+              chalanData: state.model.record ?? [],
+              isAllChecked: isChecked,
+              isShowBatch: isShowBatch,
+              batchCode: batchCodeController.text,
+              highlightedRowIndex: highlightedRowIndex,
+              onStatusChanged: (value) {
+                setState(() {
+                  isChecked = value;
+                  if (value) {
+                    selectedRows = List.from(dataSource?.rows ?? []);
+                  } else {
+                    selectedRows.clear();
+                  }
+                });
+              },
+              onCheckboxChanged: (checked, index) {
+                if (dataSource == null) return;
+                setState(() {
+                  if (checked) {
+                    selectedRows.add(dataSource!.rows[index]);
+                  } else {
+                    selectedRows.remove(dataSource!.rows[index]);
+                  }
+                });
+              },
+
+              onProfile: (ChalanRecord record) {
+                context.pushNamed(BillFormate.routeName, extra: record.rKey);
+                // Handle profile action
+                print('Profile record: ${record.challanNumber}');
+              },
+              onChanged: (String? value, ChalanRecord record) {
+                // Handle status change
+                print('Status changed to: $value for ${record.challanNumber}');
+              },
+              onDelete: (ChalanRecord challan) {
+                globalBloc.add(
+                  GlobalDeleteRecordEvent(
+                    rKey: challan.rKey.toString(),
+                    rPanel: 'challan-details',
+                  ),
+                );
+              },
+              onDeleteSuccess: () {
+                dataLoadingEventCall();
+              },
+            );
+          }
+          return state.model.status != 1
+              ? Column(
+                  children: [
+                    // Table Header
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      color: Colors.grey[100],
+                      child: Row(
+                        children: buildColumns()
+                            .map(
+                              (column) => Expanded(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                    vertical: 12.0,
+                                  ),
+                                  child: column.label,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                    // Message below header
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        state.model.message ?? 'try again later',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 16,
+                  ),
+                  child: SfDataGridTheme(
+                    data: SfDataGridThemeData(
+                      headerColor: Colors.grey[200],
+                      gridLineColor: Colors.grey[300],
+                      gridLineStrokeWidth: 1,
+                    ),
+                    child: ScrollConfiguration(
+                      behavior: HorizontalMouseScrollBehavior(),
+                      child: SizedBox(
+                        height: 700,
+                        child: SfDataGrid(
+                          showHorizontalScrollbar: true,
+                          key: key,
+                          rowsPerPage: 4,
+                          allowPullToRefresh: true,
+                          allowColumnsResizing: true,
+
+                          columnResizeMode: ColumnResizeMode.onResizeEnd,
+                          isScrollbarAlwaysShown: true,
+                          showVerticalScrollbar: true,
+                          showCheckboxColumn:
+                              false, // Set to true when multi-selection is enabled
+                          selectionMode: isMultipleSelection
+                              ? SelectionMode.multiple
+                              : SelectionMode.single,
+
+                          onSelectionChanged: (addedRows, removedRows) {
+                            if (dataSource == null) return;
+                            setState(() {
+                              selectedRows.addAll(addedRows);
+                              selectedRows.removeWhere(
+                                (row) => removedRows.contains(row),
+                              );
+                            });
+                          },
+                          onCellTap: (DataGridCellTapDetails details) {
+                            setState(() {
+                              highlightedRowIndex =
+                                  details.rowColumnIndex.rowIndex - 1;
+                            });
+                          },
+                          onColumnResizeUpdate:
+                              (ColumnResizeUpdateDetails details) {
+                                setState(() {
+                                  columnWidths[details.column.columnName] =
+                                      details.width;
+                                });
+                                return true;
+                              },
+                          source: dataSource!,
+                          columnWidthMode: ColumnWidthMode.fill,
+                          columns: buildColumns(),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+        case ChallanRecordLoadedFailureState:
+          final failureState = state as ChallanRecordLoadedFailureState;
+          return Center(child: Text('Error: ${failureState.errorMessage}'));
+        default:
+          return const SizedBox.shrink();
+      }
+    },
+  );
+
+  List<GridColumn> buildColumns() {
+    return [
+      GridColumn(
+        columnName: Chalan.srNo,
+        width: 80,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Sr No',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      if (isShowBatch)
+        GridColumn(
+          columnName: Chalan.batchCode,
+          width: double.nan,
+          label: Container(
+            color: Colors.grey[100],
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            alignment: Alignment.center,
+            child: const Text(
+              'Batch Code',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      GridColumn(
+        columnName: Chalan.challanNumber,
+        width: double.nan,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Challan No',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: Chalan.manualChallanNumber,
+        width: double.nan,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Manual Challan No.',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: Chalan.dateTime,
+        width: double.nan,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Date',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: Chalan.manualChallanDate,
+        width: double.nan,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Manual Challan Date',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: Chalan.cCode,
+        width: double.nan,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Client Code',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: Chalan.cConsigneeName,
+        width: double.nan,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Consignee Name',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: Chalan.unitName,
+        width: double.nan,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Unit Name',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: Chalan.name,
+        width: double.nan,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Staff Name',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: 'actions',
+        width: 150,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Actions',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    ];
+  }
+}

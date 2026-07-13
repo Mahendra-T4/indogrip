@@ -1,0 +1,512 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:indogrip/core/database/hive_service.dart';
+import 'package:indogrip/core/responsive/responsive.dart';
+import 'package:indogrip/core/service/connectivity/internate%20connectivity-checker.dart';
+import 'package:indogrip/core/service/connectivity/not_connected.dart';
+import 'package:indogrip/core/utils/appbar/desktop_appbar.dart';
+import 'package:indogrip/core/utils/appbar/mobile_appbar.dart';
+import 'package:indogrip/core/utils/scroll_behavier.dart';
+import 'package:indogrip/core/utils/sidebar.dart';
+import 'package:indogrip/core/utils/widgets/textfield_label.dart';
+import 'package:indogrip/core/utils/widgets/toast_service.dart';
+import 'package:indogrip/features/carton/data/models/add_carton_api_param.dart';
+import 'package:indogrip/features/core/presentation/bloc/core_bloc.dart';
+import 'package:indogrip/features/core/presentation/pages/edit/edit_core.dart';
+import 'package:indogrip/features/core/presentation/pages/view/view_core_builder.dart';
+import 'package:indogrip/features/core/data/core_data_source.dart';
+import 'package:indogrip/features/global/data/model/change_status_param.dart';
+import 'package:indogrip/features/global/data/repositories/global_manager_repo.dart';
+import 'package:indogrip/features/global/presentation/bloc/global_bloc.dart';
+import 'package:indogrip/features/global/presentation/widget/data_filtration.dart';
+import 'package:indogrip/features/global/presentation/widget/pagination_widget.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+class ViewCorePanel extends StatefulWidget {
+  const ViewCorePanel({super.key});
+  static const String routeName = '/viewCore';
+
+  @override
+  State<ViewCorePanel> createState() => _ViewCorePanelState();
+}
+
+class _ViewCorePanelState extends ViewCoreBuilder {
+  final GlobalKey<ScaffoldState> _stateKey = GlobalKey<ScaffoldState>();
+  final GlobalKey _key = GlobalKey();
+  late Map<String, double> columnWidths = {};
+  bool isChecked = false;
+  CoreDataSource? _dataSource;
+  List<DataGridRow> selectedRows = [];
+  late final GlobalBloc globalBloc;
+
+  bool isEmpty = false;
+
+  @override
+  void dispose() {
+    selectedRows.clear();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    coreBloc = CoreBloc();
+    globalBloc = GlobalBloc(globalRepository: GlobalManagerRepository());
+    eventHandler();
+  }
+
+  Widget _buildDesktopView() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          BlocListener<GlobalBloc, GlobalState>(
+            bloc: globalBloc,
+            listener: (context, state) {
+              if (state is GlobalChangeUserStatusSuccessStatus) {
+                // Handle status change success (for approved, rejected, blocked, etc.)
+                if (state.changeStatusEntity.status == 1) {
+                  ToastService.instance.showSuccess(
+                    context,
+                    state.changeStatusEntity.message.toString(),
+                  );
+
+                  // Refresh list after status change
+                  eventHandler();
+                } else {
+                  ToastService.instance.showError(
+                    context,
+                    state.changeStatusEntity.message ?? 'try again later',
+                  );
+                }
+              } else if (state is GlobalChangeUserStatusErrorStatus) {
+                ToastService.instance.showError(
+                  context,
+                  state.message.toString(),
+                );
+              } else if (state is GlobalDeleteRecordSuccessStatus) {
+                ToastService.instance.showSuccess(
+                  context,
+                  state.deleteRecordEntity.message.toString(),
+                );
+                // Refresh list after single delete
+                eventHandler();
+              } else if (state is GlobalDeleteRecordErrorStatus) {
+                ToastService.instance.showError(
+                  context,
+                  state.message.toString(),
+                );
+              } else if (state is GlobalDeleteMultipleRecordsSuccessStatus) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      state.deleteRecordEntity.message ?? 'Records deleted',
+                    ),
+                  ),
+                );
+                // Refresh list after bulk delete
+                eventHandler();
+                // Clear selection
+                setState(() {
+                  selectedRows.clear();
+                  selectedItems.clear();
+                  isMultipleSelection = false;
+                });
+              } else if (state is GlobalDeleteMultipleRecordsErrorStatus) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+              }
+            },
+            child: Column(
+              children: [
+                DateFiltration(
+                  fromDateController: fromDateController,
+                  toDateController: toDateController,
+                ),
+                searchFields,
+              ],
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: refreshButton,
+          ),
+          SizedBox(height: 15),
+          if (isEmpty) _buildPaginationWidget,
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height,
+            child: BlocConsumer(
+              listener: (context, state) {
+                if (state is FetchViewCoreRecordSuccessStatus) {
+                  pageText = state.viewCoreModel.pageText ?? '';
+                  if (state.viewCoreModel.status == 1) {
+                    setState(() {
+                      isEmpty = true;
+                    });
+                  } else {
+                    setState(() {
+                      isEmpty = false;
+                    });
+                  }
+                }
+              },
+              bloc: coreBloc,
+              builder: (context, state) {
+                switch (state.runtimeType) {
+                  case const (CoreLoadingStatus):
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+
+                  case const (FetchViewCoreRecordSuccessStatus):
+                    final successState =
+                        (state as FetchViewCoreRecordSuccessStatus)
+                            .viewCoreModel;
+
+                    _dataSource = CoreDataSource(
+                      coreData: successState.record ?? [],
+                      isAllChecked: isChecked,
+                      onStatusChanged: (value) {
+                        setState(() {
+                          isChecked = value;
+                          if (value) {
+                            selectedRows = List.from(_dataSource!.rows);
+                          } else {
+                            selectedRows.clear();
+                          }
+                          handleSelectionChanged(
+                            value ? List.from(successState.record!) : [],
+                          );
+                        });
+                      },
+                      onCheckboxChanged: (checked, index) {
+                        setState(() {
+                          if (checked) {
+                            selectedRows.add(_dataSource!.rows[index]);
+                          } else {
+                            selectedRows.remove(_dataSource!.rows[index]);
+                          }
+                          handleSelectionChanged(
+                            selectedRows.map((row) {
+                              final idx = _dataSource!.rows.indexOf(row);
+                              return successState.record![idx];
+                            }).toList(),
+                          );
+                        });
+                      },
+                      onEdit: (value) {
+                        final editCarton = CartonApiParams(
+                          cartonType: value.coreType.toString(),
+                          cartonDate: value.coreDateText.toString(),
+                          cartonQuantity: value.coreQuantity.toString(),
+                          billNumber: value.coreBillNumber.toString(),
+                          rKey: value.rKey.toString(),
+                          context: context,
+                        );
+
+                        context.pushNamed(
+                          EditCorePanel.routeName,
+                          extra: editCarton,
+                        );
+                      },
+                      onDelete: (p0) {},
+                      onProfile: (p0) {},
+                      onChanged: (statusValue, CoreRecord) {
+                        globalBloc.add(
+                          GlobalChangeUserStatusEvent(
+                            param: ChangeStaffParam(
+                              rKey: CoreRecord.rKey.toString(),
+                              rPanel: 'view-core',
+                              rStatus: statusValue.toString(),
+                              statusReason: '',
+                            ),
+                          ),
+                        );
+                        eventHandler();
+                      },
+                    );
+
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      setState(() {
+                        pageQty = successState.pageQty ?? 1;
+                      });
+                    });
+
+                    return successState.status == 1
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            child: ScrollConfiguration(
+                              behavior: HorizontalMouseScrollBehavior(),
+                              child: SfDataGrid(
+                                showHorizontalScrollbar: true,
+                                key: _key,
+                                rowsPerPage: 4,
+                                allowPullToRefresh: true,
+                                allowColumnsResizing: true,
+                                columnResizeMode: ColumnResizeMode.onResizeEnd,
+                                isScrollbarAlwaysShown: true,
+                                showVerticalScrollbar: true,
+                                showCheckboxColumn: isMultipleSelection,
+                                selectionMode: isMultipleSelection
+                                    ? SelectionMode.multiple
+                                    : SelectionMode.single,
+                                onSelectionChanged: (addedRows, removedRows) {
+                                  setState(() {
+                                    selectedRows.addAll(addedRows);
+                                    selectedRows.removeWhere(
+                                      (row) => removedRows.contains(row),
+                                    );
+
+                                    final selectedData = selectedRows.map((
+                                      row,
+                                    ) {
+                                      final index = _dataSource!.rows.indexOf(
+                                        row,
+                                      );
+                                      return successState.record![index];
+                                    }).toList();
+                                    handleSelectionChanged(selectedData);
+                                  });
+                                },
+                                onColumnResizeUpdate: (details) {
+                                  setState(() {
+                                    columnWidths[details.column.columnName] =
+                                        details.width;
+                                  });
+                                  return true;
+                                },
+                                source: _dataSource!,
+                                columns: buildGridColumns(),
+                              ),
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              // Table Header
+                              ScrollConfiguration(
+                                behavior: HorizontalMouseScrollBehavior(),
+                                child: Container(
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                  ),
+                                  color: Colors.grey[100],
+                                  child: Row(
+                                    children: buildGridColumns()
+                                        .map(
+                                          (column) => Expanded(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 12.0,
+                                                    vertical: 12.0,
+                                                  ),
+                                              child: column.label,
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              ),
+                              // Message below header
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  state.viewCoreModel.message ??
+                                      'try again later',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          );
+
+                  case (FetchViewCoreRecordFailureStatus):
+                    return Center(
+                      child: Text(
+                        (state as FetchViewCoreRecordFailureStatus)
+                            .errorMessage,
+                      ),
+                    );
+                  default:
+                    return const SizedBox.shrink();
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<GridColumn> buildGridColumns() {
+    return [
+      GridColumn(
+        columnName: Core.srNo,
+        columnWidthMode: ColumnWidthMode.fitByCellValue,
+        width: 70,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const TextFieldlabelText('Sr No'),
+        ),
+      ),
+      GridColumn(
+        columnName: Core.companyName,
+        columnWidthMode: ColumnWidthMode.fill,
+        width: 300,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText('Company Name')),
+        ),
+      ),
+
+      GridColumn(
+        columnName: Core.coreType,
+        columnWidthMode: ColumnWidthMode.fill,
+        width: Responsive.isDesktop(context) ? double.nan : 150,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText('Core Type')),
+        ),
+      ),
+      GridColumn(
+        columnName: Core.date,
+        columnWidthMode: ColumnWidthMode.fill,
+        width: Responsive.isDesktop(context) ? double.nan : 120,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText('Date')),
+        ),
+      ),
+      GridColumn(
+        columnName: Core.quantity,
+        columnWidthMode: ColumnWidthMode.fill,
+        width: Responsive.isDesktop(context) ? double.nan : 120,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText('Quantity')),
+        ),
+      ),
+      GridColumn(
+        columnName: Core.billNo,
+        columnWidthMode: ColumnWidthMode.fill,
+        width: Responsive.isDesktop(context) ? double.nan : 120,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText('Bill No')),
+        ),
+      ),
+      GridColumn(
+        columnName: 'Status',
+        columnWidthMode: ColumnWidthMode.fitByColumnName,
+        width: 130,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText('Status')),
+        ),
+      ),
+
+      if (HiveService.getRole() != '2')
+        GridColumn(
+          columnName: 'actions',
+          columnWidthMode: ColumnWidthMode.fitByColumnName,
+          width: 120,
+          label: Container(
+            color: Colors.grey[100],
+            child: const Center(child: TextFieldlabelText('Actions')),
+          ),
+        ),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: InternetConnectionService().connectionStream,
+      initialData: true, // Assume connected initially
+      builder: (context, snapshot) {
+        // Handle error state
+        if (snapshot.hasError) {
+          return const NoInternetConnection();
+        }
+
+        // Handle disconnected state
+        if (snapshot.data == false) {
+          return const NoInternetConnection();
+        }
+
+        // Handle loading state
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return Scaffold(
+          key: _stateKey,
+          appBar: !Responsive.isDesktop(context)
+              ? MobileAppBar(context, _stateKey, 'View Cores')
+              : DesktopAppBar(context, _stateKey, 'View Cores', false),
+          drawer: !Responsive.isDesktop(context)
+              ? const SideMenuWidget()
+              : null,
+          body: _buildDesktopView(),
+        );
+      },
+    );
+  }
+
+  Widget get _buildPaginationWidget => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    child: TableBottomWidget(
+      pageText: pageText,
+      currentPage: currentPage,
+      pageQty: pageQty,
+      onPagePressed: (pageNumber) {
+        setState(() {
+          currentPage = pageNumber;
+        });
+        eventHandler();
+        // Page number button clicked
+      },
+      onFirstPressed: () {
+        setState(() {
+          currentPage = 1;
+          eventHandler();
+        });
+      },
+      onPreviousPressed: () {
+        if (currentPage != null &&
+            pageQty != null &&
+            currentPage! <= pageQty!) {
+          setState(() {
+            currentPage = currentPage! - 1;
+            eventHandler();
+          });
+        }
+      },
+      onNextPressed: () {
+        if (currentPage != null && currentPage! >= 1) {
+          setState(() {
+            currentPage = currentPage! + 1;
+            eventHandler();
+          });
+        }
+      },
+      onLastPressed: () {
+        setState(() {
+          currentPage = pageQty!;
+          eventHandler();
+        });
+      },
+    ),
+  );
+}
