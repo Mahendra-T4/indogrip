@@ -124,6 +124,8 @@ abstract class ChallanRepository {
           model.message.toString(),
           name: 'Verify Challan Product Response',
         );
+        logger.d('Verify Challan Response: ${response.data}');
+
         logger.d('Verify Challan FormData: ${formData.fields}');
       } else {
         // model..message = 'Failed to verify challan product';

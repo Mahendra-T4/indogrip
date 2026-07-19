@@ -123,6 +123,7 @@ abstract class BillFormatBuilder extends State<BillFormate> {
     required double apiDisplayPrice,
     required double apiActualQty,
     required double grossWeight,
+    required int productTypeID,
   }) {
     final unitPrice =
         double.tryParse(rowUnitPriceControllers[index].text) ?? apiUnitPrice;
@@ -134,11 +135,11 @@ abstract class BillFormatBuilder extends State<BillFormate> {
         double.tryParse(actualQtyControllers[index].text) ?? apiActualQty;
 
     // final weight = 37.8;
-    final displayPrice = less > 0
+    final displayPrice = productTypeID != 1
         ? (grossWeight - less) * unitPrice
         : unitPrice * displayQty;
-    final displayPriceFromApi = less > 0
-        ? (grossWeight - less) * unitPrice
+    final displayPriceFromApi = productTypeID != 1
+        ? (grossWeight - less) * unitPrice * actualQty
         : unitPrice * actualQty;
     rowDisplayPrices.add(displayPrice);
     rowDisplayPrices[index] = displayPrice;
@@ -156,9 +157,9 @@ abstract class BillFormatBuilder extends State<BillFormate> {
 
     // }
 
-    final total = displayPriceFromApi * actualQty;
-    rowCalculatedTotals.add(total);
-    rowCalculatedTotals[index] = total;
+    // final total = displayPriceFromApi * actualQty;
+    rowCalculatedTotals.add(displayPriceFromApi);
+    rowCalculatedTotals[index] = displayPriceFromApi;
     // if (rowCalculatedTotals.length <= index) {
 
     // } else {
@@ -183,6 +184,7 @@ abstract class BillFormatBuilder extends State<BillFormate> {
 
     challanRemarkController.dispose();
     challanNoController.dispose();
+    
     challanBloc.close();
     globalBloc.close();
     super.dispose();
@@ -429,13 +431,16 @@ abstract class BillFormatBuilder extends State<BillFormate> {
             text: products[i].displayQty?.toString() ?? '0',
           ),
         );
+
         rowRemarkControllers.add(
           TextEditingController(text: products[i].prRemarks ?? ''),
         );
         actualQtyControllers.add(
           TextEditingController(text: products[i].quantity?.toString() ?? '0'),
         );
-        lessController.add(TextEditingController(text: '0'));
+        lessController.add(
+          TextEditingController(text: products[i].lessKG?.toString() ?? '0'),
+        );
         rowUnitPriceFocusNodes.add(FocusNode());
         rowDisplayQuantityFocusNodes.add(FocusNode());
         rowRemarkFocusNodes.add(FocusNode());
@@ -666,13 +671,14 @@ abstract class BillFormatBuilder extends State<BillFormate> {
               rowDisplayPrices.add(currentUnitPrice * currentDisplayQty);
             }
 
-            final currentDisplayPriceFromApi = currentLess > 0
+            final currentDisplayPriceFromApi = product.productTypeID != 1
                 ? (product.grossWeight - currentLess) *
                       currentUnitPrice *
                       currentDisplayQty
                 : currentUnitPrice * currentDisplayQty;
-            final currentTotalPrice =
-                currentDisplayPriceFromApi * currentActualQty;
+            final currentTotalPrice = product.productTypeID != 1
+                ? (product.grossWeight - currentLess) * currentActualQty
+                : currentUnitPrice * currentActualQty;
 
             return TableRow(
               children: [
@@ -741,7 +747,13 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                                   apiDisplayQty: apiDisplayQty,
                                   apiDisplayPrice: apiDisplayPrice,
                                   apiActualQty: apiActualQty,
-                                  grossWeight: product.grossWeight ?? 0.0,
+                                  grossWeight:
+                                      double.tryParse(
+                                        product.grossWeight?.toString() ??
+                                            '0.0',
+                                      ) ??
+                                      0.0,
+                                  productTypeID: product.productTypeID ?? 0,
                                 );
                               });
                               logger.d(
@@ -778,7 +790,12 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                           apiDisplayQty: apiDisplayQty,
                           apiDisplayPrice: apiDisplayPrice,
                           apiActualQty: apiActualQty,
-                          grossWeight: product.grossWeight ?? 0.0,
+                          grossWeight:
+                              double.tryParse(
+                                product.grossWeight?.toString() ?? '0.0',
+                              ) ??
+                              0.0,
+                          productTypeID: product.productTypeID ?? 0,
                         );
                       });
                     },
@@ -811,7 +828,12 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                           apiDisplayQty: apiDisplayQty,
                           apiDisplayPrice: apiDisplayPrice,
                           apiActualQty: apiActualQty,
-                          grossWeight: product.grossWeight ?? 0.0,
+                          grossWeight:
+                              double.tryParse(
+                                product.grossWeight?.toString() ?? '0.0',
+                              ) ??
+                              0.0,
+                          productTypeID: product.productTypeID ?? 0,
                         );
                       });
                     },
@@ -844,7 +866,12 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                           apiDisplayQty: apiDisplayQty,
                           apiDisplayPrice: apiDisplayPrice,
                           apiActualQty: apiActualQty,
-                          grossWeight: product.grossWeight ?? 0.0,
+                          grossWeight:
+                              double.tryParse(
+                                product.grossWeight?.toString() ?? '0.0',
+                              ) ??
+                              0.0,
+                          productTypeID: product.productTypeID ?? 0,
                         );
                       });
                     },

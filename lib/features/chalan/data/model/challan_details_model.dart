@@ -161,8 +161,9 @@ class OrderProduct {
   String? productInformation;
   int? hsnCode;
   dynamic unitPrice;
-  
+
   int? quantity;
+  dynamic lessKG;
   int? displayQty;
   dynamic netWeight;
   dynamic grossWeight;
@@ -186,6 +187,7 @@ class OrderProduct {
     this.productTypeID,
     this.netWeight,
     this.grossWeight,
+    this.lessKG,
     this.vendortInformation,
     this.displayInformation,
     this.productInformation,
@@ -215,6 +217,7 @@ class OrderProduct {
     displayInformation = json['displayInformation'];
     productInformation = json['productInformation'];
     hsnCode = json['hsnCode'];
+    lessKG = json['lessKG'];
     productTypeID = json['productTypeID'];
     netWeight = json['netWeight'];
     grossWeight = json['grossWeight'];
