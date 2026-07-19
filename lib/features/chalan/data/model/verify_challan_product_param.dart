@@ -4,6 +4,7 @@ class VerifyProductParam {
   final String displayQty;
   final String prRemarks;
   final String actualQty;
+  final String lessKG;
 
   VerifyProductParam({
     required this.productKey,
@@ -11,5 +12,6 @@ class VerifyProductParam {
     required this.displayQty,
     required this.prRemarks,
     required this.actualQty,
+    required this.lessKG,
   });
 }

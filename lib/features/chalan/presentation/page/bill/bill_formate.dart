@@ -269,8 +269,14 @@ class _BillFormateState extends BillFormatBuilder {
                               pw.Padding(
                                 padding: pw.EdgeInsets.all(4),
                                 child: pw.Center(
+                                  child: pw.Text('Less', style: _billTextStyle),
+                                ),
+                              ),
+                              pw.Padding(
+                                padding: pw.EdgeInsets.all(4),
+                                child: pw.Center(
                                   child: pw.Text(
-                                    'Unit Price',
+                                    'Unit Price/KG Price',
                                     style: _billTextStyle,
                                   ),
                                 ),
@@ -383,6 +389,13 @@ class _BillFormateState extends BillFormatBuilder {
                                     padding: pw.EdgeInsets.all(4),
                                     child: pw.Text(
                                       product.hsnCode?.toString() ?? '',
+                                      style: _billTextStyle,
+                                    ),
+                                  ),
+                                  pw.Padding(
+                                    padding: pw.EdgeInsets.all(4),
+                                    child: pw.Text(
+                                      lessController[index].text,
                                       style: _billTextStyle,
                                     ),
                                   ),

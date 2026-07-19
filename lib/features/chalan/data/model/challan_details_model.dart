@@ -161,10 +161,15 @@ class OrderProduct {
   String? productInformation;
   int? hsnCode;
   dynamic unitPrice;
+  
   int? quantity;
   int? displayQty;
+  dynamic netWeight;
+  dynamic grossWeight;
+  int? productTypeID;
   dynamic productPrice;
   dynamic displayPrice;
+  dynamic weight;
   String? prRemarks;
   String? returnQty;
   String? returnReason;
@@ -178,6 +183,9 @@ class OrderProduct {
   OrderProduct({
     this.sNo,
     this.batchID,
+    this.productTypeID,
+    this.netWeight,
+    this.grossWeight,
     this.vendortInformation,
     this.displayInformation,
     this.productInformation,
@@ -207,6 +215,9 @@ class OrderProduct {
     displayInformation = json['displayInformation'];
     productInformation = json['productInformation'];
     hsnCode = json['hsnCode'];
+    productTypeID = json['productTypeID'];
+    netWeight = json['netWeight'];
+    grossWeight = json['grossWeight'];
     unitPrice = json['unitPrice'];
     quantity = json['quantity'];
     displayQty = json['displayQty'];

@@ -6,6 +6,7 @@ import 'package:dio/io.dart';
 import 'package:indogrip/core/config/env_config.dart';
 import 'package:indogrip/core/database/hive_service.dart';
 import 'package:indogrip/core/service/api%20service/dio_service.dart';
+import 'package:indogrip/core/service/logger.dart';
 import 'package:indogrip/features/chalan/data/model/chalanlist_model.dart';
 import 'package:indogrip/features/chalan/data/model/challan_details_model.dart';
 import 'package:indogrip/features/chalan/data/model/challan_product_verify_model.dart';
@@ -114,6 +115,7 @@ abstract class ChallanRepository {
         'displayQty': param.displayQty,
         'prRemarks': param.prRemarks,
         'actualQty': param.actualQty,
+        'lessKG': param.lessKG,
       });
       final response = await DioService.dioPostApiCall(data: formData);
       if (response.statusCode == 200) {
@@ -122,10 +124,7 @@ abstract class ChallanRepository {
           model.message.toString(),
           name: 'Verify Challan Product Response',
         );
-        developer.log(
-          formData.fields.toString(),
-          name: 'Verify Challan FormData',
-        );
+        logger.d('Verify Challan FormData: ${formData.fields}');
       } else {
         // model..message = 'Failed to verify challan product';
         developer.log(

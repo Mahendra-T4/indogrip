@@ -1,14 +1,11 @@
 import 'dart:developer';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:indogrip/core/database/init_box.dart';
-import 'package:indogrip/core/database/round_db_hive.dart';
+import 'package:indogrip/core/service/logger.dart';
 import 'package:indogrip/core/theme/color_conts.dart';
 import 'package:indogrip/core/utils/widgets/button.dart';
 import 'package:indogrip/core/utils/widgets/custom_date_picker.dart';
@@ -18,15 +15,12 @@ import 'package:indogrip/features/chalan/data/model/challan_details_model.dart';
 import 'package:indogrip/features/chalan/data/model/challaninfo_param.dart';
 import 'package:indogrip/features/chalan/data/model/return_product.dart';
 import 'package:indogrip/features/chalan/data/model/round_data_model.dart';
-import 'package:indogrip/features/chalan/data/model/round_details_model.dart';
 import 'package:indogrip/features/chalan/data/model/verify_challan_product_param.dart';
 import 'package:indogrip/features/chalan/presentation/bloc/challan_bloc.dart';
 import 'package:indogrip/features/chalan/presentation/page/bill/bill_formate.dart';
 import 'package:indogrip/features/global/data/repositories/global_manager_repo.dart';
 import 'package:indogrip/features/global/presentation/bloc/global_bloc.dart';
-import 'package:indogrip/features/round/data/models/view_round_modeld.dart';
 import 'package:indogrip/features/wastage/presentation/widgets/client_list_dropdown.dart';
-import 'package:indogrip/features/wastage/presentation/widgets/client_searchable_dropdown.dart';
 
 abstract class BillFormatBuilder extends State<BillFormate> {
   late final ChallanBloc challanBloc;
@@ -38,11 +32,18 @@ abstract class BillFormatBuilder extends State<BillFormate> {
   final List<TextEditingController> rowDisplayQuantityControllers = [];
   final List<TextEditingController> rowRemarkControllers = [];
   final List<TextEditingController> actualQtyControllers = [];
+  final List<TextEditingController> lessController = [];
+
   final List<FocusNode> rowUnitPriceFocusNodes = [];
   final List<FocusNode> rowDisplayQuantityFocusNodes = [];
   final List<FocusNode> rowRemarkFocusNodes = [];
   final List<FocusNode> actualQtyFocusNodes = [];
+  final List<FocusNode> lessFocusNodes = [];
   final List<double> rowDisplayPrices = [];
+  final List<double> rowCalculation = [];
+  final List<double> rowCalculatedTotals = [];
+  final List<double> rowCalculatedDisplayPrice = [];
+  dynamic tempQtyCalController = [];
 
   String? selectedClientKey;
   String? clientUnitName;
@@ -78,6 +79,9 @@ abstract class BillFormatBuilder extends State<BillFormate> {
     for (final focusNode in actualQtyFocusNodes) {
       focusNode.dispose();
     }
+    for (final focusNode in lessFocusNodes) {
+      focusNode.dispose();
+    }
 
     // Dispose controllers
     for (final controller in rowUnitPriceControllers) {
@@ -92,17 +96,74 @@ abstract class BillFormatBuilder extends State<BillFormate> {
     for (final controller in actualQtyControllers) {
       controller.dispose();
     }
+    for (final controller in lessController) {
+      controller.dispose();
+    }
 
     // Clear lists
     rowUnitPriceFocusNodes.clear();
     rowDisplayQuantityFocusNodes.clear();
     rowRemarkFocusNodes.clear();
     actualQtyFocusNodes.clear();
+    lessFocusNodes.clear();
     rowUnitPriceControllers.clear();
     rowDisplayQuantityControllers.clear();
     rowRemarkControllers.clear();
     actualQtyControllers.clear();
+    lessController.clear();
     rowDisplayPrices.clear();
+    rowCalculatedDisplayPrice.clear();
+    rowCalculatedTotals.clear();
+  }
+
+  void _recalculateRowTotals({
+    required int index,
+    required double apiUnitPrice,
+    required double apiDisplayQty,
+    required double apiDisplayPrice,
+    required double apiActualQty,
+    required double grossWeight,
+  }) {
+    final unitPrice =
+        double.tryParse(rowUnitPriceControllers[index].text) ?? apiUnitPrice;
+    final displayQty =
+        double.tryParse(rowDisplayQuantityControllers[index].text) ??
+        apiDisplayQty;
+    final less = double.tryParse(lessController[index].text) ?? 0;
+    final actualQty =
+        double.tryParse(actualQtyControllers[index].text) ?? apiActualQty;
+
+    // final weight = 37.8;
+    final displayPrice = less > 0
+        ? (grossWeight - less) * unitPrice
+        : unitPrice * displayQty;
+    final displayPriceFromApi = less > 0
+        ? (grossWeight - less) * unitPrice
+        : unitPrice * actualQty;
+    rowDisplayPrices.add(displayPrice);
+    rowDisplayPrices[index] = displayPrice;
+    // if (rowDisplayPrices.length <= index) {
+
+    // } else {
+
+    // }
+    rowCalculatedDisplayPrice.add(displayPriceFromApi);
+    rowCalculatedDisplayPrice[index] = displayPriceFromApi;
+
+    // if (rowCalculatedDisplayPrice.length <= index) {
+
+    // } else {
+
+    // }
+
+    final total = displayPriceFromApi * actualQty;
+    rowCalculatedTotals.add(total);
+    rowCalculatedTotals[index] = total;
+    // if (rowCalculatedTotals.length <= index) {
+
+    // } else {
+
+    // }
   }
 
   @override
@@ -346,6 +407,7 @@ abstract class BillFormatBuilder extends State<BillFormate> {
 
   Widget dataTableWidget(List<ChallanRecord>? record) {
     final products = record?.expand((r) => r.orderProduct ?? []).toList() ?? [];
+    final showLessColumn = products.any((p) => p.productTypeID != 1);
 
     // DEBUG: inspect what batch-related data the API actually returns
     for (final p in products) {
@@ -373,21 +435,26 @@ abstract class BillFormatBuilder extends State<BillFormate> {
         actualQtyControllers.add(
           TextEditingController(text: products[i].quantity?.toString() ?? '0'),
         );
+        lessController.add(TextEditingController(text: '0'));
         rowUnitPriceFocusNodes.add(FocusNode());
         rowDisplayQuantityFocusNodes.add(FocusNode());
         rowRemarkFocusNodes.add(FocusNode());
         actualQtyFocusNodes.add(FocusNode());
+        lessFocusNodes.add(FocusNode());
 
         // Initialize with proper API data
         final unitPrice =
             double.tryParse(products[i].unitPrice?.toString() ?? '0') ?? 0.0;
         final displayQty =
             double.tryParse(products[i].displayQty?.toString() ?? '0') ?? 0.0;
-        rowDisplayPrices.add(unitPrice * displayQty);
+        final displayPrice = unitPrice * displayQty;
+        rowDisplayPrices.add(displayPrice);
+        rowCalculatedDisplayPrice.add(displayPrice);
+        rowCalculatedTotals.add(0.0);
       }
     } else {
       // Product count hasn't changed - preserve user input
-      // Only update rowDisplayPrices based on current controller values
+      // Only update row display calculations based on current controller values
       for (var i = 0; i < products.length; i++) {
         final currentUnitPrice =
             double.tryParse(rowUnitPriceControllers[i].text) ??
@@ -397,10 +464,16 @@ abstract class BillFormatBuilder extends State<BillFormate> {
             double.tryParse(rowDisplayQuantityControllers[i].text) ??
             double.tryParse(products[i].displayQty?.toString() ?? '0') ??
             0.0;
+        final displayPrice = currentUnitPrice * currentDisplayQty;
         if (rowDisplayPrices.length <= i) {
-          rowDisplayPrices.add(currentUnitPrice * currentDisplayQty);
+          rowDisplayPrices.add(displayPrice);
         } else {
-          rowDisplayPrices[i] = currentUnitPrice * currentDisplayQty;
+          rowDisplayPrices[i] = displayPrice;
+        }
+        if (rowCalculatedDisplayPrice.length <= i) {
+          rowCalculatedDisplayPrice.add(displayPrice);
+        } else {
+          rowCalculatedDisplayPrice[i] = displayPrice;
         }
       }
     }
@@ -455,11 +528,24 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                   ),
                 ),
               ),
+              if (showLessColumn)
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Center(
+                    child: Text(
+                      'Less',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Center(
                   child: Text(
-                    'Unit Price',
+                    'Unit Price/KG Price',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                   ),
                 ),
@@ -569,18 +655,24 @@ abstract class BillFormatBuilder extends State<BillFormate> {
             final currentDisplayQty =
                 double.tryParse(rowDisplayQuantityControllers[index].text) ??
                 apiDisplayQty;
+            final currentLess =
+                double.tryParse(lessController[index].text) ?? 0;
+            final currentActualQty =
+                double.tryParse(actualQtyControllers[index].text) ??
+                apiActualQty;
 
             // Initialize rowDisplayPrices if needed
             if (rowDisplayPrices.length <= index) {
               rowDisplayPrices.add(currentUnitPrice * currentDisplayQty);
             }
 
-            // Calculate prices based on current controller values
-            final currentDisplayPrice =
-                rowDisplayPrices.isNotEmpty && index < rowDisplayPrices.length
-                ? rowDisplayPrices[index]
-                : (currentUnitPrice * currentDisplayQty);
-            final currentTotalPrice = currentUnitPrice * apiActualQty;
+            final currentDisplayPriceFromApi = currentLess > 0
+                ? (product.grossWeight - currentLess) *
+                      currentUnitPrice *
+                      currentDisplayQty
+                : currentUnitPrice * currentDisplayQty;
+            final currentTotalPrice =
+                currentDisplayPriceFromApi * currentActualQty;
 
             return TableRow(
               children: [
@@ -628,6 +720,48 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                     ),
                   ),
                 ),
+                if (showLessColumn)
+                  Padding(
+                    padding: EdgeInsets.all(3),
+                    child: product.productTypeID != 1
+                        ? TextFormField(
+                            controller: lessController[index],
+                            focusNode: lessFocusNodes[index],
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              setState(() {
+                                _recalculateRowTotals(
+                                  index: index,
+                                  apiUnitPrice: apiUnitPrice,
+                                  apiDisplayQty: apiDisplayQty,
+                                  apiDisplayPrice: apiDisplayPrice,
+                                  apiActualQty: apiActualQty,
+                                  grossWeight: product.grossWeight ?? 0.0,
+                                );
+                              });
+                              logger.d(
+                                'Less Calculation ${rowDisplayPrices[index]}',
+                              );
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                              isDense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 8,
+                                horizontal: 8,
+                              ),
+                              hintText: apiUnitPrice.toStringAsFixed(2),
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ),
                 Padding(
                   padding: EdgeInsets.all(3),
                   child: TextFormField(
@@ -638,13 +772,14 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       setState(() {
-                        final unit = double.tryParse(value) ?? apiUnitPrice;
-                        final qty =
-                            double.tryParse(
-                              rowDisplayQuantityControllers[index].text,
-                            ) ??
-                            apiDisplayQty;
-                        rowDisplayPrices[index] = unit * qty;
+                        _recalculateRowTotals(
+                          index: index,
+                          apiUnitPrice: apiUnitPrice,
+                          apiDisplayQty: apiDisplayQty,
+                          apiDisplayPrice: apiDisplayPrice,
+                          apiActualQty: apiActualQty,
+                          grossWeight: product.grossWeight ?? 0.0,
+                        );
                       });
                     },
                     decoration: InputDecoration(
@@ -670,13 +805,14 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       setState(() {
-                        final unit =
-                            double.tryParse(
-                              rowUnitPriceControllers[index].text,
-                            ) ??
-                            apiUnitPrice;
-                        final qty = double.tryParse(value) ?? apiDisplayQty;
-                        rowDisplayPrices[index] = unit * qty;
+                        _recalculateRowTotals(
+                          index: index,
+                          apiUnitPrice: apiUnitPrice,
+                          apiDisplayQty: apiDisplayQty,
+                          apiDisplayPrice: apiDisplayPrice,
+                          apiActualQty: apiActualQty,
+                          grossWeight: product.grossWeight ?? 0.0,
+                        );
                       });
                     },
                     decoration: InputDecoration(
@@ -700,18 +836,18 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
-                    // onChanged: (value) {
-                    //   setState(() {
-                    //     final unit =
-                    //         double.tryParse(
-                    //           rowUnitPriceControllers[index].text,
-                    //         ) ??
-                    //         apiUnitPrice;
-                    //     final qty = double.tryParse(value) ?? apiActualQty;
-                    //     // Update total price based on actual quantity
-                    //     rowDisplayPrices[index] = unit * qty;
-                    //   });
-                    // },
+                    onChanged: (value) {
+                      setState(() {
+                        _recalculateRowTotals(
+                          index: index,
+                          apiUnitPrice: apiUnitPrice,
+                          apiDisplayQty: apiDisplayQty,
+                          apiDisplayPrice: apiDisplayPrice,
+                          apiActualQty: apiActualQty,
+                          grossWeight: product.grossWeight ?? 0.0,
+                        );
+                      });
+                    },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(2),
@@ -741,7 +877,7 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                   padding: EdgeInsets.all(6),
                   child: Center(
                     child: Text(
-                      currentDisplayPrice.toStringAsFixed(2),
+                      currentDisplayPriceFromApi.toStringAsFixed(2),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -753,7 +889,9 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                   padding: EdgeInsets.all(6),
                   child: Center(
                     child: Text(
-                      currentTotalPrice.toStringAsFixed(2),
+                      rowCalculatedTotals.length > index
+                          ? rowCalculatedTotals[index].toStringAsFixed(2)
+                          : currentTotalPrice.toStringAsFixed(2),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -850,6 +988,10 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                                             .isNotEmpty
                                         ? actualQtyControllers[index].text
                                         : apiActualQty.toString(),
+                                    lessKG:
+                                        lessController[index].text.isNotEmpty
+                                        ? lessController[index].text
+                                        : '0',
                                   ),
                                 )
                               : buildUnVerifyProductButton(
