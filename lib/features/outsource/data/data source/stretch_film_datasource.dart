@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indogrip/core/database/hive_service.dart';
+import 'package:indogrip/core/utils/widgets/delete_alert.dart';
 import 'package:indogrip/features/outsource/data/model/view_stretchfilm_model.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -41,7 +42,8 @@ class StretchFilmDataSource extends DataGridSource {
   final Function(bool, int) onCheckboxChanged;
   final Function(StretchRecord) onEdit;
   final Function(StretchRecord) printLabel;
-  // final Function() onDelete;
+  final Function(StretchRecord) onDelete;
+  final BuildContext context;
   // final Function() onProfile;
   final void Function(String?, StretchRecord) onChanged;
   int? _highlightedRowIndex;
@@ -58,6 +60,8 @@ class StretchFilmDataSource extends DataGridSource {
     required this.onCheckboxChanged,
     required this.onEdit,
     required this.printLabel,
+    required this.onDelete,
+    required this.context,
     // required this.onProfile,
     required this.onChanged,
   }) {
@@ -281,6 +285,31 @@ class StretchFilmDataSource extends DataGridSource {
                 padding: EdgeInsets.zero,
                 icon: const Icon(Icons.edit, size: 18),
                 onPressed: () => onEdit(stretch),
+                constraints: const BoxConstraints(),
+              ),
+            ),
+          if (HiveService.getRole() != '2')
+            SizedBox(
+              width: 40,
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(Icons.delete, size: 18),
+                onPressed: () {
+                  DeleteConfirmationAlert.show(
+                    context,
+                    title: 'Delete Record',
+                    message: 'Are Your to Delete This Stretch Record',
+                    itemName: '${stretch.vendorInfo?.companyName}',
+
+                    onConfirm: () {
+                      onDelete(stretch);
+                    },
+                    rPanel: 'view-inventory',
+                    item: stretchData,
+                    index: stretchData.indexOf(stretch),
+                    rKey: stretch.rKey.toString(),
+                  );
+                },
                 constraints: const BoxConstraints(),
               ),
             ),

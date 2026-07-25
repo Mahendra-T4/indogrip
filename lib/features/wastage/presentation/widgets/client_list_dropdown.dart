@@ -44,6 +44,20 @@ class _ClientsListDropdownState extends State<ClientsListDropdown> {
       );
   }
 
+  @override
+  void didUpdateWidget(covariant ClientsListDropdown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final newValue = widget.value;
+    if (newValue == null || newValue.isEmpty || newValue == 'null') {
+      if (selectedClientName != null) {
+        selectedClientName = null;
+      }
+    } else if (oldWidget.value != newValue) {
+      // Reset the cached client display name when the selected client key changes.
+      selectedClientName = null;
+    }
+  }
+
   void _showClientSearchDialog(BuildContext context, List<dynamic> clients) {
     TextEditingController dialogSearchController = TextEditingController();
     List<dynamic> dialogFilteredRecords = List.from(clients);

@@ -5,6 +5,8 @@ class ChallaninfoParam {
   final String challanKey;
   final String? clientUnitName;
   final String? clientKey;
+  final String? invoiceChallanNumber;
+  final String? invoiceChallanDate;
 
   ChallaninfoParam({
     required this.challanRemark,
@@ -13,5 +15,7 @@ class ChallaninfoParam {
     required this.challanKey,
     required this.clientUnitName,
     required this.clientKey,
+    this.invoiceChallanDate,
+    this.invoiceChallanNumber
   });
 }

@@ -117,7 +117,8 @@ class StaffDataSource extends DataGridSource {
                 message: 'Are Your to Delete This Staff Record',
                 itemName: '${staff.uFirstName} ${staff.uLastName}',
 
-                onConfirm: () {
+                onConfirm: () {},
+                onDeleteSuccess: () {
                   onDelete(staff);
                 },
                 rPanel: 'view-staff',

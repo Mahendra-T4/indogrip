@@ -8,7 +8,6 @@ import 'package:indogrip/core/utils/appbar/desktop_appbar.dart';
 import 'package:indogrip/core/utils/appbar/mobile_appbar.dart';
 import 'package:indogrip/core/utils/scroll_behavier.dart';
 import 'package:indogrip/core/utils/sidebar.dart';
-import 'package:indogrip/core/utils/widgets/toast_service.dart';
 import 'package:indogrip/features/global/data/repositories/global_manager_repo.dart';
 import 'package:indogrip/features/global/presentation/bloc/global_bloc.dart';
 import 'package:indogrip/features/global/presentation/widget/data_filtration.dart';
@@ -280,6 +279,7 @@ class _StratchFilmPanelState extends StretchFilmBuilder {
 
             if (loadedState.status == 1) {
               dataSource ??= StretchFilmDataSource(
+                context: context,
                 stretchData: loadedState.record!,
                 isAllChecked: false,
                 onStatusChanged: (value) {
@@ -315,6 +315,15 @@ class _StratchFilmPanelState extends StretchFilmBuilder {
                       return customAlertBoxWidget(StretchRecord);
                     },
                   );
+                },
+                onDelete: (data) {
+                  globalBloc.add(
+                    GlobalDeleteRecordEvent(
+                      rKey: data.rKey.toString(),
+                      rPanel: 'view-inventory',
+                    ),
+                  );
+                  callEvent();
                 },
                 onEdit: (StretchRecord) {
                   context.pushNamed(

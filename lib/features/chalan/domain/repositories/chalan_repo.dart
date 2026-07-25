@@ -42,6 +42,8 @@ abstract class ChallanRepository {
           'batchCode': param.batchCode,
           'manualChallanNo': param.manualChallanNo,
           'manualChallanDate': param.manualChallanDate,
+          'invoiceChallanNo': param.invoiceChallanNo,
+          'invoiceChallanDate': param.invoiceChallanDate,
         }),
       );
       if (response.statusCode == 200) {
@@ -276,6 +278,8 @@ abstract class ChallanRepository {
         'challanKey': data.challanKey,
         'unitName': data.clientUnitName ?? '',
         'clientKey': data.clientKey ?? '',
+        'invoiceChallanNo': data.invoiceChallanNumber,
+        'invoiceChallanDate': data.invoiceChallanDate,
       });
       final response = await DioService.dioPostApiCall(data: formData);
 

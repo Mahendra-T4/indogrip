@@ -118,7 +118,7 @@ class _EditJumboRollPanelState extends EditJumboRollBuilder {
               : DesktopAppBar(context, _stateKey, 'Edit Jumbo Roll', true),
           drawer: !Responsive.isDesktop(context)
               ? const SideMenuWidget()
-              : const SizedBox(),
+              : null,
 
           body: Responsive.isDesktop(context)
               ? _jumboDesktopView

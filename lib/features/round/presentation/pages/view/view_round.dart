@@ -268,6 +268,12 @@ class _ViewRoundPanelState extends ViewRoundBuilder {
                           print('Carton Type ID : ${value.cartonType}');
                         },
                         onDelete: (value) {
+                          globalBloc.add(
+                            GlobalDeleteRecordEvent(
+                              rKey: value.rKey.toString(),
+                              rPanel: 'view-round',
+                            ),
+                          );
                           callEvent();
                         },
                         onProfile: (value) {

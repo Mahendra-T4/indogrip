@@ -358,6 +358,12 @@ class _ViewVendorPanelState extends ViewVendorBuilder {
                           );
                         },
                         onDelete: (value) {
+                          setState(() {
+                            selectedRows.clear();
+                            selectedItems.clear();
+                            isMultipleSelection = false;
+                          });
+                          pageNo = 1;
                           eventHandler();
                         },
                         onProfile: (value) {

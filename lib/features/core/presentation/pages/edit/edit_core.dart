@@ -127,7 +127,7 @@ class _EditCorePanelState extends EditCoreBuilder {
                 key: formKey,
                 child: Column(
                   children: [
-                    DesktopAppBar(context, statekey, 'Add Carton', false),
+                    // DesktopAppBar(context, statekey, 'Add Carton', false),
                     SizedBox(height: 30),
                     buildCoreInfoSectionDesktop,
                     SizedBox(height: 30),

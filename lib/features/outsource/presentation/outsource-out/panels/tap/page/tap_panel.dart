@@ -16,6 +16,7 @@ import 'package:indogrip/features/global/data/model/change_status_param.dart';
 import 'package:indogrip/features/global/presentation/bloc/global_bloc.dart';
 import 'package:indogrip/features/global/presentation/widget/data_filtration.dart';
 import 'package:indogrip/features/global/presentation/widget/file_export_button.dart';
+import 'package:indogrip/features/global/presentation/widget/multi_delete_button.dart';
 import 'package:indogrip/features/global/presentation/widget/pagination_widget.dart';
 import 'package:indogrip/features/outsource/data/data%20source/os_tap_file_exporter.dart';
 import 'package:indogrip/features/outsource/data/model/view_tap_in_model.dart';
@@ -184,6 +185,21 @@ class _TapPanelState extends TapeBuilder {
                               foregroundColor: Colors.white,
                             ),
                           ),
+                        if (isMultipleSelection) SizedBox(width: 10),
+                        if (isMultipleSelection)
+                          MultiDeleteButton(
+                            selectedItems: selectedItems
+                                .map((item) => item.toJson())
+                                .toList(),
+                            panel: 'view-inventory',
+                            onPressed: () {
+                              setState(() {
+                                isMultipleSelection = false;
+                                selectedItems.clear();
+                                selectedRows.clear();
+                              });
+                            },
+                          ),
                         SizedBox(width: 10),
                         FileExportButton(
                           onPressed: () async {
@@ -331,6 +347,7 @@ class _TapPanelState extends TapeBuilder {
             final tapData = (state as InventoryOutTapLoadedSuccessStatus).model;
             if (tapData.status == 1) {
               dataSource ??= TapDataSource(
+                context: context,
                 TapData: tapData.record!,
                 isAllChecked: false,
                 onStatusChanged: (value) {
@@ -348,7 +365,14 @@ class _TapPanelState extends TapeBuilder {
                     }
                   });
                 },
-
+                onDelete: (data) {
+                  globalBloc.add(
+                    GlobalDeleteRecordEvent(
+                      rKey: data.rKey.toString(),
+                      rPanel: 'view-inventory',
+                    ),
+                  );
+                },
                 onCheckboxChanged: (checked, index) {
                   setState(() {
                     if (checked) {

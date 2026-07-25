@@ -84,7 +84,7 @@ class _EditWastagePanelState extends EditWastageBuilder {
               : DesktopAppBar(context, stateKey, 'Edit Wastage', true),
           drawer: !Responsive.isDesktop(context)
               ? const SideMenuWidget()
-              : const SizedBox(),
+              : null,
 
           body: Responsive.isDesktop(context)
               ? _buildWastageDesktop

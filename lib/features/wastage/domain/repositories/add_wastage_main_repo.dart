@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:indogrip/core/database/hive_service.dart';
 import 'package:indogrip/core/service/api%20service/dio_service.dart';
+import 'package:indogrip/core/service/logger.dart';
 import 'package:indogrip/features/global/data/model/success_reponse.dart';
 import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
 import 'package:indogrip/features/wastage/data/model/add_wastage_param.dart';
@@ -101,19 +102,20 @@ class AddWastageRepository implements WastageMathodProviderRepository {
   }) async {
     EditWastageResponse successResponse = EditWastageResponse();
     try {
+      final formData = FormData.fromMap({
+        'activity': 'add-wastage',
+        'wastageDate': apiParam.wastageDate,
+        'wastageClient': apiParam.wastageClient,
+        'billNumber': apiParam.billNumber,
+        'weight': apiParam.width,
+        'price': apiParam.price_kg,
+        'remark': apiParam.remark,
+        'userKey': HiveService.getUserId(),
+        'rKey:': apiParam.rKey,
+      });
       final response = await retry(
         () => DioService.dioPostApiCall(
-          data: FormData.fromMap({
-            'activity': apiParam.activity,
-            'wastageDate': apiParam.wastageDate,
-            'wastageClient': apiParam.wastageClient,
-            'billNumber': apiParam.billNumber,
-            'width': apiParam.width,
-            'price': apiParam.price_kg,
-            'remark': apiParam.remark,
-            'userKey': HiveService.getUserId(),
-            'rKey:': apiParam.rKey,
-          }),
+          data: formData,
         ).timeout(const Duration(seconds: 5)),
         retryIf: (e) => e is TimeoutException || e is DioException,
         maxAttempts: 3,
@@ -123,6 +125,7 @@ class AddWastageRepository implements WastageMathodProviderRepository {
         successResponse = EditWastageResponse.fromJson(response.data);
         developer.log(name: 'Param', '${apiParam.wastageClient}');
         developer.log(name: 'Edit Wastage Response', '${response.data}');
+        logger.d('Edit Wastage FormData: ${formData.fields}');
       } else {
         developer.log(name: 'Edit Wastage Error', 'Failed to edit wastage');
         throw Exception('Failed to edit wastage');

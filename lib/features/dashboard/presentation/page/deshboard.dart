@@ -174,7 +174,7 @@ class _IndoGripDashboardState extends DashboardBuilder {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Welcome back, Admin!',
+                        'Welcome back, AS-Admin!',
                         style: TextStyle(
                           fontSize: Responsive.isDesktop(context) ? 36 : 28,
                           fontWeight: FontWeight.w800,

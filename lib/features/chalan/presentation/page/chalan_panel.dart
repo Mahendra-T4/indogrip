@@ -79,7 +79,8 @@ class _ChalanPanelState extends ChalanBuilder {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      state.deleteRecordEntity.message ?? 'Records deleted',
+                      state.deleteRecordEntity.message ??
+                          'Something went wrong, try again',
                     ),
                   ),
                 );
@@ -162,6 +163,8 @@ class _ChalanPanelState extends ChalanBuilder {
                         batchCode: batchCodeController.text,
                         manualChallanNo: manualChallanNOController.text,
                         manualChallanDate: manualDateDateController.text,
+                        invoiceChallanNo: invoiceChallanNOController.text,
+                        invoiceChallanDate: invoiceDateDateController.text,
                       ),
                     );
                   },
@@ -239,6 +242,11 @@ class _ChalanPanelState extends ChalanBuilder {
               toDate: toDateController.text,
               clientKey: clientKey ?? '',
               staffKey: staffKey ?? '',
+              batchCode: batchCodeController.text,
+              manualChallanNo: manualChallanNOController.text,
+              manualChallanDate: manualDateDateController.text,
+              invoiceChallanNo: invoiceChallanNOController.text,
+              invoiceChallanDate: invoiceDateDateController.text,
             ),
           ),
         );
@@ -261,6 +269,11 @@ class _ChalanPanelState extends ChalanBuilder {
               toDate: toDateController.text,
               clientKey: clientKey ?? '',
               staffKey: staffKey ?? '',
+              batchCode: batchCodeController.text,
+              manualChallanNo: manualChallanNOController.text,
+              manualChallanDate: manualDateDateController.text,
+              invoiceChallanNo: invoiceChallanNOController.text,
+              invoiceChallanDate: invoiceDateDateController.text,
             ),
           ),
         );
@@ -282,6 +295,11 @@ class _ChalanPanelState extends ChalanBuilder {
                 toDate: toDateController.text,
                 clientKey: clientKey ?? '',
                 staffKey: staffKey ?? '',
+                batchCode: batchCodeController.text,
+                manualChallanNo: manualChallanNOController.text,
+                manualChallanDate: manualDateDateController.text,
+                invoiceChallanNo: invoiceChallanNOController.text,
+                invoiceChallanDate: invoiceDateDateController.text,
               ),
             ),
           );
@@ -304,6 +322,11 @@ class _ChalanPanelState extends ChalanBuilder {
                 toDate: toDateController.text,
                 clientKey: clientKey ?? '',
                 staffKey: staffKey ?? '',
+                batchCode: batchCodeController.text,
+                manualChallanNo: manualChallanNOController.text,
+                manualChallanDate: manualDateDateController.text,
+                invoiceChallanNo: invoiceChallanNOController.text,
+                invoiceChallanDate: invoiceDateDateController.text,
               ),
             ),
           );
@@ -325,6 +348,11 @@ class _ChalanPanelState extends ChalanBuilder {
               toDate: toDateController.text,
               clientKey: clientKey ?? '',
               staffKey: staffKey ?? '',
+              batchCode: batchCodeController.text,
+              manualChallanNo: manualChallanNOController.text,
+              manualChallanDate: manualDateDateController.text,
+              invoiceChallanNo: invoiceChallanNOController.text,
+              invoiceChallanDate: invoiceDateDateController.text,
             ),
           ),
         );

@@ -1090,9 +1090,10 @@ abstract class StretchFilmBuilder extends State<StretchFilmPanel> {
             ),
           ),
           const SizedBox(width: 8),
+
           MultiDeleteButton(
             selectedItems: selectedItems.map((item) => item.toJson()).toList(),
-            panel: 'stretch-film',
+            panel: 'view-inventory',
             onPressed: () {
               setState(() {
                 isMultipleSelection = false;

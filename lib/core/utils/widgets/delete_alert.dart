@@ -307,6 +307,7 @@ class _DeleteConfirmationAlertState extends State<DeleteConfirmationAlert>
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
+            widget.onConfirm.call();
             globalBloc.add(
               GlobalDeleteRecordEvent(
                 rKey: widget.rKey.toString(),

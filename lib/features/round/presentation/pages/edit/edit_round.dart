@@ -90,7 +90,7 @@ class _EditRoundPanelState extends EditRoundBuilder {
               : DesktopAppBar(context, stateKey, 'Edit Round', true),
           drawer: !Responsive.isDesktop(context)
               ? const SideMenuWidget()
-              : const SizedBox(),
+              : null,
           body: Responsive.isDesktop(context)
               ? roundDesktopWidgetWrapper
               : _roundTabletView,

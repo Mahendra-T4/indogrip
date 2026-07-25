@@ -94,7 +94,7 @@ class _EditCartonPanelState extends EditCatonBuilder {
           key: statekey,
           appBar: !Responsive.isDesktop(context)
               ? MobileAppBar(context, statekey, 'Edit Client')
-              : null,
+              : DesktopAppBar(context, statekey, 'Edit Carton', false),
           drawer: !Responsive.isDesktop(context) ? SideMenuWidget() : null,
           body: Responsive.isDesktop(context)
               ? buildCartonDesktopView
@@ -126,7 +126,7 @@ class _EditCartonPanelState extends EditCatonBuilder {
                 key: formKey,
                 child: Column(
                   children: [
-                    DesktopAppBar(context, statekey, 'Edit Carton', false),
+                    // DesktopAppBar(context, statekey, 'Edit Carton', false),
                     SizedBox(height: 30),
                     buildCartonInfoSectionDesktop,
                     SizedBox(height: 30),

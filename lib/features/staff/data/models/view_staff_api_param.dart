@@ -21,6 +21,8 @@ class ViewRecordApiParam {
   final String? batchCode;
   final String? manualChallanNo;
   final String? manualChallanDate;
+  final String? invoiceChallanNo;
+  final String? invoiceChallanDate;
 
   ViewRecordApiParam({
     this.keyword,
@@ -45,5 +47,7 @@ class ViewRecordApiParam {
     this.batchCode,
     this.manualChallanNo,
     this.manualChallanDate,
+    this.invoiceChallanNo,
+    this.invoiceChallanDate,
   });
 }

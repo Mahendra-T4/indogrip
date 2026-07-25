@@ -218,7 +218,7 @@ class _ViewClientPanelState extends ViewClientBuilder {
                         globalBloc.add(
                           GlobalDeleteRecordEvent(
                             rKey: staff.rKey.toString(),
-                            rPanel: 'view-staff',
+                            rPanel: 'view-client',
                           ),
                         );
 

@@ -28,6 +28,8 @@ abstract class BillFormatBuilder extends State<BillFormate> {
   final unitPriceController = TextEditingController();
   final remarkController = TextEditingController();
   final chalanDateController = TextEditingController();
+  final invoiceChallanNumberController = TextEditingController();
+  final invoiceChallanDateController = TextEditingController();
   final List<TextEditingController> rowUnitPriceControllers = [];
   final List<TextEditingController> rowDisplayQuantityControllers = [];
   final List<TextEditingController> rowRemarkControllers = [];
@@ -184,7 +186,7 @@ abstract class BillFormatBuilder extends State<BillFormate> {
 
     challanRemarkController.dispose();
     challanNoController.dispose();
-    
+
     challanBloc.close();
     globalBloc.close();
     super.dispose();
@@ -303,6 +305,8 @@ abstract class BillFormatBuilder extends State<BillFormate> {
                 challanKey: challanKey,
                 clientUnitName: cUnitName ?? clientUnitName,
                 clientKey: cKey ?? selectedClientKey,
+                invoiceChallanNumber: invoiceChallanNumberController.text,
+                invoiceChallanDate: invoiceChallanDateController.text,
               ),
             ),
           );

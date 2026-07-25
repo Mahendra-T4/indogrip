@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +16,6 @@ import 'package:indogrip/features/global/presentation/widget/multi_delete_button
 import 'package:indogrip/features/global/presentation/widget/pagination_widget.dart';
 import 'package:indogrip/features/global/presentation/widget/refresh_button.dart';
 import 'package:indogrip/features/staff/data/models/edit_staff_details_param_model.dart';
-import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
 import 'package:indogrip/features/staff/presentation/bloc/staff_bloc.dart';
 import 'package:indogrip/features/staff/presentation/pages/edit/edit_add_staff_page.dart';
 import 'package:indogrip/features/staff/presentation/pages/view/view_staff_builder.dart';
@@ -141,7 +138,7 @@ class _ViewStaffPanelState extends ViewStaffBuilder {
                   context,
                   state.deleteRecordEntity.message?.isNotEmpty == true
                       ? state.deleteRecordEntity.message.toString()
-                      : 'Record deleted successfully',
+                      : 'try again',
                 );
                 // Refresh list after single delete
                 eventHandler();
@@ -307,14 +304,12 @@ class _ViewStaffPanelState extends ViewStaffBuilder {
                         },
                         onDelete: (staff) {
                           log(name: 'Delete Staff rKey', staff.rKey.toString());
-                          // Wait a short delay to ensure deletion is complete before refreshing
-                          Future.delayed(const Duration(milliseconds: 500), () {
-                            staffBloc.add(
-                              ViewStaffRecordsFetchingEvent(
-                                viewStaffApiParam: ViewRecordApiParam(),
-                              ),
-                            );
+                          setState(() {
+                            selectedRows.clear();
+                            selectedItems.clear();
+                            isMultipleSelection = false;
                           });
+                          pageNo = 1;
                           eventHandler();
                         },
 

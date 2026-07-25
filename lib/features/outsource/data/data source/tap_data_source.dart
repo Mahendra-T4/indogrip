@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indogrip/core/database/hive_service.dart';
+import 'package:indogrip/core/utils/widgets/delete_alert.dart';
 import 'package:indogrip/features/outsource/data/model/view_tap_in_model.dart';
 
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -34,6 +35,8 @@ class TapDataSource extends DataGridSource {
   final Function(bool) onStatusChanged;
   final Function(bool, int) onCheckboxChanged;
   final Function(TapRecord) onEdit;
+  final Function(TapRecord) onDelete;
+  final BuildContext context;
   // final Function() onDelete;
   final Function(TapRecord) printLabel;
   // final Function() onProfile;
@@ -49,12 +52,12 @@ class TapDataSource extends DataGridSource {
   TapDataSource({
     required this.TapData,
     required this.isAllChecked,
-
+    required this.context,
     required this.onStatusChanged,
     required this.onCheckboxChanged,
     required this.onEdit,
     required this.printLabel,
-    // required this.onDelete,
+    required this.onDelete,
     // required this.onProfile,
     required this.onChanged,
   }) {
@@ -218,6 +221,31 @@ class TapDataSource extends DataGridSource {
                 padding: EdgeInsets.zero,
                 icon: const Icon(Icons.edit, size: 18),
                 onPressed: () => onEdit(Tap),
+                constraints: const BoxConstraints(),
+              ),
+            ),
+          if (HiveService.getRole() != '2')
+            SizedBox(
+              width: 40,
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(Icons.delete, size: 18),
+                onPressed: () {
+                  DeleteConfirmationAlert.show(
+                    context,
+                    title: 'Delete Record',
+                    message: 'Are Your to Delete This Tape Record',
+                    itemName: '${Tap.vendorInfo?.companyName}',
+
+                    onConfirm: () {
+                      onDelete(Tap);
+                    },
+                    rPanel: 'view-inventory',
+                    item: TapData,
+                    index: TapData.indexOf(Tap),
+                    rKey: Tap.rKey.toString(),
+                  );
+                },
                 constraints: const BoxConstraints(),
               ),
             ),

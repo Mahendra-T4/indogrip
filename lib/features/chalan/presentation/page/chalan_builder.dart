@@ -27,6 +27,8 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
   final TextEditingController batchCodeController = TextEditingController();
   final manualDateDateController = TextEditingController();
   final manualChallanNOController = TextEditingController();
+  final invoiceDateDateController = TextEditingController();
+  final invoiceChallanNOController = TextEditingController();
   Key refreshKey = UniqueKey();
   List<DataGridRow> selectedRows = [];
   bool isMultipleSelection = false;
@@ -66,6 +68,8 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
           batchCode: batchCodeController.text,
           manualChallanNo: manualChallanNOController.text,
           manualChallanDate: manualDateDateController.text,
+          invoiceChallanNo: invoiceChallanNOController.text,
+          invoiceChallanDate: invoiceDateDateController.text,
         ),
       ),
     );
@@ -79,7 +83,8 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
     fromDateController.clear();
     toDateController.clear();
     batchCodeController.clear();
-    batchCodeController.text = '';
+    invoiceChallanNOController.clear();
+    invoiceDateDateController.clear();
     fromDateController.text = '';
     toDateController.text = '';
     searchController.text = '';
@@ -87,6 +92,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
     manualDateDateController.text = '';
     manualChallanNOController.clear();
     manualDateDateController.clear();
+
     setState(() {
       recordValue = null;
       filterValue = null;
@@ -145,225 +151,393 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
 
   Widget get buildCallanFilterations => Padding(
     padding: const EdgeInsets.all(16),
-    child: Row(
-      spacing: Responsive.betweenSpace,
+    child: Column(
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 5,
-            children: [
-              LabelText('Batch Code'),
-              Container(
-                height: 37,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
+        Row(
+          spacing: Responsive.betweenSpace,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5,
+                children: [
+                  LabelText('Invoice Challan Date'),
+                  Container(
+                    height: 37,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: TextField(
-                  controller: batchCodeController,
+                    child: TextField(
+                      controller: invoiceDateDateController,
 
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Enter BatchCode',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 13,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color(0xFF2D8FCF),
-                      size: 20,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Color(0xFF2D8FCF),
-                        width: 1.5,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Enter Invoice Challan Date',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xFF2D8FCF),
+                          size: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Color(0xFF2D8FCF),
+                            width: 1.5,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 0,
+                        ),
                       ),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 0,
-                    ),
-                  ),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: ColourPalette.textFieldLabelColor,
-                  ),
-                  onChanged: (value) {
-                    if (value.isNotEmpty || value != '') {
-                      setState(() {
-                        isShowBatch = true;
-                      });
-                    } else {
-                      setState(() {
-                        isShowBatch = false;
-                      });
-                    }
-                    dataLoadingEventCall();
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 5,
-            children: [
-              LabelText('Manual Challan Date'),
-              Container(
-                height: 37,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: manualDateDateController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Select From Date',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 13,
-                    ),
-                    prefixIcon: const Icon(
-                      Icons.calendar_today,
-                      color: Color(0xFF2D8FCF),
-                      size: 20,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(
-                        color: Color(0xFF2D8FCF),
-                        width: 1.5,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: ColourPalette.textFieldLabelColor,
                       ),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 0,
-                    ),
-                  ),
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: ColourPalette.textFieldLabelColor,
-                  ),
-                  readOnly: true,
-                  onChanged: (value) {},
-                  onTap: () =>
-                      _selectDate(context, manualDateDateController, (date) {
-                        setState(() {
-                          toDateController.text = date;
-                        });
+                      onChanged: (value) {
+                        if (value.isNotEmpty || value != '') {
+                          setState(() {
+                            isShowBatch = true;
+                          });
+                        } else {
+                          setState(() {
+                            isShowBatch = false;
+                          });
+                        }
                         dataLoadingEventCall();
-                      }),
-                ),
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 5,
-            children: [
-              LabelText('Manual Challan Number'),
-              Container(
-                height: 37,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5,
+                children: [
+                  LabelText('Invoice Challan Number'),
+                  Container(
+                    height: 37,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: TextField(
-                  controller: manualChallanNOController,
+                    child: TextField(
+                      controller: invoiceChallanNOController,
 
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Enter Manual Challan Number',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 13,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Enter Invoice Challan Number',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xFF2D8FCF),
+                          size: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Color(0xFF2D8FCF),
+                            width: 1.5,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 0,
+                        ),
+                      ),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: ColourPalette.textFieldLabelColor,
+                      ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty || value != '') {
+                          setState(() {
+                            isShowBatch = true;
+                          });
+                        } else {
+                          setState(() {
+                            isShowBatch = false;
+                          });
+                        }
+                        dataLoadingEventCall();
+                      },
                     ),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color(0xFF2D8FCF),
-                      size: 20,
-                    ),
-                    border: OutlineInputBorder(
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5,
+                children: [
+                  LabelText('Manual Challan Date'),
+                  Container(
+                    height: 37,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Color(0xFF2D8FCF),
-                        width: 1.5,
+                    child: TextField(
+                      controller: manualDateDateController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Manual Challan Date',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.calendar_today,
+                          color: Color(0xFF2D8FCF),
+                          size: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF2D8FCF),
+                            width: 1.5,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 0,
+                        ),
+                      ),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: ColourPalette.textFieldLabelColor,
+                      ),
+                      readOnly: true,
+                      onChanged: (value) {},
+                      onTap: () => _selectDate(
+                        context,
+                        manualDateDateController,
+                        (date) {
+                          setState(() {
+                            toDateController.text = date;
+                          });
+                          dataLoadingEventCall();
+                        },
                       ),
                     ),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 0,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5,
+                children: [
+                  LabelText('Manual Challan Number'),
+                  Container(
+                    height: 37,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: manualChallanNOController,
+
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Enter Manual Challan Number',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xFF2D8FCF),
+                          size: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Color(0xFF2D8FCF),
+                            width: 1.5,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 0,
+                        ),
+                      ),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: ColourPalette.textFieldLabelColor,
+                      ),
+                      onChanged: (value) {
+                        dataLoadingEventCall();
+                      },
                     ),
                   ),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: ColourPalette.textFieldLabelColor,
-                  ),
-                  onChanged: (value) {
-                    dataLoadingEventCall();
-                  },
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+            // Expanded(child: SizedBox()),
+          ],
         ),
-        Expanded(child: SizedBox()),
+        SizedBox(height: 20),
+        Row(
+          spacing: Responsive.betweenSpace,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5,
+                children: [
+                  LabelText('Batch Code'),
+                  Container(
+                    height: 37,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: batchCodeController,
+
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Enter BatchCode',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 13,
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xFF2D8FCF),
+                          size: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Color(0xFF2D8FCF),
+                            width: 1.5,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 0,
+                        ),
+                      ),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: ColourPalette.textFieldLabelColor,
+                      ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty || value != '') {
+                          setState(() {
+                            isShowBatch = true;
+                          });
+                        } else {
+                          setState(() {
+                            isShowBatch = false;
+                          });
+                        }
+                        dataLoadingEventCall();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: SizedBox()),
+            Expanded(child: SizedBox()),
+            Expanded(child: SizedBox()),
+          ],
+        ),
       ],
     ),
   );
@@ -612,6 +786,32 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
           ),
         ),
       GridColumn(
+        columnName: Chalan.invoiceChallanDate,
+        width: 200,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Invoice Challan Date',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: Chalan.invoiceChallanNumber,
+        width: 200,
+        label: Container(
+          color: Colors.grey[100],
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          alignment: Alignment.center,
+          child: const Text(
+            'Invoice Challan No',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      GridColumn(
         columnName: Chalan.challanNumber,
         width: double.nan,
         label: Container(
@@ -626,7 +826,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
       ),
       GridColumn(
         columnName: Chalan.manualChallanNumber,
-        width: double.nan,
+        width: 200,
         label: Container(
           color: Colors.grey[100],
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -652,7 +852,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
       ),
       GridColumn(
         columnName: Chalan.manualChallanDate,
-        width: double.nan,
+        width: 200,
         label: Container(
           color: Colors.grey[100],
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

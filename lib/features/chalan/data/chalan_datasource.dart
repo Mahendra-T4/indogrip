@@ -16,6 +16,8 @@ class Chalan {
 
   static final String manualChallanNumber = 'Manual Chalan No';
   static final String manualChallanDate = 'Manual Chalan Date';
+  static final String invoiceChallanNumber = 'Invoice Chalan No';
+  static final String invoiceChallanDate = 'Invoice Chalan Date';
   static final String batchCode = 'Batch Code';
 }
 
@@ -68,6 +70,14 @@ class ChalanDataSource extends DataGridSource {
               columnName: Chalan.batchCode,
               value: batchCode ?? 'N/A',
             ),
+          DataGridCell<String>(
+            columnName: Chalan.invoiceChallanDate,
+            value: data.invoiceChallanDate.toString(),
+          ),
+          DataGridCell<String>(
+            columnName: Chalan.invoiceChallanNumber,
+            value: data.invoiceChallanNo.toString(),
+          ),
           DataGridCell<String>(
             columnName: Chalan.challanNumber,
             value: data.challanNumber.toString(),

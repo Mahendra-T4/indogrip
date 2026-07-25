@@ -46,6 +46,8 @@ class ChalanRecord {
   String? challanRemark;
   String? manualChallanNumber;
   String? manualChallanDate;
+  String? invoiceChallanNo;
+  String? invoiceChallanDate;
   ClientInformation? clientInformation;
   StaffInformation? staffInformation;
   String? rKey;
@@ -58,6 +60,8 @@ class ChalanRecord {
     this.challanRemark,
     this.manualChallanNumber,
     this.manualChallanDate,
+    this.invoiceChallanNo,
+    this.invoiceChallanDate,
     this.clientInformation,
     this.staffInformation,
     this.rKey,
@@ -71,6 +75,8 @@ class ChalanRecord {
     challanRemark = json['challanRemark'] ?? 'N/A';
     manualChallanNumber = json['manualChallanNumber'] ?? 'N/A';
     manualChallanDate = json['manualChallanDate'] ?? 'N/A';
+    invoiceChallanDate = json['invoiceChallanDate'] ?? 'N/A';
+    invoiceChallanNo = json['invoiceChallanNo'] ?? 'N/A';
     clientInformation = json['clientInformation'] != null
         ? new ClientInformation.fromJson(json['clientInformation'])
         : null;

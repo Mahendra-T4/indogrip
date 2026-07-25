@@ -551,7 +551,7 @@ abstract class EditWastageBuilder extends State<EditWastagePanel> {
               if (selectedDate != null) {
                 setState(() {
                   controller.text = DateFormat(
-                    'dd-MM-yyyy',
+                    'yyyy-MM-dd',
                   ).format(selectedDate);
                 });
               }

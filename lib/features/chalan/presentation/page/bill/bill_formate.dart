@@ -1004,6 +1004,34 @@ class _BillFormateState extends BillFormatBuilder {
                                               Row(
                                                 spacing: 16,
                                                 children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      spacing: 10,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          'Invoice Challan Number',
+                                                        ),
+                                                        CustomTextField(
+                                                          controller:
+                                                              invoiceChallanNumberController,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: buildDateField(
+                                                      'Invoice Challan Date',
+                                                      invoiceChallanDateController,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                spacing: 16,
+                                                children: [
                                                   Expanded(child: SizedBox()),
                                                   Expanded(child: SizedBox()),
                                                   Expanded(child: SizedBox()),
