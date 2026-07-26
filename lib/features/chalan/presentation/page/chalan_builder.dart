@@ -170,13 +170,12 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
                         BoxShadow(
                           color: Colors.black.withOpacity(0.05),
                           blurRadius: 4,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
                     child: TextField(
                       controller: invoiceDateDateController,
-
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
@@ -185,8 +184,8 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
                           color: Colors.grey.shade600,
                           fontSize: 13,
                         ),
-                        prefixIcon: Icon(
-                          Icons.search,
+                        prefixIcon: const Icon(
+                          Icons.calendar_today,
                           color: Color(0xFF2D8FCF),
                           size: 20,
                         ),
@@ -200,33 +199,33 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color(0xFF2D8FCF),
                             width: 1.5,
                           ),
                         ),
-                        contentPadding: EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                           horizontal: 12,
                           vertical: 0,
                         ),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: ColourPalette.textFieldLabelColor,
                       ),
-                      onChanged: (value) {
-                        if (value.isNotEmpty || value != '') {
+                      readOnly: true,
+                      onChanged: (value) {},
+                      onTap: () => _selectDate(
+                        context,
+                        invoiceDateDateController,
+                        (date) {
                           setState(() {
-                            isShowBatch = true;
+                            invoiceDateDateController.text = date;
                           });
-                        } else {
-                          setState(() {
-                            isShowBatch = false;
-                          });
-                        }
-                        dataLoadingEventCall();
-                      },
+                          dataLoadingEventCall();
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -813,7 +812,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
       ),
       GridColumn(
         columnName: Chalan.challanNumber,
-        width: double.nan,
+        width: 150,
         label: Container(
           color: Colors.grey[100],
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -839,7 +838,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
       ),
       GridColumn(
         columnName: Chalan.dateTime,
-        width: double.nan,
+        width: 200,
         label: Container(
           color: Colors.grey[100],
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -865,7 +864,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
       ),
       GridColumn(
         columnName: Chalan.cCode,
-        width: double.nan,
+        width: 120,
         label: Container(
           color: Colors.grey[100],
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -878,7 +877,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
       ),
       GridColumn(
         columnName: Chalan.cConsigneeName,
-        width: double.nan,
+        width: 200,
         label: Container(
           color: Colors.grey[100],
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -891,7 +890,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
       ),
       GridColumn(
         columnName: Chalan.unitName,
-        width: double.nan,
+        width: 150,
         label: Container(
           color: Colors.grey[100],
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -904,7 +903,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
       ),
       GridColumn(
         columnName: Chalan.name,
-        width: double.nan,
+        width: 200,
         label: Container(
           color: Colors.grey[100],
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

@@ -48,23 +48,23 @@ class _ProfileState extends UProfileBuilder {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-     stream: InternetConnectionService().connectionStream,
-        initialData: true, // Assume connected initially
-        builder: (context, snapshot) {
-          // Handle error state
-          if (snapshot.hasError) {
-            return const NoInternetConnection();
-          }
+      stream: InternetConnectionService().connectionStream,
+      initialData: true, // Assume connected initially
+      builder: (context, snapshot) {
+        // Handle error state
+        if (snapshot.hasError) {
+          return const NoInternetConnection();
+        }
 
-          // Handle disconnected state
-          if (snapshot.data == false) {
-            return const NoInternetConnection();
-          }
+        // Handle disconnected state
+        if (snapshot.data == false) {
+          return const NoInternetConnection();
+        }
 
-          // Handle loading state
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
+        // Handle loading state
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
         return Scaffold(
           key: _statekey,
           appBar: !Responsive.isDesktop(context)
@@ -73,7 +73,7 @@ class _ProfileState extends UProfileBuilder {
           drawer: !Responsive.isDesktop(context) ? SideMenuWidget() : null,
           body: Responsive.isDesktop(context) ? desktopView() : tabletView(),
         );
-      }
+      },
     );
   }
 
@@ -960,61 +960,6 @@ class _ProfileState extends UProfileBuilder {
             ),
 
             // Data Management Section
-            const Padding(
-              padding: EdgeInsets.only(left: 20, top: 30),
-              child: Text(
-                "Data Management",
-                style: TextStyle(
-                  fontFamily: "Inter",
-                  color: Color(0xFF3D475C),
-                  fontSize: 21,
-                ),
-                textAlign: TextAlign.start,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Clear Application Data",
-                    style: TextStyle(
-                      fontFamily: "Inter",
-                      color: Colors.grey.shade700,
-                      fontSize: 14,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "This will delete all your local app data, preferences, and cache. You will need to log in again.",
-                    style: TextStyle(
-                      fontFamily: "Inter",
-                      color: Colors.grey.shade500,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: 200,
-                    child: ElevatedButton.icon(
-                      onPressed: () => _showClearDataConfirmation(context),
-                      icon: const Icon(Icons.delete_outline),
-                      label: const Text('Clear All Data'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red.shade600,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [uProfileSubmitBtn()],

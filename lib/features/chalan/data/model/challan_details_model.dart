@@ -33,6 +33,7 @@ class ChallanRecord {
   List<OrderProduct>? orderProduct;
   OrderInformation? orderInformation;
   AdditionalInfo? additionalInfo;
+  List<OrderMissingProduct>? orderMissingProduct;
   String? rKey;
   int? rStatus;
 
@@ -42,6 +43,7 @@ class ChallanRecord {
     this.orderProduct,
     this.orderInformation,
     this.additionalInfo,
+    this.orderMissingProduct,
     this.rKey,
     this.rStatus,
   });
@@ -65,6 +67,12 @@ class ChallanRecord {
     additionalInfo = json['additionalInfo'] != null
         ? new AdditionalInfo.fromJson(json['additionalInfo'])
         : null;
+    if (json['orderMissingProduct'] != null) {
+      orderMissingProduct = <OrderMissingProduct>[];
+      json['orderMissingProduct'].forEach((v) {
+        orderMissingProduct!.add(new OrderMissingProduct.fromJson(v));
+      });
+    }
     rKey = json['rKey'];
     rStatus = json['rStatus'];
   }
@@ -290,6 +298,9 @@ class OrderInformation {
   String? challanRemark;
   String? manualChallanNumber;
   String? manualChallanDate;
+  String? invoiceChallanNo;
+  String? invoiceChallanDate;
+  String? invoiceChallanDateText;
 
   OrderInformation({
     this.challanNumber,
@@ -297,6 +308,9 @@ class OrderInformation {
     this.challanRemark,
     this.manualChallanNumber,
     this.manualChallanDate,
+    this.invoiceChallanNo,
+    this.invoiceChallanDate,
+    this.invoiceChallanDateText,
   });
 
   OrderInformation.fromJson(Map<String, dynamic> json) {
@@ -305,6 +319,9 @@ class OrderInformation {
     challanRemark = json['challanRemark'];
     manualChallanNumber = json['manualChallanNumber'];
     manualChallanDate = json['manualChallanDate'];
+    invoiceChallanNo = json['invoiceChallanNo'];
+    invoiceChallanDate = json['invoiceChallanDate'];
+    invoiceChallanDateText = json['invoiceChallanDateText'];
   }
 
   Map<String, dynamic> toJson() {
@@ -368,6 +385,39 @@ class AdditionalInfo {
     data['termHeading'] = this.termHeading;
     data['CompanyName'] = this.companyName;
     data['termList'] = this.termList;
+    return data;
+  }
+}
+class OrderMissingProduct {
+  int? sNo;
+  int? mBatchID;
+  int? mAppliedQty;
+  int? mAvailableQty;
+  String? mReason;
+
+  OrderMissingProduct({
+    this.sNo,
+    this.mBatchID,
+    this.mAppliedQty,
+    this.mAvailableQty,
+    this.mReason,
+  });
+
+  OrderMissingProduct.fromJson(Map<String, dynamic> json) {
+    sNo = json['sNo'];
+    mBatchID = json['mBatchID'];
+    mAppliedQty = json['mAppliedQty'];
+    mAvailableQty = json['mAvailableQty'];
+    mReason = json['mReason'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['sNo'] = this.sNo;
+    data['mBatchID'] = this.mBatchID;
+    data['mAppliedQty'] = this.mAppliedQty;
+    data['mAvailableQty'] = this.mAvailableQty;
+    data['mReason'] = this.mReason;
     return data;
   }
 }

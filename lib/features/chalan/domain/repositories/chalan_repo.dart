@@ -14,7 +14,6 @@ import 'package:indogrip/features/chalan/data/model/challan_submit_details_model
 import 'package:indogrip/features/chalan/data/model/challaninfo_param.dart';
 import 'package:indogrip/features/chalan/data/model/return_product.dart';
 import 'package:indogrip/features/chalan/data/model/round_details_model.dart';
-import 'package:indogrip/features/chalan/data/model/submit_batch_model.dart';
 import 'package:indogrip/features/chalan/data/model/verify_challan_product_param.dart';
 import 'package:indogrip/features/global/data/model/success_reponse.dart';
 import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
@@ -286,11 +285,12 @@ abstract class ChallanRepository {
       if (response.statusCode == 200) {
         model = SuccessResponse.fromJson(response.data);
         developer.log(model.message.toString(), name: 'Challan Info Response');
+        logger.d('Challan Info Response: ${formData.fields}');
 
-        developer.log(
-          formData.fields.toString(),
-          name: 'Challan Info FormData',
-        );
+        // developer.log(
+        //   formData.fields.toString(),
+        //   name: 'Challan Info FormData',
+        // );
       } else {
         developer.log(
           'Failed to  update challan info',

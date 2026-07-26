@@ -4,7 +4,6 @@ import 'package:indogrip/core/responsive/responsive.dart';
 import 'package:indogrip/core/theme/color_conts.dart';
 import 'package:indogrip/core/widgets/labal_text.dart';
 import 'package:indogrip/features/global/presentation/widget/master_user_status.dart';
-import 'package:indogrip/features/global/presentation/widget/stock_status.dart';
 
 class SearchFields extends ConsumerStatefulWidget {
   SearchFields({
@@ -142,9 +141,9 @@ class _SearchFieldsState extends ConsumerState<SearchFields> {
                     ],
                   ),
                 ),
-                widget.isJumbo
-                    ? Expanded(child: StockStatus(onChanged: (value) {}))
-                    : SizedBox(width: 0),
+                // widget.isJumbo
+                //     ? Expanded(child: StockStatus(onChanged: (value) {}))
+                //     : SizedBox(),
                 if (widget.isStatus) widget.panelStatus ?? statusWidget,
                 _buildDropdown(
                   label: 'Order By',

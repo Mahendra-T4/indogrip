@@ -372,6 +372,12 @@ class _TapPanelState extends TapeBuilder {
                       rPanel: 'view-inventory',
                     ),
                   );
+                  setState(() {
+                    selectedRows.clear();
+                    selectedItems.clear();
+                    isMultipleSelection = false;
+                  });
+                  eventCall();
                 },
                 onCheckboxChanged: (checked, index) {
                   setState(() {
@@ -382,8 +388,8 @@ class _TapPanelState extends TapeBuilder {
                     }
                     // Update selectedItems whenever checkbox changes
                     final selectedData = selectedRows.map((row) {
-                      final rowIndex = dataSource!.rows.indexOf(row);
-                      return tapData.record?[rowIndex];
+                      final index = dataSource!.rows.indexOf(row);
+                      return tapData.record?[index];
                     }).toList();
                     handleSelectionChanged(
                       selectedData.whereType<TapRecord>().toList(),

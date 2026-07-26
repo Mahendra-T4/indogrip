@@ -17,6 +17,7 @@ import 'package:indogrip/features/chalan/data/model/challan_details_model.dart';
 import 'package:indogrip/features/chalan/presentation/bloc/challan_bloc.dart';
 import 'package:indogrip/features/chalan/presentation/page/bill/bill_format_buiilder.dart';
 import 'package:indogrip/features/chalan/presentation/page/scanned-carton/scanned_carton.dart';
+import 'package:indogrip/features/chalan/presentation/widget/missing_data_table.dart';
 import 'package:indogrip/features/global/presentation/bloc/global_bloc.dart';
 import 'package:indogrip/features/global/presentation/widget/refresh_button.dart';
 import 'package:intl/intl.dart';
@@ -639,6 +640,31 @@ class _BillFormateState extends BillFormatBuilder {
                         state.model.record?.first.clientInformation?.unitName ??
                         '';
 
+                    final invoiceChallanNo =
+                        state
+                            .model
+                            .record
+                            ?.first
+                            .orderInformation
+                            ?.invoiceChallanNo ??
+                        '';
+                    final invoiceChallanDate =
+                        state
+                            .model
+                            .record
+                            ?.first
+                            .orderInformation
+                            ?.invoiceChallanDate ??
+                        '';
+                    final invoiceChallanDateText =
+                        state
+                            .model
+                            .record
+                            ?.first
+                            .orderInformation
+                            ?.invoiceChallanDateText ??
+                        '';
+
                     // Update state variables with setState to trigger rebuild
                     setState(() {
                       if (selectedClientKey != newClientKey) {
@@ -658,6 +684,14 @@ class _BillFormateState extends BillFormatBuilder {
                     }
                     if (chalanDateController.text != newChallanDate) {
                       chalanDateController.text = newChallanDate;
+                    }
+                    if (invoiceChallanNumberController.text !=
+                        invoiceChallanNo) {
+                      invoiceChallanNumberController.text = invoiceChallanNo;
+                    }
+                    if (invoiceChallanDateController.text !=
+                        invoiceChallanDate) {
+                      invoiceChallanDateController.text = invoiceChallanDate;
                     }
                   } else {
                     ToastService.instance.showError(
@@ -900,6 +934,7 @@ class _BillFormateState extends BillFormatBuilder {
                                               dataTableWidget(
                                                 state.model.record,
                                               ),
+
                                               Row(
                                                 children: [
                                                   Expanded(child: SizedBox()),
@@ -963,18 +998,13 @@ class _BillFormateState extends BillFormatBuilder {
                                                   ),
                                                 ],
                                               ),
-                                              Column(
-                                                spacing: 10,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text('Remark'),
-                                                  CustomTextField(
-                                                    controller:
-                                                        remarkController,
-                                                  ),
-                                                ],
+                                              MissingDataTable(
+                                                orderMissingProduct: data
+                                                    .first
+                                                    .orderMissingProduct,
                                               ),
+                                              SizedBox(height: 16),
+
                                               Row(
                                                 spacing: 16,
                                                 children: [
@@ -999,11 +1029,6 @@ class _BillFormateState extends BillFormatBuilder {
                                                       chalanDateController,
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                              Row(
-                                                spacing: 16,
-                                                children: [
                                                   Expanded(
                                                     child: Column(
                                                       spacing: 10,
@@ -1029,6 +1054,32 @@ class _BillFormateState extends BillFormatBuilder {
                                                   ),
                                                 ],
                                               ),
+                                              Row(
+                                                // spacing: 16,
+                                                children: [
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Column(
+                                                      spacing: 10,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text('Remark'),
+                                                        CustomTextField(
+                                                          controller:
+                                                              remarkController,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 16),
+                                                  Expanded(child: SizedBox()),
+
+                                                  Expanded(child: SizedBox()),
+                                                ],
+                                              ),
+
                                               Row(
                                                 spacing: 16,
                                                 children: [

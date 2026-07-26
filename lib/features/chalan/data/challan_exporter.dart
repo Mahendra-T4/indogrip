@@ -20,6 +20,8 @@ class ChallanExporter {
 
       List<String> header = [
         "SNo",
+        "Invoice Challan Number",
+        "Invoice Challan Date",
         "Challan Number",
         "Date",
         "Client Code",
@@ -40,6 +42,8 @@ class ChallanExporter {
 
           final values = [
             item['SNo']?.toString() ?? '',
+            item['invoiceChallanNo']?.toString() ?? '',
+            item['invoiceChallanDate']?.toString() ?? '',
             item['challanNumber']?.toString() ?? '',
             item['dateTime']?.toString() ?? '',
             item['clientInformation']?['cCode']?.toString() ?? '',
