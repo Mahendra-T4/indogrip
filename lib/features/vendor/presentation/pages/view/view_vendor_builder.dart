@@ -52,6 +52,7 @@ abstract class ViewVendorBuilder extends State<ViewVendorPanel> {
     fromDateController.clear();
     toDateController.clear();
     searchController.clear();
+    reasonController.clear();
 
     // Change key to force rebuild of dropdown widgets
     refreshKey = UniqueKey();
@@ -63,6 +64,15 @@ abstract class ViewVendorBuilder extends State<ViewVendorPanel> {
     });
 
     eventHandler();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    reasonController.dispose();
+    fromDateController.dispose();
+    toDateController.dispose();
+    super.dispose();
   }
 
   void handleSelectionChanged(List<Map<String, dynamic>> items) {
@@ -236,6 +246,8 @@ abstract class ViewVendorBuilder extends State<ViewVendorPanel> {
           isMultipleSelection = false;
           selectedItems.clear();
         });
+        pageNo = 1;
+        eventHandler();
       },
     );
   }

@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:indogrip/features/core/data/models/view_core_model.dart';
 import 'package:indogrip/features/core/presentation/bloc/core_bloc.dart';
 import 'package:indogrip/features/core/presentation/pages/view/view_core.dart';
+import 'package:indogrip/features/global/presentation/widget/multi_delete_button.dart';
 import 'package:indogrip/features/global/presentation/widget/refresh_button.dart';
 import 'package:indogrip/features/global/presentation/widget/search_fields.dart';
 import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 abstract class ViewCoreBuilder extends State<ViewCorePanel> {
   Key refreshKey = UniqueKey();
   late CoreBloc coreBloc;
   bool isMultipleSelection = false;
-  List<CoreDataRecord> selectedItems = [];
+  List<Map<String, dynamic>> selectedItems = [];
+  List<DataGridRow> selectedRows = [];
   String pageText = '';
 
   int? currentPage = 1;
@@ -21,10 +24,69 @@ abstract class ViewCoreBuilder extends State<ViewCorePanel> {
 
   var recordValue, filterValue, entryValue;
 
-  void handleSelectionChanged(List<CoreDataRecord> items) {
+  void handleSelectionChanged(List<Map<String, dynamic>> items) {
     setState(() {
       selectedItems = items;
     });
+  }
+
+  void toggleMultipleSelection() {
+    setState(() {
+      isMultipleSelection = !isMultipleSelection;
+      if (!isMultipleSelection) {
+        selectedItems.clear();
+        selectedRows.clear(); // Clear selected rows when exiting multiselection
+      }
+    });
+  }
+
+  Widget get buildFilterFieldsDesktop => Padding(
+    padding: const EdgeInsets.only(top: 20),
+    child: Row(
+      spacing: 10,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        if (isMultipleSelection) buildSelectionActions(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton.icon(
+              onPressed: toggleMultipleSelection,
+              icon: Icon(
+                isMultipleSelection
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                color: Colors.blue,
+              ),
+              label: Text(
+                isMultipleSelection ? 'Multiple Selection' : 'Single Selection',
+                style: const TextStyle(color: Colors.blue),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+
+  Widget buildSelectionActions() {
+    if (!isMultipleSelection || selectedItems.isEmpty) {
+      return const SizedBox();
+    }
+
+    return MultiDeleteButton(
+      selectedItems: selectedItems,
+      panel: 'view-core',
+      onPressed: () {
+        currentPage = 1;
+        eventHandler();
+        setState(() {
+          selectedRows.clear();
+          selectedItems.clear();
+          isMultipleSelection = false;
+        });
+      },
+    );
   }
 
   eventHandler() {

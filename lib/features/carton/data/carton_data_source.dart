@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indogrip/core/database/hive_service.dart';
+import 'package:indogrip/core/utils/widgets/delete_alert.dart';
 import 'package:indogrip/features/carton/data/models/view_carton_model.dart';
 import 'package:indogrip/features/global/presentation/widget/delete_record_button.dart';
 import 'package:indogrip/features/global/presentation/widget/master_user_status.dart';
@@ -25,6 +26,7 @@ class CartonDataSource extends DataGridSource {
   final Function(ViewCartonRecord) onDelete;
   final Function(ViewCartonRecord) onProfile;
   final void Function(String?, ViewCartonRecord) onChanged;
+  final BuildContext context;
 
   CartonDataSource({
     required this.cartonData,
@@ -35,6 +37,7 @@ class CartonDataSource extends DataGridSource {
     required this.onDelete,
     required this.onProfile,
     required this.onChanged,
+    required this.context,
   }) {
     buildDataGridRows();
   }
@@ -149,6 +152,30 @@ class CartonDataSource extends DataGridSource {
               constraints: const BoxConstraints(),
             ),
           ),
+          if (HiveService.getRole() != '2')
+            IconButton(
+              icon: const Icon(Icons.delete, size: 20),
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 35, minHeight: 35),
+              onPressed: () {
+                DeleteConfirmationAlert.show(
+                  context,
+                  title: 'Delete Record',
+                  message: 'Are Your to Delete This Carton Record',
+                  itemName: '${carton.cartonBillNumber}',
+
+                  onConfirm: () {},
+                  onDeleteSuccess: () {
+                    onDelete(carton);
+                  },
+                  rPanel: 'view-carton',
+                  item: cartonData,
+                  index: cartonData.indexOf(carton),
+                  rKey: carton.rKey.toString(),
+                );
+              },
+            ),
           // SizedBox(
           //   width: 35,
           //   child: DeleteRecordButton(

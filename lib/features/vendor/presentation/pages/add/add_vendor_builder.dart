@@ -27,13 +27,33 @@ abstract class AddVendorPanelBuilder extends State<AddVendorPanel> {
   final TextEditingController rAlterMobileNumberController =
       TextEditingController();
 
+  void clearControllers() {
+    cNameController.clear();
+    cMobileNumberController.clear();
+    cAlterMobileNumberController.clear();
+    cGSTINController.clear();
+    oOwnerNameContoller.clear();
+    oMobileNumberController.clear();
+    rManagerNameController.clear();
+    rManagerMobileNumberController.clear();
+    rAlterManagerNameController.clear();
+    oAlterMobileNumberController.clear();
+    rAlterMobileNumberController.clear();
+  }
+
   @override
   void dispose() {
-    // customerNameController.dispose();
-    // personNameController.dispose();
-    // mobileNumberController.dispose();
-    // alternateMobileController.dispose();
-    // gstinController.dispose();
+    cNameController.dispose();
+    cMobileNumberController.dispose();
+    cAlterMobileNumberController.dispose();
+    cGSTINController.dispose();
+    oOwnerNameContoller.dispose();
+    oMobileNumberController.dispose();
+    rManagerNameController.dispose();
+    rManagerMobileNumberController.dispose();
+    rAlterManagerNameController.dispose();
+    oAlterMobileNumberController.dispose();
+    rAlterMobileNumberController.dispose();
     super.dispose();
   }
 

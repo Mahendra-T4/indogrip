@@ -317,12 +317,13 @@ class _StratchFilmPanelState extends StretchFilmBuilder {
                   );
                 },
                 onDelete: (data) {
-                  globalBloc.add(
-                    GlobalDeleteRecordEvent(
-                      rKey: data.rKey.toString(),
-                      rPanel: 'view-inventory',
-                    ),
-                  );
+                  setState(() {
+                    selectedRows.clear();
+                    selectedItems.clear();
+                    isMultipleSelection = false;
+                  });
+                  pageNo = 1;
+
                   callEvent();
                 },
                 onEdit: (StretchRecord) {

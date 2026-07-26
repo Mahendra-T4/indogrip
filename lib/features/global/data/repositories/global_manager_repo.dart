@@ -8,6 +8,7 @@ import 'dart:developer' as developer;
 import 'package:indogrip/core/config/env_config.dart';
 import 'package:indogrip/core/database/hive_service.dart';
 import 'package:indogrip/core/service/api%20service/dio_service.dart';
+import 'package:indogrip/core/service/logger.dart';
 
 import 'package:indogrip/features/global/data/model/change_status_model.dart';
 import 'package:indogrip/features/global/data/model/change_status_param.dart';
@@ -134,19 +135,17 @@ class GlobalManagerRepository implements GlobalRepository {
   }) async {
     DeleteRecordEntity entity = DeleteRecordEntity();
     try {
+      final formData = FormData.fromMap({
+        'activity': 'multi-delete',
+        'userKey': HiveService.getUserId(),
+        'rKey': rKeys,
+        'rPanel': rPanel,
+      });
       final response = await retry(
-        () =>
-            DioService.dioPostApiCall(
-              data: {
-                'activity': 'multi-record',
-                'userKey': HiveService.getUserId(),
-                'rKeys': rKeys,
-                'rPanel': rPanel,
-              },
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () => throw TimeoutException('Request timed out'),
-            ),
+        () => DioService.dioPostApiCall(data: formData).timeout(
+          const Duration(seconds: 5),
+          onTimeout: () => throw TimeoutException('Request timed out'),
+        ),
         retryIf: (e) => e is TimeoutException || e is DioException,
         maxAttempts: 3,
         delayFactor: const Duration(seconds: 1),
@@ -155,9 +154,10 @@ class GlobalManagerRepository implements GlobalRepository {
       if (response.statusCode == 200) {
         entity = DeleteRecordEntity.fromJson(response.data);
         developer.log(
-          entity.message.toString(),
+          response.data.toString(),
           name: 'Delete Multiple Records',
         );
+        logger.d('Delete Multiple FormData: ${formData.fields}');
       } else {
         developer.log(
           'Failed to delete multiple records: ${response.statusCode}',

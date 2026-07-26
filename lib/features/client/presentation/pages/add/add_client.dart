@@ -223,6 +223,7 @@ class _AddClientPanelState extends AddClientPanelBuilder {
               context,
               state.successResponse.message.toString(),
             );
+            clearControllers();
           } else {
             if (!context.mounted) return;
             ToastService.instance.showError(

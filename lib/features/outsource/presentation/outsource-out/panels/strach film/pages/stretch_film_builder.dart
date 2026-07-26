@@ -1098,8 +1098,10 @@ abstract class StretchFilmBuilder extends State<StretchFilmPanel> {
               setState(() {
                 isMultipleSelection = false;
                 selectedItems.clear();
-                selectedRows.clear();
               });
+
+              pageNo = 1;
+              callEvent();
             },
           ),
         ],

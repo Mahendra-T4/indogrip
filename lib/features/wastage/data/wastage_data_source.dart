@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indogrip/core/database/hive_service.dart';
-import 'package:indogrip/features/global/presentation/widget/delete_record_button.dart';
+import 'package:indogrip/core/utils/widgets/delete_alert.dart';
 import 'package:indogrip/features/global/presentation/widget/master_user_status.dart';
 import 'package:indogrip/features/wastage/data/model/view_wastage_model.dart';
 import 'package:indogrip/features/wastage/data/model/view_wastage_table_column.dart';
@@ -16,6 +16,7 @@ class WastageDataSource extends DataGridSource {
   final Function(WastageRecord) onDelete;
   final Function(WastageRecord) onProfile;
   final void Function(String?, WastageRecord) onChanged;
+  final BuildContext context;
 
   WastageDataSource({
     required this.wastageData,
@@ -26,6 +27,7 @@ class WastageDataSource extends DataGridSource {
     required this.onDelete,
     required this.onProfile,
     required this.onChanged,
+    required this.context,
   }) {
     buildDataGridRows();
   }
@@ -142,16 +144,30 @@ class WastageDataSource extends DataGridSource {
                 constraints: const BoxConstraints(),
               ),
             ),
-          // SizedBox(
-          //   width: 35,
-          //   child: DeleteRecordButton(
-          //     rKey: wastage.rKey.toString(),
-          //     rPanel: 'view-wastage',
-          //     item: wastageData,
-          //     index: wastageData.indexOf(wastage),
-          //     onPressed: () => onDelete(wastage),
-          //   ),
-          // ),
+          if (HiveService.getRole() != '2')
+            IconButton(
+              icon: const Icon(Icons.delete, size: 20),
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 35, minHeight: 35),
+              onPressed: () {
+                DeleteConfirmationAlert.show(
+                  context,
+                  title: 'Delete Record',
+                  message: 'Are Your to Delete This Wastage Record',
+                  itemName: '${wastage.billNumber}',
+
+                  onConfirm: () {},
+                  onDeleteSuccess: () {
+                    onDelete(wastage);
+                  },
+                  rPanel: 'view-wastage',
+                  item: wastageData,
+                  index: wastageData.indexOf(wastage),
+                  rKey: wastage.rKey.toString(),
+                );
+              },
+            ),
           SizedBox(
             width: 35,
             child: IconButton(

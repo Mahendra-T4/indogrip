@@ -90,6 +90,52 @@ abstract class AddStaffBuilder extends ConsumerState<AddStaff> {
       addressProofValue;
   bool isValue = false;
 
+  @override
+  void dispose() {
+    staffBloc.close();
+    joiningDateController.dispose();
+    contractDateController.dispose();
+    dobDateController.dispose();
+    careerDateController.dispose();
+    fNameController.dispose();
+    lNameController.dispose();
+    emailController.dispose();
+    pEmailController.dispose();
+    mobNumberController.dispose();
+    altMobController.dispose();
+    passwordController.dispose();
+    cPasswordController.dispose();
+    fNameFocusNode.dispose();
+    lNameFocusNode.dispose();
+    emailFocusNode.dispose();
+    pEmailFocusNode.dispose();
+    mobNumberFocusNode.dispose();
+    altMobFocusNode.dispose();
+    passwordFucusNode.dispose();
+    cPasswordFocusNode.dispose();
+
+   
+
+    super.dispose();
+  }
+
+  void clearControllers() {
+    joiningDateController.clear();
+    contractDateController.clear();
+    dobDateController.clear();
+    careerDateController.clear();
+    fNameController.clear();
+    lNameController.clear();
+    emailController.clear();
+    pEmailController.clear();
+    mobNumberController.clear();
+    altMobController.clear();
+    passwordController.clear();
+    cPasswordController.clear();
+    selectedSkills.clear();
+    rights.clear();
+  }
+
   Widget get alterMobileWidget => Expanded(
     child: GeneralOptionalField(
       spacing: 10,
@@ -878,6 +924,7 @@ abstract class AddStaffBuilder extends ConsumerState<AddStaff> {
                   state.addStaffEntity.message.toString(),
                 );
               }
+              clearControllers();
             } else {
               if (context.mounted) {
                 ToastService.instance.showError(

@@ -123,6 +123,32 @@ abstract class OutsourceInBuilder extends State<OutSourceIN> {
     }
   }
 
+  void clearControllers() {
+    dateController.clear();
+    billDateController.clear();
+    billNoController.clear();
+    remarkController.clear();
+    totalPiecesController.clear();
+    roundSizeController.clear();
+    filmSizeController.clear();
+    netWeightController.clear();
+    perCartonPriceController.clear();
+    cartonPriceController.clear();
+    transportPriceController.clear();
+    totalAmountController.clear();
+    weightController.clear();
+    srNoController.clear();
+
+    selectedProduct = null;
+    selectedVendor = null;
+    fileVendor = null;
+    selectedBase = null;
+    selectedCore = null;
+    selectedRoundSize = null;
+    selectedFilmSize = null;
+    selectedVariant = null;
+  }
+
   Widget get vendorListWidget => Expanded(
     child: VendorListWidget(
       isFilter: false,
@@ -900,6 +926,7 @@ abstract class OutsourceInBuilder extends State<OutSourceIN> {
             context,
             state.response.message.toString(),
           );
+          clearControllers();
         } else {
           ToastService.instance.showSuccess(
             context,

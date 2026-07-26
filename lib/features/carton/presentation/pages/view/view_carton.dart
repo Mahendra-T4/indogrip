@@ -21,7 +21,6 @@ import 'package:indogrip/features/global/presentation/bloc/global_bloc.dart';
 import 'package:indogrip/features/global/presentation/widget/data_filtration.dart';
 import 'package:indogrip/features/global/presentation/widget/pagination_widget.dart';
 import 'package:indogrip/features/global/presentation/widget/refresh_button.dart';
-import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class ViewCartonPanel extends StatefulWidget {
@@ -39,7 +38,7 @@ class _ViewCartonPanelState extends ViewCartonBuilder {
 
   bool isChecked = false;
   CartonDataSource? _dataSource;
-  List<DataGridRow> selectedRows = [];
+
   late final GlobalBloc globalBloc;
 
   @override
@@ -133,8 +132,38 @@ class _ViewCartonPanelState extends ViewCartonBuilder {
             child: refreshButton,
           ),
           SizedBox(height: 15),
+          // Multiselection toggle
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (isMultipleSelection) buildSelectionActions(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton.icon(
+                    onPressed: toggleMultipleSelection,
+                    icon: Icon(
+                      isMultipleSelection
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      color: Colors.blue,
+                    ),
+                    label: Text(
+                      isMultipleSelection
+                          ? 'Multiple Selection'
+                          : 'Single Selection',
+                      style: const TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
           if (isNotEmpty) _buildPaginationWidget,
 
+          // Show bulk action buttons when multiselection is active
+          // buildSelectionActions(),
           SizedBox(
             height: MediaQuery.sizeOf(context).height,
             child: BlocConsumer(
@@ -163,7 +192,8 @@ class _ViewCartonPanelState extends ViewCartonBuilder {
                     final successState =
                         (state as FetchViewCartonRecordSuccessStatus)
                             .viewCartonModel;
-                    _dataSource = CartonDataSource(
+                    _dataSource ??= CartonDataSource(
+                      context: context,
                       cartonData: successState.record ?? [],
                       isAllChecked: isChecked,
                       onStatusChanged: (value) {
@@ -180,18 +210,30 @@ class _ViewCartonPanelState extends ViewCartonBuilder {
                         });
                       },
                       onCheckboxChanged: (checked, index) {
+                        if (_dataSource == null) return;
                         setState(() {
                           if (checked) {
                             selectedRows.add(_dataSource!.rows[index]);
                           } else {
                             selectedRows.remove(_dataSource!.rows[index]);
                           }
-                          handleSelectionChanged(
-                            selectedRows.map((row) {
-                              final idx = _dataSource!.rows.indexOf(row);
-                              return successState.record![idx];
-                            }).toList(),
-                          );
+                          final selectedRecords = selectedRows
+                              .map((row) {
+                                final idx = _dataSource!.rows.indexOf(row);
+                                if (idx != -1 &&
+                                    idx <
+                                        (state.viewCartonModel.record?.length ??
+                                            0)) {
+                                  final record =
+                                      state.viewCartonModel.record![idx];
+                                  return record.toJson();
+                                }
+                                return null;
+                              })
+                              .where((record) => record != null)
+                              .cast<Map<String, dynamic>>()
+                              .toList();
+                          handleSelectionChanged(selectedRecords);
                         });
                       },
                       onEdit: (value) {
@@ -200,7 +242,15 @@ class _ViewCartonPanelState extends ViewCartonBuilder {
                           extra: value,
                         );
                       },
-                      onDelete: (value) {},
+                      onDelete: (value) {
+                        setState(() {
+                          selectedRows.clear();
+                          selectedItems.clear();
+                          isMultipleSelection = false;
+                        });
+                        currentPage = 1;
+                        eventHandler();
+                      },
                       onProfile: (value) {},
                       onChanged: (statusValue, CartonRecord) {
                         globalBloc.add(
@@ -240,21 +290,41 @@ class _ViewCartonPanelState extends ViewCartonBuilder {
                                     ? SelectionMode.multiple
                                     : SelectionMode.single,
                                 onSelectionChanged: (addedRows, removedRows) {
+                                  if (_dataSource == null) return;
                                   setState(() {
                                     selectedRows.addAll(addedRows);
                                     selectedRows.removeWhere(
                                       (row) => removedRows.contains(row),
                                     );
 
-                                    final selectedData = selectedRows.map((
-                                      row,
-                                    ) {
-                                      final index = _dataSource!.rows.indexOf(
-                                        row,
-                                      );
-                                      return successState.record![index];
-                                    }).toList();
-                                    handleSelectionChanged(selectedData);
+                                    final selectedRecords = selectedRows
+                                        .map((row) {
+                                          final index = _dataSource!.rows
+                                              .indexOf(row);
+                                          if (index >= 0 &&
+                                              index <
+                                                  state
+                                                      .viewCartonModel
+                                                      .record!
+                                                      .length) {
+                                            return state
+                                                .viewCartonModel
+                                                .record?[index]
+                                                .toJson();
+                                          }
+                                          return null;
+                                        })
+                                        .where((record) => record != null)
+                                        .cast<Map<String, dynamic>>()
+                                        .toList();
+                                    handleSelectionChanged(selectedRecords);
+
+                                    print(
+                                      'DEBUG: Selected ${selectedRows.length} rows',
+                                    );
+                                    print(
+                                      'DEBUG: Added: ${addedRows.length}, Removed: ${removedRows.length}',
+                                    );
                                   });
                                 },
                                 onColumnResizeUpdate: (details) {

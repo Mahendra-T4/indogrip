@@ -37,7 +37,7 @@ class _ViewCorePanelState extends ViewCoreBuilder {
   late Map<String, double> columnWidths = {};
   bool isChecked = false;
   CoreDataSource? _dataSource;
-  List<DataGridRow> selectedRows = [];
+
   late final GlobalBloc globalBloc;
 
   bool isEmpty = false;
@@ -129,6 +129,7 @@ class _ViewCorePanelState extends ViewCoreBuilder {
               ],
             ),
           ),
+          buildFilterFieldsDesktop,
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -166,7 +167,8 @@ class _ViewCorePanelState extends ViewCoreBuilder {
                         (state as FetchViewCoreRecordSuccessStatus)
                             .viewCoreModel;
 
-                    _dataSource = CoreDataSource(
+                    _dataSource ??= CoreDataSource(
+                      context: context,
                       coreData: successState.record ?? [],
                       isAllChecked: isChecked,
                       onStatusChanged: (value) {
@@ -183,18 +185,30 @@ class _ViewCorePanelState extends ViewCoreBuilder {
                         });
                       },
                       onCheckboxChanged: (checked, index) {
+                        if (_dataSource == null) return;
                         setState(() {
                           if (checked) {
                             selectedRows.add(_dataSource!.rows[index]);
                           } else {
                             selectedRows.remove(_dataSource!.rows[index]);
                           }
-                          handleSelectionChanged(
-                            selectedRows.map((row) {
-                              final idx = _dataSource!.rows.indexOf(row);
-                              return successState.record![idx];
-                            }).toList(),
-                          );
+                          final selectedRecords = selectedRows
+                              .map((row) {
+                                final idx = _dataSource!.rows.indexOf(row);
+                                if (idx != -1 &&
+                                    idx <
+                                        (state.viewCoreModel.record?.length ??
+                                            0)) {
+                                  final record =
+                                      state.viewCoreModel.record![idx];
+                                  return record.toJson();
+                                }
+                                return null;
+                              })
+                              .where((record) => record != null)
+                              .cast<Map<String, dynamic>>()
+                              .toList();
+                          handleSelectionChanged(selectedRecords);
                         });
                       },
                       onEdit: (value) {
@@ -212,7 +226,15 @@ class _ViewCorePanelState extends ViewCoreBuilder {
                           extra: editCarton,
                         );
                       },
-                      onDelete: (p0) {},
+                      onDelete: (p0) {
+                        setState(() {
+                          selectedRows.clear();
+                          selectedItems.clear();
+                          isMultipleSelection = false;
+                        });
+                        currentPage = 1;
+                        eventHandler();
+                      },
                       onProfile: (p0) {},
                       onChanged: (statusValue, CoreRecord) {
                         globalBloc.add(
@@ -256,21 +278,41 @@ class _ViewCorePanelState extends ViewCoreBuilder {
                                     ? SelectionMode.multiple
                                     : SelectionMode.single,
                                 onSelectionChanged: (addedRows, removedRows) {
+                                  if (_dataSource == null) return;
                                   setState(() {
                                     selectedRows.addAll(addedRows);
                                     selectedRows.removeWhere(
                                       (row) => removedRows.contains(row),
                                     );
 
-                                    final selectedData = selectedRows.map((
-                                      row,
-                                    ) {
-                                      final index = _dataSource!.rows.indexOf(
-                                        row,
-                                      );
-                                      return successState.record![index];
-                                    }).toList();
-                                    handleSelectionChanged(selectedData);
+                                    final selectedRecords = selectedRows
+                                        .map((row) {
+                                          final index = _dataSource!.rows
+                                              .indexOf(row);
+                                          if (index >= 0 &&
+                                              index <
+                                                  state
+                                                      .viewCoreModel
+                                                      .record!
+                                                      .length) {
+                                            return state
+                                                .viewCoreModel
+                                                .record?[index]
+                                                .toJson();
+                                          }
+                                          return null;
+                                        })
+                                        .where((record) => record != null)
+                                        .cast<Map<String, dynamic>>()
+                                        .toList();
+                                    handleSelectionChanged(selectedRecords);
+
+                                    print(
+                                      'DEBUG: Selected ${selectedRows.length} rows',
+                                    );
+                                    print(
+                                      'DEBUG: Added: ${addedRows.length}, Removed: ${removedRows.length}',
+                                    );
                                   });
                                 },
                                 onColumnResizeUpdate: (details) {

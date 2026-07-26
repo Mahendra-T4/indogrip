@@ -72,6 +72,23 @@ abstract class AddJumboRollBuilder extends State<AddJumboRollPanel> {
   String? selectedVendor;
   double squareMeter = 0.0;
 
+  void clearControllers() {
+    _dateController.clear();
+    _billNoController.clear();
+    _rollNoController.clear();
+    _lengthController.clear();
+    _weightController.clear();
+    _remarkController.clear();
+    // amountPerKGController.clear();
+    importFileDateController.clear();
+
+    selectedWidth = null;
+    selectedBase = null;
+    selectedMic = null;
+    selectedVendor = null;
+    squareMeter = 0.0;
+  }
+
   // Keep the same lists
 
   // Form Validation Status
@@ -493,6 +510,7 @@ abstract class AddJumboRollBuilder extends State<AddJumboRollPanel> {
               context,
               state.jumboRoleEntity.message.toString(),
             );
+            clearControllers();
           } else {
             if (!context.mounted) return;
             ToastService.instance.showError(

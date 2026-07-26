@@ -208,6 +208,7 @@ class _AddVendorPanelState extends AddVendorPanelBuilder {
               context,
               state.successResponse.message.toString(),
             );
+            clearControllers();
           } else {
             ToastService.instance.showError(
               context,

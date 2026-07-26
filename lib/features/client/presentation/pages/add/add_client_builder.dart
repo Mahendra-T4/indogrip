@@ -44,6 +44,24 @@ abstract class AddClientPanelBuilder extends State<AddClientPanel> {
     super.dispose();
   }
 
+  void clearControllers() {
+    cNameController.clear();
+    cMobileNumberController.clear();
+    cGSTINController.clear();
+    oOwnerNameContoller.clear();
+    oMobileNumberController.clear();
+    oAlterMobileNumberController.clear();
+    pManagerNameController.clear();
+    pManagerMobileNumberController.clear();
+    pAlterMobileNumberController.clear();
+    gstinController.clear();
+    unit1Controller.clear();
+    unit2Controller.clear();
+    unit3Controller.clear();
+    unit4Controller.clear();
+    unit5Controller.clear();
+  }
+
   Widget get gstinField => Expanded(
     child: GeneralOptionalField(
       controller: cGSTINController,

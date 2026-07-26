@@ -28,12 +28,14 @@ import 'package:indogrip/features/round/presentation/pages/view/view_round.dart'
 import 'package:indogrip/features/round/presentation/widgets/master_roll_size_widget.dart';
 import 'package:indogrip/features/round/presentation/widgets/show_widget.dart';
 import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 abstract class ViewRoundBuilder extends State<ViewRoundPanel> {
   // BatchDetailsModel batchDetailsModel = BatchDetailsModel();
   bool isMultipleSelection = false;
   late final RoundBloc roundBloc;
   List<Map<String, dynamic>> selectedItems = [];
+  List<DataGridRow> selectedRows = [];
   int? pageNo = 1;
   int? pageQty;
   bool isAbsorb = false;
@@ -403,9 +405,12 @@ abstract class ViewRoundBuilder extends State<ViewRoundPanel> {
       selectedItems: selectedItems,
       panel: 'view-round',
       onPressed: () {
+        pageNo = 1;
+        callEvent();
         setState(() {
-          isMultipleSelection = false;
+          selectedRows.clear();
           selectedItems.clear();
+          isMultipleSelection = false;
         });
       },
     );

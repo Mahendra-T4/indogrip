@@ -425,6 +425,7 @@ abstract class AddCartonBuilder extends State<AddCartonPanel> {
             context,
             state.addCartonEntity.message.toString(),
           );
+          resetForm();
         } else {
           ToastService.instance.showError(
             context,

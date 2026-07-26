@@ -40,7 +40,7 @@ class _ViewRoundPanelState extends ViewRoundBuilder {
   late Map<String, double> columnWidths = {};
   bool isChecked = false;
   RoundDataSource? _dataSource;
-  List<DataGridRow> selectedRows = [];
+
   String pageText = '';
 
   bool isNotEmpty = false;
@@ -106,6 +106,11 @@ class _ViewRoundPanelState extends ViewRoundBuilder {
                   state.deleteRecordEntity.message.toString(),
                 );
                 // Refresh list after single delete
+                setState(() {
+                  selectedRows.clear();
+                  selectedItems.clear();
+                  isMultipleSelection = false;
+                });
                 callEvent();
               } else if (state is GlobalDeleteRecordErrorStatus) {
                 ToastService.instance.showError(
@@ -274,7 +279,9 @@ class _ViewRoundPanelState extends ViewRoundBuilder {
                             isMultipleSelection = false;
                           });
                           pageNo = 1;
-                          callEvent();
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            callEvent();
+                          });
                         },
                         onProfile: (value) {
                           context.pushNamed(

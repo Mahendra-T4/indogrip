@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:indogrip/features/carton/data/models/view_carton_model.dart';
 import 'package:indogrip/features/carton/presentation/bloc/carton_bloc.dart';
 import 'package:indogrip/features/carton/presentation/pages/view/view_carton.dart';
+import 'package:indogrip/features/global/presentation/widget/multi_delete_button.dart';
 import 'package:indogrip/features/global/presentation/widget/refresh_button.dart';
 import 'package:indogrip/features/global/presentation/widget/search_fields.dart';
 import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 abstract class ViewCartonBuilder extends State<ViewCartonPanel> {
   Key refreshKey = UniqueKey();
   late CartonBloc cartonBloc;
   bool isMultipleSelection = false;
-  List<ViewCartonRecord> selectedItems = [];
+  List<Map<String, dynamic>> selectedItems = [];
+  List<DataGridRow> selectedRows = [];
   String pageText = '';
   int? currentPage = 1;
   int? pageQty;
@@ -23,7 +26,7 @@ abstract class ViewCartonBuilder extends State<ViewCartonPanel> {
   List entryList = ["10", "25", "50", "100", "500"];
   var recordValue, filterValue, entryValue;
 
-  void handleSelectionChanged(List<ViewCartonRecord> items) {
+  void handleSelectionChanged(List<Map<String, dynamic>> items) {
     setState(() {
       selectedItems = items;
     });
@@ -43,6 +46,16 @@ abstract class ViewCartonBuilder extends State<ViewCartonPanel> {
         ),
       ),
     );
+  }
+
+  void toggleMultipleSelection() {
+    setState(() {
+      isMultipleSelection = !isMultipleSelection;
+      if (!isMultipleSelection) {
+        selectedItems.clear();
+        selectedRows.clear(); // Clear selected rows when exiting multiselection
+      }
+    });
   }
 
   clearFiltersOnRefresh() {
@@ -93,39 +106,18 @@ abstract class ViewCartonBuilder extends State<ViewCartonPanel> {
       return const SizedBox();
     }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          Text(
-            '${selectedItems.length} cartons selected',
-            style: const TextStyle(
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: 16),
-          ElevatedButton.icon(
-            onPressed: handleBulkEdit,
-            icon: const Icon(Icons.edit),
-            label: const Text('Edit Selected'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-            ),
-          ),
-          const SizedBox(width: 8),
-          ElevatedButton.icon(
-            onPressed: handleBulkDelete,
-            icon: const Icon(Icons.delete),
-            label: const Text('Delete Selected'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-          ),
-        ],
-      ),
+    return MultiDeleteButton(
+      selectedItems: selectedItems,
+      panel: 'view-carton',
+      onPressed: () {
+        currentPage = 1;
+        eventHandler();
+        setState(() {
+          selectedRows.clear();
+          selectedItems.clear();
+          isMultipleSelection = false;
+        });
+      },
     );
   }
 

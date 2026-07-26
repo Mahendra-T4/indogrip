@@ -43,7 +43,6 @@ class _ViewWastagePanelState extends ViewWastageBuilder {
   late Map<String, double> columnWidths = {};
   bool isChecked = false;
   WastageDataSource? _dataSource;
-  List<DataGridRow> selectedRows = [];
 
   @override
   void dispose() {
@@ -219,6 +218,7 @@ class _ViewWastagePanelState extends ViewWastageBuilder {
                   toDateController: toDateController,
                 ),
                 searchFields,
+                buildFilterFieldsDesktop,
               ],
             ),
           ),
@@ -262,6 +262,7 @@ class _ViewWastagePanelState extends ViewWastageBuilder {
                   final successData = state.viewWastageModel;
                   // Lazy initialization - create data source only once
                   _dataSource ??= WastageDataSource(
+                    context: context,
                     wastageData: successData.record ?? [],
                     isAllChecked: isChecked,
                     onStatusChanged: (value) {
@@ -321,17 +322,24 @@ class _ViewWastagePanelState extends ViewWastageBuilder {
                       );
                     },
                     onDelete: (value) {
-                      wastageBloc.add(
-                        ViewWastageFromRecords(
-                          param: ViewRecordApiParam(
-                            keyword: searchController.text,
-                            filterBy: recordValue ?? '',
-                            orderBy: filterValue.toString(),
-                            pageNo: currentPage.toString(),
-                            sortBy: entryValue.toString(),
-                          ),
-                        ),
-                      );
+                      setState(() {
+                        selectedRows.clear();
+                        selectedItems.clear();
+                        isMultipleSelection = false;
+                      });
+                      currentPage = 1;
+                      eventHandler();
+                      // wastageBloc.add(
+                      //   ViewWastageFromRecords(
+                      //     param: ViewRecordApiParam(
+                      //       keyword: searchController.text,
+                      //       filterBy: recordValue ?? '',
+                      //       orderBy: filterValue.toString(),
+                      //       pageNo: currentPage.toString(),
+                      //       sortBy: entryValue.toString(),
+                      //     ),
+                      //   ),
+                      // );
                     },
                     onProfile: (value) {
                       context.pushNamed(WastageProfile.routeName, extra: value);

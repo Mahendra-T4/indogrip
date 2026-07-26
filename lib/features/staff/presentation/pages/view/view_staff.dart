@@ -80,16 +80,13 @@ class _ViewStaffPanelState extends ViewStaffBuilder {
             selectedItems: selectedItems,
             panel: 'view-staff',
             onPressed: () {
-              if (selectedItems.isNotEmpty) {
-                globalBloc.add(
-                  GlobalDeleteMultipleRecordsEvent(
-                    rKeys: selectedItems
-                        .map((item) => item['rKey'].toString())
-                        .toList(),
-                    rPanel: 'view-staff',
-                  ),
-                );
-              }
+              pageNo = 1;
+              eventHandler();
+              setState(() {
+                selectedRows.clear();
+                selectedItems.clear();
+                isMultipleSelection = false;
+              });
             },
           ),
         ],
@@ -101,87 +98,84 @@ class _ViewStaffPanelState extends ViewStaffBuilder {
     return CustomScrollView(
       slivers: [
         // if (Responsive.isDesktop(context))
-        SliverToBoxAdapter(
-          child: BlocListener<GlobalBloc, GlobalState>(
-            bloc: globalBloc,
-            listener: (context, state) {
-              if (state is GlobalChangeUserStatusSuccessStatus) {
-                // Handle status change success (for approved, rejected, blocked, etc.)
-                if (state.changeStatusEntity.status == 1) {
-                  ToastService.instance.showSuccess(
-                    context,
-                    state.changeStatusEntity.message?.isNotEmpty == true
-                        ? state.changeStatusEntity.message.toString()
-                        : 'Status updated successfully',
-                  );
+        // SliverToBoxAdapter(
+        //   child: BlocListener<GlobalBloc, GlobalState>(
+        //     bloc: globalBloc,
+        //     listener: (context, state) {
+        //       if (state is GlobalChangeUserStatusSuccessStatus) {
+        //         // Handle status change success (for approved, rejected, blocked, etc.)
+        //         if (state.changeStatusEntity.status == 1) {
+        //           ToastService.instance.showSuccess(
+        //             context,
+        //             state.changeStatusEntity.message?.isNotEmpty == true
+        //                 ? state.changeStatusEntity.message.toString()
+        //                 : 'Status updated successfully',
+        //           );
 
-                  // Refresh list after status change
-                  eventHandler();
-                } else {
-                  ToastService.instance.showSuccess(
-                    context,
-                    state.changeStatusEntity.message?.isNotEmpty == true
-                        ? state.changeStatusEntity.message.toString()
-                        : 'Failed to update status',
-                  );
-                  eventHandler();
-                }
-              } else if (state is GlobalChangeUserStatusErrorStatus) {
-                ToastService.instance.showError(
-                  context,
-                  state.message.isNotEmpty == true
-                      ? state.message.toString()
-                      : 'Error updating status',
-                );
-              } else if (state is GlobalDeleteRecordSuccessStatus) {
-                ToastService.instance.showSuccess(
-                  context,
-                  state.deleteRecordEntity.message?.isNotEmpty == true
-                      ? state.deleteRecordEntity.message.toString()
-                      : 'try again',
-                );
-                // Refresh list after single delete
-                eventHandler();
-              } else if (state is GlobalDeleteRecordErrorStatus) {
-                ToastService.instance.showError(
-                  context,
-                  state.message.isNotEmpty == true
-                      ? state.message.toString()
-                      : 'Error deleting record',
-                );
-              } else if (state is GlobalDeleteMultipleRecordsSuccessStatus) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      state.deleteRecordEntity.message?.isNotEmpty == true
-                          ? state.deleteRecordEntity.message.toString()
-                          : 'Records deleted successfully',
-                    ),
-                  ),
-                );
-                // Refresh list after bulk delete
-                eventHandler();
-                // Clear selection
-                setState(() {
-                  selectedRows.clear();
-                  selectedItems.clear();
-                  isMultipleSelection = false;
-                });
-              } else if (state is GlobalDeleteMultipleRecordsErrorStatus) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      state.message.isNotEmpty == true
-                          ? state.message.toString()
-                          : 'Error deleting records',
-                    ),
-                  ),
-                );
-              }
-            },
-            child: buildFilterFieldsDesktop,
-          ),
-        ),
+        //           // Refresh list after status change
+        //           eventHandler();
+        //         } else {
+        //           ToastService.instance.showSuccess(
+        //             context,
+        //             state.changeStatusEntity.message?.isNotEmpty == true
+        //                 ? state.changeStatusEntity.message.toString()
+        //                 : 'Failed to update status',
+        //           );
+        //           eventHandler();
+        //         }
+        //       } else if (state is GlobalChangeUserStatusErrorStatus) {
+        //         ToastService.instance.showError(
+        //           context,
+        //           state.message.isNotEmpty == true
+        //               ? state.message.toString()
+        //               : 'Error updating status',
+        //         );
+        //       } else if (state is GlobalDeleteRecordSuccessStatus) {
+        //         ToastService.instance.showSuccess(
+        //           context,
+        //           state.deleteRecordEntity.message?.isNotEmpty == true
+        //               ? state.deleteRecordEntity.message.toString()
+        //               : 'try again',
+        //         );
+        //         // Refresh list after single delete
+        //         eventHandler();
+        //       } else if (state is GlobalDeleteRecordErrorStatus) {
+        //         ToastService.instance.showError(
+        //           context,
+        //           state.message.isNotEmpty == true
+        //               ? state.message.toString()
+        //               : 'Error deleting record',
+        //         );
+        //       } else if (state is GlobalDeleteMultipleRecordsSuccessStatus) {
+        //         ToastService.instance.showSuccess(
+        //           context,
+        //           state.deleteRecordEntity.message.toString(),
+        //         );
+        //         eventHandler();
+        //         // Clear selection
+        //         setState(() {
+        //           selectedRows.clear();
+        //           selectedItems.clear();
+        //           isMultipleSelection = false;
+        //         });
+
+        //         // Refresh list after bulk delete
+        //       } else if (state is GlobalDeleteMultipleRecordsErrorStatus) {
+        //         ScaffoldMessenger.of(context).showSnackBar(
+        //           SnackBar(
+        //             content: Text(
+        //               state.message.isNotEmpty == true
+        //                   ? state.message.toString()
+        //                   : 'Error deleting records',
+        //             ),
+        //           ),
+        //         );
+        //       }
+        //     },
+        //     child: ,
+        //   ),
+        // ),
+        SliverToBoxAdapter(child: buildFilterFieldsDesktop),
 
         // if (isMultipleSelection) buildSelectionActions(),
         SliverToBoxAdapter(child: SizedBox(height: 15)),

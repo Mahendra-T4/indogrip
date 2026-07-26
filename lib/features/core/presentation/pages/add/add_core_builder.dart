@@ -475,6 +475,7 @@ abstract class AddCoreBuilder extends State<AddCorePanel> {
             context,
             state.addCoreEntity.message.toString(),
           );
+          resetForm();
         } else {
           if (!context.mounted) return;
           ToastService.instance.showError(

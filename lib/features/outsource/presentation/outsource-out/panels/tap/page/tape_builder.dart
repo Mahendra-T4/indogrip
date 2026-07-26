@@ -1101,8 +1101,9 @@ abstract class TapeBuilder extends State<TapPanel> {
               setState(() {
                 isMultipleSelection = false;
                 selectedItems.clear();
-                selectedRows.clear();
               });
+              pageNo = 1;
+              eventCall();
             },
           ),
         ],

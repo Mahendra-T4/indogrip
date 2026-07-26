@@ -813,6 +813,8 @@ abstract class ViewJumboRollBuilder extends State<ViewJumboRollPanel> {
                 isMultipleSelection = false;
                 selectedItems.clear();
               });
+              pageNo = 1;
+              eventHandler();
             },
           ),
         ],

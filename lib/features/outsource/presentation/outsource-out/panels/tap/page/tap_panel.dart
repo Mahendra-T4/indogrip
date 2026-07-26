@@ -127,8 +127,8 @@ class _TapPanelState extends TapeBuilder {
                         eventCall();
                         setState(() {
                           selectedRows.clear();
-                          // selectedItems.clear();
-                          // isMultipleSelection = false;
+                          selectedItems.clear();
+                          isMultipleSelection = false;
                         });
                       } else if (state
                           is GlobalDeleteMultipleRecordsErrorStatus) {
@@ -198,6 +198,7 @@ class _TapPanelState extends TapeBuilder {
                                 selectedItems.clear();
                                 selectedRows.clear();
                               });
+                              eventCall();
                             },
                           ),
                         SizedBox(width: 10),

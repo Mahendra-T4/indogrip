@@ -348,6 +348,8 @@ abstract class ViewStaffBuilder extends State<ViewStaffPanel> {
           isMultipleSelection = false;
           selectedItems.clear();
         });
+        pageNo = 1;
+        eventHandler();
       },
     );
   }

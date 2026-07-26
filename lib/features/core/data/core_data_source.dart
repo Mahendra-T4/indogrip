@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indogrip/core/database/hive_service.dart';
+import 'package:indogrip/core/utils/widgets/delete_alert.dart';
 import 'package:indogrip/features/core/data/models/view_core_model.dart';
 import 'package:indogrip/features/global/presentation/widget/delete_record_button.dart';
 import 'package:indogrip/features/global/presentation/widget/master_user_status.dart';
@@ -24,6 +25,7 @@ class CoreDataSource extends DataGridSource {
   final Function(CoreDataRecord) onDelete;
   final Function(CoreDataRecord) onProfile;
   final void Function(String?, CoreDataRecord) onChanged;
+  final BuildContext context;
 
   CoreDataSource({
     required this.coreData,
@@ -34,6 +36,7 @@ class CoreDataSource extends DataGridSource {
     required this.onDelete,
     required this.onProfile,
     required this.onChanged,
+    required this.context,
   }) {
     buildDataGridRows();
   }
@@ -140,16 +143,30 @@ class CoreDataSource extends DataGridSource {
               constraints: const BoxConstraints(),
             ),
           ),
-          // SizedBox(
-          //   width: 35,
-          //   child: DeleteRecordButton(
-          //     rKey: core.rKey.toString(),
-          //     rPanel: 'view-core',
-          //     item: coreData,
-          //     index: coreData.indexOf(core),
-          //     onPressed: () => onDelete(core),
-          //   ),
-          // ),
+          if (HiveService.getRole() != '2')
+            IconButton(
+              icon: const Icon(Icons.delete, size: 20),
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 35, minHeight: 35),
+              onPressed: () {
+                DeleteConfirmationAlert.show(
+                  context,
+                  title: 'Delete Record',
+                  message: 'Are Your to Delete This Core Record',
+                  itemName: '${core.coreBillNumber}',
+
+                  onConfirm: () {},
+                  onDeleteSuccess: () {
+                    onDelete(core);
+                  },
+                  rPanel: 'view-core',
+                  item: coreData,
+                  index: coreData.indexOf(core),
+                  rKey: core.rKey.toString(),
+                );
+              },
+            ),
 
           // SizedBox(
           //   width: 35,

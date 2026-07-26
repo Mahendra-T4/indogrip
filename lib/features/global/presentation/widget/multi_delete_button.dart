@@ -43,33 +43,19 @@ class _MultiDeleteButtonState extends State<MultiDeleteButton> {
           // Handle multiple-delete success/failure and refresh UI
           if (state is GlobalDeleteMultipleRecordsSuccessStatus) {
             if (state.deleteRecordEntity.status == 1) {
-              if (context.mounted) {
-                ToastService.instance.show(
-                  context,
-                  message: state.deleteRecordEntity.message.toString(),
-                  type: ToastType.success,
-                );
-                // Clear selection and refresh list
-
-                widget.onPressed?.call();
-              }
-            } else {
-              if (context.mounted) {
-                ToastService.instance.show(
-                  context,
-                  message: state.deleteRecordEntity.message.toString(),
-                  type: ToastType.warning,
-                );
-              }
-            }
-          } else if (state is GlobalDeleteMultipleRecordsErrorStatus) {
-            if (context.mounted) {
-              ToastService.instance.show(
+              ToastService.instance.showSuccess(
                 context,
-                message: state.message.toString(),
-                type: ToastType.error,
+                state.deleteRecordEntity.message.toString(),
+              );
+              widget.onPressed?.call();
+            } else {
+              ToastService.instance.showWarning(
+                context,
+                state.deleteRecordEntity.message.toString(),
               );
             }
+          } else if (state is GlobalDeleteMultipleRecordsErrorStatus) {
+            ToastService.instance.showError(context, state.message.toString());
           }
         },
         builder: (context, state) {

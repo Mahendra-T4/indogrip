@@ -53,6 +53,15 @@ abstract class AddWastageBuilder extends State<AddWastagePanel> {
     }
   }
 
+  void clearControllers() {
+    billNoController.clear();
+    weigtController.clear();
+    priceKGController.clear();
+    dateController.clear();
+    totalPriceController.clear();
+    remarkController.clear();
+  }
+
   totalPriceCal() {
     setState(() {
       totalPrice =
@@ -491,6 +500,7 @@ abstract class AddWastageBuilder extends State<AddWastagePanel> {
                   context,
                   state.successResponse.message.toString(),
                 );
+                clearControllers();
               } else {
                 ToastService.instance.showError(
                   context,

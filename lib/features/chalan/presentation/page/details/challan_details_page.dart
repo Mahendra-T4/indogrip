@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer' as logger;
-
 import 'package:flutter/material.dart';
 import 'package:indogrip/core/database/hive_service.dart';
 import 'package:indogrip/core/responsive/responsive.dart';
@@ -63,10 +62,10 @@ class MissRecordDataSource extends DataGridSource {
             columnName: 'qty',
             value: record.batchQty.toString(),
           ),
-          // DataGridCell<String>(
-          //   columnName: 'available',
-          //   value: record.requiredQty.toString(),
-          // ),
+          DataGridCell<String>(
+            columnName: 'available',
+            value: record.requiredQty.toString(),
+          ),
           DataGridCell<String>(
             columnName: 'lastReason',
             value: record.batchMessage.toString(),
@@ -406,10 +405,10 @@ class _ChallanDetailsPageState extends State<ChallanDetailsPage> {
               label: _buildHeaderLabel('Batch Code'),
             ),
             GridColumn(columnName: 'qty', label: _buildHeaderLabel('Qty')),
-            // GridColumn(
-            //   columnName: 'available',
-            //   label: _buildHeaderLabel('Available'),
-            // ),
+            GridColumn(
+              columnName: 'available',
+              label: _buildHeaderLabel('Available'),
+            ),
             GridColumn(
               columnName: 'lastReason',
               label: _buildHeaderLabel('Last Reason'),

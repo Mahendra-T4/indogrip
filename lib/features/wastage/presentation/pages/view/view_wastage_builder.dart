@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:indogrip/core/constants/sizes.dart';
 import 'package:indogrip/features/global/presentation/widget/multi_delete_button.dart';
 import 'package:indogrip/features/global/presentation/widget/refresh_button.dart';
 import 'package:indogrip/features/global/presentation/widget/search_fields.dart';
 import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
-import 'package:indogrip/features/wastage/data/model/view_wastage_model.dart';
 import 'package:indogrip/features/wastage/presentation/bloc/wastage_bloc.dart';
 import 'package:indogrip/features/wastage/presentation/pages/view/view_wastage.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 abstract class ViewWastageBuilder extends State<ViewWastagePanel> {
   Key refreshKey = UniqueKey();
+  List<DataGridRow> selectedRows = [];
   final fromDateController = TextEditingController();
   final toDateController = TextEditingController();
   late WastageBloc wastageBloc;
@@ -25,6 +25,7 @@ abstract class ViewWastageBuilder extends State<ViewWastagePanel> {
       isMultipleSelection = !isMultipleSelection;
       if (!isMultipleSelection) {
         selectedItems.clear();
+        selectedRows.clear(); // Clear selected rows when exiting multiselection
       }
     });
   }
@@ -149,9 +150,12 @@ abstract class ViewWastageBuilder extends State<ViewWastagePanel> {
       selectedItems: selectedItems,
       panel: 'view-wastage',
       onPressed: () {
+        currentPage = 1;
+        eventHandler();
         setState(() {
-          isMultipleSelection = false;
+          selectedRows.clear();
           selectedItems.clear();
+          isMultipleSelection = false;
         });
       },
     );
