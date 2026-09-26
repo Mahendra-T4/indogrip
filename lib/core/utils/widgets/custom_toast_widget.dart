@@ -5,9 +5,14 @@ enum ToastType { success, error, warning, info }
 class AppToast extends StatelessWidget {
   final String message;
   final ToastType type;
+  final VoidCallback? onClose;
 
-  const AppToast({Key? key, required this.message, required this.type})
-    : super(key: key);
+  const AppToast({
+    Key? key,
+    required this.message,
+    required this.type,
+    this.onClose,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +43,13 @@ class AppToast extends StatelessWidget {
                 style: const TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
+            if (onClose != null) ...[
+              const SizedBox(width: 12.0),
+              GestureDetector(
+                onTap: onClose,
+                child: const Icon(Icons.close, color: Colors.white, size: 20),
+              ),
+            ],
           ],
         ),
       ),

@@ -35,10 +35,10 @@ abstract class ViewVendorBuilder extends State<ViewVendorPanel> {
       ViewVendorRecordsFetchingEvent(
         param: ViewRecordApiParam(
           keyword: searchController.text,
-          filterBy: recordValue.toString(),
-          orderBy: filterValue.toString(),
+          filterBy: filterValue ?? '',
+          orderBy: recordValue ?? '',
           pageNo: pageNo.toString(),
-          sortBy: entryValue.toString(),
+          sortBy: entryValue ?? '',
           fromDate: fromDateController.text,
           toDate: toDateController.text,
         ),

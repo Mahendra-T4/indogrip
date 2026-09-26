@@ -48,7 +48,7 @@ class _MasterRoleSizeSelectorState extends State<MasterRoleSizeDBSelector> {
                           children: [
                             Expanded(
                               child: Text(
-                                'CutMMMeter',
+                                'CutWidthMM',
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,

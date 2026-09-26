@@ -60,6 +60,9 @@ abstract class AddWastageBuilder extends State<AddWastagePanel> {
     dateController.clear();
     totalPriceController.clear();
     remarkController.clear();
+    clientName = '';
+
+    clientKey = '';
   }
 
   totalPriceCal() {

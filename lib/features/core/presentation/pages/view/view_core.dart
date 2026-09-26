@@ -101,7 +101,7 @@ class _ViewCorePanelState extends ViewCoreBuilder {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      state.deleteRecordEntity.message ?? 'Records deleted',
+                      state.deleteRecordEntity.message ?? 'try again',
                     ),
                   ),
                 );
@@ -131,10 +131,10 @@ class _ViewCorePanelState extends ViewCoreBuilder {
           ),
           buildFilterFieldsDesktop,
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: refreshButton,
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //   child: refreshButton,
+          // ),
           SizedBox(height: 15),
           if (isEmpty) _buildPaginationWidget,
           SizedBox(
@@ -152,6 +152,7 @@ class _ViewCorePanelState extends ViewCoreBuilder {
                       isEmpty = false;
                     });
                   }
+                  _dataSource = null; // Reset so the table rebuilds with fresh data
                 }
               },
               bloc: coreBloc,

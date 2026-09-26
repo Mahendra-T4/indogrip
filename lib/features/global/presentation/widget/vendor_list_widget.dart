@@ -98,7 +98,7 @@ class _VendorListWidgetState extends State<VendorListWidget> {
                     TextFieldlabelText('Vendor*'),
                     const SizedBox(height: 8),
                     Container(
-                      height: widget.isFilter ? 37 : 51,
+                      height: widget.isFilter ? 37 : null,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [

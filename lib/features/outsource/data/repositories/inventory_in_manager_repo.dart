@@ -18,42 +18,33 @@ class InventoryInManagerRepository implements InventoryInRepository {
     SuccessResponse successResponse = SuccessResponse();
 
     try {
-      final response = await retry(
-        () => DioService.dioPostApiCall(
-          data: FormData.fromMap({
-            'activity': 'add-inventory',
-            'userKey': HiveService.getUserId(),
-            'vendorKey': param.vendorKey,
-            'date': param.date,
-            'billNumber': param.billNumber,
-            'cartonPrice': param.cartonPrice,
-            'transportAmount': param.transportAmount,
-            'productType': param.productType,
-            'quantity': param.quantity,
-            'cutMMMeter': param.cutMMMeter,
-            'base': param.base,
-            'tapeLength': param.tapeLength,
-            'stretchFilmSize': param.stretchFilmSize,
-            'core': param.core,
-            'tapeWeight': param.tapeWeight,
-            'mic': param.micron,
-            'netWeight': param.netWeight,
-            'grossWeight': param.grossWeight,
-            'inventoryCode': param.inventoryCode,
-            'margin': param.margin,
-            'lessWeight': param.lessKGPrice,
-            'rate': param.rate,
-            'remarks': param.remarks,
-            if (param.rKey != null) 'rKey': param.rKey,
-          }),
-        ).timeout(
-          const Duration(seconds: 5),
-          onTimeout: () => throw TimeoutException('Request timed out'),
-        ),
-        retryIf: (e) => e is TimeoutException || e is DioException,
-        maxAttempts: 3,
-        delayFactor: const Duration(seconds: 1),
-      );
+      final formData = FormData.fromMap({
+        'activity': 'add-inventory',
+        'userKey': HiveService.getUserId(),
+        'vendorKey': param.vendorKey,
+        'date': param.date,
+        'billNumber': param.billNumber,
+        'cartonPrice': param.cartonPrice,
+        'transportAmount': param.transportAmount,
+        'productType': param.productType,
+        'quantity': param.quantity,
+        'cutMMMeter': param.cutMMMeter,
+        'base': param.base,
+        'tapeLength': param.tapeLength,
+        'stretchFilmSize': param.stretchFilmSize,
+        'core': param.core,
+        'tapeWeight': param.tapeWeight,
+        'mic': param.micron,
+        'netWeight': param.netWeight,
+        'grossWeight': param.grossWeight,
+        'inventoryCode': param.inventoryCode,
+        'margin': param.margin,
+        'lessWeight': param.lessKGPrice,
+        'rate': param.rate,
+        'remarks': param.remarks,
+        if (param.rKey != null) 'rKey': param.rKey,
+      });
+      final response = await DioService.dioPostApiCall(data: formData);
       if (response.statusCode == 200) {
         successResponse = SuccessResponse.fromJson(response.data);
         developer.log(
@@ -61,15 +52,7 @@ class InventoryInManagerRepository implements InventoryInRepository {
           name: 'Inventory In',
         );
         developer.log(
-          {
-            'activity': 'add-inventory',
-            'userKey': HiveService.getUserId(),
-            'vendorKey': param.vendorKey,
-            'date': param.date,
-            'billNumber': param.billNumber,
-            'productType': param.productType,
-            'quantity': param.quantity,
-          }.toString(),
+          formData.fields.toString(),
           name: 'Inventory In Parameters',
         );
         // return successResponse;
@@ -96,27 +79,19 @@ class InventoryInManagerRepository implements InventoryInRepository {
   }) async {
     SuccessResponse model = SuccessResponse();
     try {
-      final response = await retry(
-        () => DioService.dioPostApiCall(
-          data: FormData.fromMap({
-            'activity': 'batch-information-for-inventory',
-            'userKey': HiveService.getUserId(),
-            'inventoryKey': param.inventoryKey,
-            'showFor': param.showFor,
-            'displayMic': param.displayMic,
-            'displayValue': param.displayValue,
-            'remark': param.remark,
-            'displayMFG': param.displayMFG,
-            'batchMRP': param.batchMRP,
-            'rKey': param.rKey,
-          }),
-        ).timeout(
-          const Duration(seconds: 5),
-          onTimeout: () => throw TimeoutException('Request timed out'),
-        ),
-        retryIf: (e) => e is TimeoutException || e is DioException,
-        maxAttempts: 3,
-        delayFactor: const Duration(seconds: 1),
+      final response = await DioService.dioPostApiCall(
+        data: FormData.fromMap({
+          'activity': 'batch-information-for-inventory',
+          'userKey': HiveService.getUserId(),
+          'inventoryKey': param.inventoryKey,
+          'showFor': param.showFor,
+          'displayMic': param.displayMic,
+          'displayValue': param.displayValue,
+          'remark': param.remark,
+          'displayMFG': param.displayMFG,
+          'batchMRP': param.batchMRP,
+          'rKey': param.rKey,
+        }),
       );
 
       if (response.statusCode == 200) {

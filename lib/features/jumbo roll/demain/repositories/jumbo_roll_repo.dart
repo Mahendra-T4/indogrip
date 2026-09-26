@@ -10,6 +10,7 @@ import 'package:indogrip/core/utils/widgets/toast_service.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/edit_jumbo_roll_success_model.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/jumbo_api_params.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/jumbo_role_entity.dart';
+import 'package:indogrip/features/jumbo%20roll/data/models/jumbo_stock_model.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/jumbo_uploadfile_response_model.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/view_jumbo_roll_model.dart';
 import 'package:indogrip/features/outsource/data/model/upload_file_param.dart';
@@ -24,43 +25,34 @@ class JumboRollRepository {
   }) async {
     JumboRoleEntity jumboRoleEntity = JumboRoleEntity();
     try {
+      final formData = FormData.fromMap({
+        'activity': 'add-jumbo-roll',
+        'vendorKey': apiParams.vendorKey,
+        'billDate': apiParams.billDate,
+        'billNumber': apiParams.billNumber,
+        'rollNumber': apiParams.rollNumber,
+        'base': apiParams.base,
+        'mic': apiParams.mic,
+        'length': apiParams.length,
+        'width': apiParams.width,
+        'netWeight': apiParams.netWeight,
+        'remark': apiParams.remark,
+        'amountPerKG': apiParams.amountPerKG,
+        'userKey': HiveService.getUserId(),
+      });
       final response = await retry(
-        () =>
-            DioService.dioPostApiCall(
-              data: FormData.fromMap({
-                'activity': 'add-jumbo-roll',
-                'vendorKey': apiParams.vendorKey,
-                'billDate': apiParams.billDate,
-                'billNumber': apiParams.billNumber,
-                'rollNumber': apiParams.rollNumber,
-                'base': apiParams.base,
-                'mic': apiParams.mic,
-                'length': apiParams.length,
-                'width': apiParams.width,
-                'netWeight': apiParams.netWeight,
-                'remark': apiParams.remark,
-                'amountPerKG': apiParams.amountPerKG,
-                'userKey': HiveService.getUserId(),
-              }),
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () => throw TimeoutException('Request timed out'),
-            ),
+        () => DioService.dioPostApiCall(data: formData).timeout(
+          const Duration(seconds: 5),
+          onTimeout: () => throw TimeoutException('Request timed out'),
+        ),
         retryIf: (e) => e is TimeoutException || e is DioException,
         maxAttempts: 3,
         delayFactor: const Duration(seconds: 1),
       );
       if (response.statusCode == 200) {
         jumboRoleEntity = JumboRoleEntity.fromJson(response.data);
-        develper.log(
-          {
-            'activity': 'add-jumbo-roll',
-            'vendorKey': apiParams.vendorKey,
-            'billNumber': apiParams.billNumber,
-            'rollNumber': apiParams.rollNumber,
-          }.toString(),
-          name: 'Add Jumbo FormData',
-        );
+        develper.log(formData.fields.toString(), name: 'Add Jumbo FormData');
+
         if (jumboRoleEntity.status == 1) {
           ToastService.instance.showSuccess(
             apiParams.context,
@@ -206,17 +198,16 @@ class JumboRollRepository {
     JumboUploadFileResponseModel successResponse =
         JumboUploadFileResponseModel();
     try {
+      final formData = FormData.fromMap({
+        'activity': 'upload-csv-file',
+        'userKey': HiveService.getUserId(),
+        'rType': '1',
+        'billNumber': param.billNumber,
+        'vendorKey': param.selectedVendor,
+        'billDate': param.date,
+      });
       final response = await retry(
         () async {
-          final formData = FormData.fromMap({
-            'activity': 'upload-csv-file',
-            'userKey': HiveService.getUserId(),
-            'rType': '1',
-            'billNumber': param.billNumber,
-            'vendorKey': param.selectedVendor,
-            'billDate': param.date,
-          });
-
           formData.files.add(
             MapEntry(
               'csvFile',
@@ -245,12 +236,7 @@ class JumboRollRepository {
         );
 
         developer.log(
-          {
-            'activity': 'upload-csv-file',
-            'userKey': HiveService.getUserId(),
-            'billNumber': param.billNumber,
-            'vendorKey': param.selectedVendor,
-          }.toString(),
+          formData.fields.toString(),
           name: 'FormData for Upload Jumbo CSV File',
         );
         developer.log(
@@ -319,5 +305,47 @@ class JumboRollRepository {
       );
       throw Exception('Error fetching Jumbo Roll JSON data: $e');
     }
+  }
+
+  static Future<JumboStockModel> getJumboStock({
+    required ViewRecordApiParam param,
+  }) async {
+    JumboStockModel successResponse = JumboStockModel();
+    try {
+      final formData = FormData.fromMap({
+        'activity': 'jumbo-stock',
+        'userKey': HiveService.getUserId(),
+        'baseID': param.baseID,
+        'micID': param.micID,
+        'widthID': param.widthID,
+        'lowStock': param.lowStock,
+      });
+      final response = await DioService.dioPostApiCall(data: formData).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw TimeoutException('Request timed out'),
+      );
+
+      if (response.statusCode == 200) {
+        successResponse = JumboStockModel.fromJson(response.data);
+        developer.log(response.data.toString(), name: 'JumboStock Response');
+
+        developer.log(
+          formData.fields.toString(),
+          name: 'FormData for JumboStock',
+        );
+        developer.log(
+          successResponse.message.toString(),
+          name: 'JumboStock Response',
+        );
+      } else {
+        developer.log(
+          'Failed to JumboStock: ${response.statusCode}',
+          name: 'JumboStock Error',
+        );
+      }
+    } catch (e) {
+      developer.log('Error JumboStock: $e', name: 'JumboStock Exception');
+    }
+    return successResponse;
   }
 }

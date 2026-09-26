@@ -16,21 +16,12 @@ class NotificationRepository {
   static Future<NotificationModel> fetchNotifications() async {
     NotificationModel notificationModel = NotificationModel();
     try {
-      final response = await retry(
-        () =>
-            DioService.dioPostApiCall(
-              data: FormData.fromMap({
-                'activity': 'admin-notification',
-                'userKey': HiveService.getUserId(),
-                // 'filterBy': filterBy.toString(),
-              }),
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () => throw TimeoutException('Request timed out'),
-            ),
-        retryIf: (e) => e is TimeoutException || e is DioException,
-        maxAttempts: 3,
-        delayFactor: const Duration(seconds: 1),
+      final response = await DioService.dioPostApiCall(
+        data: FormData.fromMap({
+          'activity': 'admin-notification',
+          'userKey': HiveService.getUserId(),
+          // 'filterBy': filterBy.toString(),
+        }),
       );
       if (response.statusCode == 200) {
         notificationModel = NotificationModel.fromJson(response.data);
@@ -52,28 +43,17 @@ class NotificationRepository {
     return notificationModel;
   }
 
-  
-
   static Future<ReadNotificationModel> markNotificationAsRead(
     String notificationKey,
   ) async {
     ReadNotificationModel readNotificationModel = ReadNotificationModel();
     try {
-      final response = await retry(
-        () =>
-            DioService.dioPostApiCall(
-              data: FormData.fromMap({
-                'activity': 'read-notification',
-                'userKey': HiveService.getUserId(),
-                'notificationKey': notificationKey,
-              }),
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () => throw TimeoutException('Request timed out'),
-            ),
-        retryIf: (e) => e is TimeoutException || e is DioException,
-        maxAttempts: 3,
-        delayFactor: const Duration(seconds: 1),
+      final response = await DioService.dioPostApiCall(
+        data: FormData.fromMap({
+          'activity': 'read-notification',
+          'userKey': HiveService.getUserId(),
+          'notificationKey': notificationKey,
+        }),
       );
       if (response.statusCode == 200) {
         readNotificationModel = ReadNotificationModel.fromJson(response.data);
@@ -112,20 +92,11 @@ class NotificationRepository {
     ReadUnReadMasterStatusModel notificationModel =
         ReadUnReadMasterStatusModel();
     try {
-      final response = await retry(
-        () =>
-            DioService.dioPostApiCall(
-              data: FormData.fromMap({
-                'activity': 'view-master-read-unread-status',
-                'userKey': HiveService.getUserId(),
-              }),
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () => throw TimeoutException('Request timed out'),
-            ),
-        retryIf: (e) => e is TimeoutException || e is DioException,
-        maxAttempts: 3,
-        delayFactor: const Duration(seconds: 1),
+      final response = await DioService.dioPostApiCall(
+        data: FormData.fromMap({
+          'activity': 'view-master-read-unread-status',
+          'userKey': HiveService.getUserId(),
+        }),
       );
       if (response.statusCode == 200) {
         notificationModel = ReadUnReadMasterStatusModel.fromJson(response.data);

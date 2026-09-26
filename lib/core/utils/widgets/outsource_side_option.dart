@@ -89,7 +89,7 @@ class _SidebarPanelBuilderState extends State<OutSourceSidePanelBuilder>
           leading: Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Image.asset(
@@ -103,7 +103,7 @@ class _SidebarPanelBuilderState extends State<OutSourceSidePanelBuilder>
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ),
           trailing: RotationTransition(
@@ -111,7 +111,7 @@ class _SidebarPanelBuilderState extends State<OutSourceSidePanelBuilder>
             child: Icon(
               Icons.expand_more_rounded,
               size: 18,
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
             ),
           ),
         ),
@@ -127,25 +127,26 @@ class _SidebarPanelBuilderState extends State<OutSourceSidePanelBuilder>
                     horizontal: 8,
                     vertical: 2,
                   ),
-                  decoration: BoxDecoration(
+                  child: Material(
+                    color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.white.withOpacity(0.05),
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      context.goNamed(widget.routeName[0]);
-                    },
-                    leading: Icon(
-                      Icons.roller_shades,
-                      size: 20,
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                    title: Text(
-                      widget.panel1 ?? 'Tap',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.9),
+                    clipBehavior: Clip.antiAlias,
+                    child: ListTile(
+                      onTap: () {
+                        context.goNamed(widget.routeName[0]);
+                      },
+                      leading: Icon(
+                        Icons.roller_shades,
+                        size: 20,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
+                      title: Text(
+                        widget.panel1 ?? 'Tap',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
                       ),
                     ),
                   ),
@@ -155,25 +156,26 @@ class _SidebarPanelBuilderState extends State<OutSourceSidePanelBuilder>
                     horizontal: 8,
                     vertical: 2,
                   ),
-                  decoration: BoxDecoration(
+                  child: Material(
+                    color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.white.withOpacity(0.05),
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      context.goNamed(widget.routeName[1]);
-                    },
-                    leading: Icon(
-                      Icons.movie,
-                      size: 20,
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                    title: Text(
-                      widget.panel2 ?? 'Stratch Film',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.9),
+                    clipBehavior: Clip.antiAlias,
+                    child: ListTile(
+                      onTap: () {
+                        context.goNamed(widget.routeName[1]);
+                      },
+                      leading: Icon(
+                        Icons.movie,
+                        size: 20,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
+                      title: Text(
+                        widget.panel2 ?? 'Stratch Film',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
                       ),
                     ),
                   ),
@@ -183,25 +185,26 @@ class _SidebarPanelBuilderState extends State<OutSourceSidePanelBuilder>
                     horizontal: 8,
                     vertical: 2,
                   ),
-                  decoration: BoxDecoration(
+                  child: Material(
+                    color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.white.withOpacity(0.05),
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      context.goNamed(widget.routeName[2]);
-                    },
-                    leading: Icon(
-                      Icons.grain,
-                      size: 20,
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                    title: Text(
-                      widget.panel3 ?? 'Silica',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.9),
+                    clipBehavior: Clip.antiAlias,
+                    child: ListTile(
+                      onTap: () {
+                        context.goNamed(widget.routeName[2]);
+                      },
+                      leading: Icon(
+                        Icons.grain,
+                        size: 20,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
+                      title: Text(
+                        widget.panel3 ?? 'Silica',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
                       ),
                     ),
                   ),
@@ -211,25 +214,26 @@ class _SidebarPanelBuilderState extends State<OutSourceSidePanelBuilder>
                     horizontal: 8,
                     vertical: 2,
                   ),
-                  decoration: BoxDecoration(
+                  child: Material(
+                    color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.white.withOpacity(0.05),
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      context.goNamed(widget.routeName[3]);
-                    },
-                    leading: Icon(
-                      Icons.add_box,
-                      size: 20,
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                    title: Text(
-                      widget.panel4 ?? 'Packing Strip',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.9),
+                    clipBehavior: Clip.antiAlias,
+                    child: ListTile(
+                      onTap: () {
+                        context.goNamed(widget.routeName[3]);
+                      },
+                      leading: Icon(
+                        Icons.add_box,
+                        size: 20,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
+                      title: Text(
+                        widget.panel4 ?? 'Packing Strip',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
                       ),
                     ),
                   ),

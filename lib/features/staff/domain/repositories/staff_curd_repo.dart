@@ -4,6 +4,7 @@ import 'dart:developer' as developer;
 import 'package:dio/dio.dart';
 import 'package:indogrip/core/database/hive_service.dart';
 import 'package:indogrip/core/service/api%20service/dio_service.dart';
+import 'package:indogrip/core/service/logger.dart';
 import 'package:indogrip/features/client/data/model/view_staff_api_param.dart';
 import 'package:indogrip/features/staff/data/models/access_panel_model.dart';
 import 'package:indogrip/features/staff/data/models/edit_staff_success_model.dart';
@@ -19,28 +20,26 @@ class StaffCURDRepository implements StaffMethodProviderRepo {
   }) async {
     EditStaffResponse successResponse = EditStaffResponse();
     try {
+      final formData = FormData.fromMap({
+        'activity': 'add-staff',
+        'uFirstName': param.uFirstName,
+        'uLastName': param.uLastName,
+        'uEmail': param.uEmail,
+        'uPersonalEmail': param.uPersonalEmail,
+        'uMobileNumber': param.uMobileNumber,
+        'uAlternateNumber': param.uAlternateNumber,
+        'uRole': param.uRole,
+        'uAccessPanel': param.uAccessPanel.join(','), //3,5,6
+        'userKey': HiveService.getUserId(),
+        'uPassword': param.uPassword,
+        'uConfirmPassword': param.uConfirmPassword,
+        'rKey': param.rKey,
+      });
       final response = await retry(
-        () =>
-            DioService.dioPostApiCall(
-              data: FormData.fromMap({
-                'activity': 'add-staff',
-                'uFirstName': param.uFirstName,
-                'uLastName': param.uLastName,
-                'uEmail': param.uEmail,
-                'uPersonalEmail': param.uPersonalEmail,
-                'uMobileNumber': param.uMobileNumber,
-                'uAlternateNumber': param.uAlternateNumber,
-                'uRole': param.uRole,
-                'uAccessPanel': param.uAccessPanel, //3,5,6
-                'userKey': HiveService.getUserId(),
-                'uPassword': param.uPassword,
-                'uConfirmPassword': param.uConfirmPassword,
-                'rKey': param.rKey,
-              }),
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () => throw TimeoutException('Request timed out'),
-            ),
+        () => DioService.dioPostApiCall(data: formData).timeout(
+          const Duration(seconds: 5),
+          onTimeout: () => throw TimeoutException('Request timed out'),
+        ),
         retryIf: (e) => e is TimeoutException || e is DioException,
         maxAttempts: 3,
         delayFactor: const Duration(seconds: 1),
@@ -53,6 +52,7 @@ class StaffCURDRepository implements StaffMethodProviderRepo {
           'Update Staff Details Response: ${response.data}',
           name: 'Edit Staff Response',
         );
+        logger.i('Update Staff FormData: ${formData.fields.toString()}');
       } else {
         developer.log(
           'Failed to update staff details: ${response.statusCode} - ${response.statusMessage}',

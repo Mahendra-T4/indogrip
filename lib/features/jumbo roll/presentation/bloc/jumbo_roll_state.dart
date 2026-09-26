@@ -101,3 +101,15 @@ final class ChangeJumboStatusErrorFailedStatus extends JumboRollState {
 
   ChangeJumboStatusErrorFailedStatus({required this.error});
 }
+
+final class GetJumboStockLoadedSuccessStatus extends JumboRollState {
+  final JumboStockModel model;
+
+  GetJumboStockLoadedSuccessStatus({required this.model});
+}
+
+final class GetJumboStockErrorFailedStatus extends JumboRollState {
+  final String error;
+
+  GetJumboStockErrorFailedStatus({required this.error});
+}

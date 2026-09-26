@@ -106,5 +106,8 @@ handleDioException(DioException e) {
     case DioExceptionType.unknown:
       throw UnknownException(
           ErrorModel(errorMessage: e.toString(), status: 500));
+    case DioExceptionType.transformTimeout:
+      // TODO: Handle this case.
+      throw UnimplementedError();
   }
 }

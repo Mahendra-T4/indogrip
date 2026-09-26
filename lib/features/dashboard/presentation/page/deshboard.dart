@@ -8,6 +8,7 @@ import 'package:indogrip/core/utils/appbar/desktop_appbar.dart';
 import 'package:indogrip/core/utils/appbar/mobile_appbar.dart';
 import 'package:indogrip/features/dashboard/presentation/page/dashboard_builder.dart';
 import 'package:indogrip/features/dashboard/presentation/widget/default_setting_widget.dart';
+import 'package:indogrip/features/dashboard/presentation/widget/jumbo_stock_widget.dart';
 import 'package:indogrip/features/dashboard/presentation/widget/profit_loss_analytics.dart';
 import 'package:indogrip/features/dashboard/presentation/widget/stretch_stock_widget.dart';
 import 'package:indogrip/features/dashboard/presentation/widget/tape_stock_widget.dart';
@@ -74,6 +75,7 @@ class _IndoGripDashboardState extends DashboardBuilder {
                           // productWidget,
                           // SalesDashboard(),
                           TapeStockWidget(),
+                          JumboStockWidget(),
                           SizedBox(height: 16),
                           StretchStockWidget(),
                           SizedBox(height: 16),
@@ -174,7 +176,7 @@ class _IndoGripDashboardState extends DashboardBuilder {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Welcome back, AS-Admin!',
+                        'Welcome back, Admin!',
                         style: TextStyle(
                           fontSize: Responsive.isDesktop(context) ? 36 : 28,
                           fontWeight: FontWeight.w800,

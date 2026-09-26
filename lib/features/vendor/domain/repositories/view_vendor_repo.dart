@@ -22,7 +22,7 @@ abstract class ViewVendorRepository {
             'activity': 'view-vendor',
             'userKey': HiveService.getUserId(),
             'keyword': param.keyword,
-            // 'filterBy': param.filterBy,
+            'filterBy': param.filterBy,
             'sortBy': param.sortBy,
             'orderBy': param.orderBy,
             'pageNo': param.pageNo,

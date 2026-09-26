@@ -1,20 +1,15 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer' as developer;
-import 'package:indogrip/core/config/env_config.dart';
 import 'package:indogrip/core/database/hive_service.dart';
 import 'package:indogrip/core/service/api%20service/dio_service.dart';
 import 'package:indogrip/core/service/logger.dart';
-
 import 'package:indogrip/features/global/data/model/change_status_model.dart';
 import 'package:indogrip/features/global/data/model/change_status_param.dart';
 import 'package:indogrip/features/global/data/model/delete_record_model.dart';
 import 'package:indogrip/features/global/data/model/delete_record_param.dart';
-import 'package:indogrip/features/global/data/model/master_status_model.dart';
 import 'package:indogrip/features/global/data/model/profit_loss_modeld.dart';
 import 'package:indogrip/features/global/data/model/setting_model.dart';
 import 'package:indogrip/features/global/data/model/stock_status_model.dart';
@@ -138,7 +133,7 @@ class GlobalManagerRepository implements GlobalRepository {
       final formData = FormData.fromMap({
         'activity': 'multi-delete',
         'userKey': HiveService.getUserId(),
-        'rKey': rKeys,
+        'rKey': rKeys.join(','),
         'rPanel': rPanel,
       });
       final response = await retry(

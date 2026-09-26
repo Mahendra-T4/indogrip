@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/edit_jumbo_roll_success_model.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/jumbo_api_params.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/jumbo_role_entity.dart';
+import 'package:indogrip/features/jumbo%20roll/data/models/jumbo_stock_model.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/jumbo_uploadfile_response_model.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/view_base_model.dart';
 import 'package:indogrip/features/jumbo%20roll/data/models/view_jumbo_roll_model.dart';
@@ -28,6 +29,7 @@ class JumboRollBloc extends Bloc<JumboRollEvent, JumboRollState> {
     on<LoadMasterJumboMicronEvent>(_loadMasterJumboMicronEvent);
     on<JumboFileUploadCsvFileEvent>(_jumboFileUploadCsvFileEvent);
     on<ChangeJumboStatusEvent>(_changeJumboStatusEvent);
+    on<GetJumboStockEvent>(_getJumboStockEvent);
   }
 
   FutureOr<void> _addJumboRollOnRecordEvent(
@@ -145,6 +147,19 @@ class JumboRollBloc extends Bloc<JumboRollEvent, JumboRollState> {
       emit(ChangeJumboStatusLoadedSuccessStatus(model: model));
     } catch (e) {
       emit(ChangeJumboStatusErrorFailedStatus(error: e.toString()));
+    }
+  }
+
+  FutureOr<void> _getJumboStockEvent(
+    GetJumboStockEvent event,
+    Emitter<JumboRollState> emit,
+  ) async {
+    emit(JumboRollLoadingStatus());
+    try {
+      final model = await JumboRollRepository.getJumboStock(param: event.param);
+      emit(GetJumboStockLoadedSuccessStatus(model: model));
+    } catch (e) {
+      emit(GetJumboStockErrorFailedStatus(error: e.toString()));
     }
   }
 }

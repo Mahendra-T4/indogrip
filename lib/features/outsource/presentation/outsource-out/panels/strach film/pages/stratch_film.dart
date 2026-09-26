@@ -137,7 +137,8 @@ class _StratchFilmPanelState extends StretchFilmBuilder {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   refreshButton,
-                                  if (isMultipleSelection)
+                                  if (isMultipleSelection &&
+                                      selectedItems.isNotEmpty)
                                     buildSelectionActions(),
                                   FileExportButton(
                                     onPressed: () async {

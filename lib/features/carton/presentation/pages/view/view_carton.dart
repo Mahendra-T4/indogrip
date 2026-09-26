@@ -127,15 +127,17 @@ class _ViewCartonPanelState extends ViewCartonBuilder {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: refreshButton,
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+          //   child: refreshButton,
+          // ),
           SizedBox(height: 15),
           // Multiselection toggle
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
+            spacing: 10,
             children: [
+              refreshButton,
               if (isMultipleSelection) buildSelectionActions(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

@@ -1,9 +1,7 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:indogrip/Assets/assets.dart';
 import 'package:indogrip/core/responsive/responsive.dart';
 import 'package:indogrip/core/service/connectivity/internate%20connectivity-checker.dart';
 import 'package:indogrip/core/service/connectivity/not_connected.dart';
@@ -20,11 +18,9 @@ import 'package:indogrip/features/global/presentation/widget/multi_delete_button
 import 'package:indogrip/features/global/presentation/widget/pagination_widget.dart';
 import 'package:indogrip/features/outsource/data/data%20source/os_tap_file_exporter.dart';
 import 'package:indogrip/features/outsource/data/model/view_tap_in_model.dart';
-import 'package:indogrip/features/outsource/domain/repositories/os_export_repo.dart';
 import 'package:indogrip/features/outsource/presentation/outside-in/edit/edit_in.dart';
 import 'package:indogrip/features/outsource/presentation/outsource-out/panels/tap/page/tape_builder.dart';
 import 'package:indogrip/features/outsource/presentation/state/bloc.out/inventory_out_bloc.dart';
-import 'package:indogrip/features/outsource/presentation/widget/tap_details_box.dart';
 import 'package:indogrip/features/round/presentation/widgets/round_details_box.dart';
 import 'package:indogrip/features/staff/data/models/view_staff_api_param.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -117,13 +113,7 @@ class _TapPanelState extends TapeBuilder {
                           context,
                           state.deleteRecordEntity.message.toString(),
                         );
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   SnackBar(
-                        //     content: Text(
-                        //       state.deleteRecordEntity.message ?? 'Records deleted',
-                        //     ),
-                        //   ),
-                        // );
+
                         eventCall();
                         setState(() {
                           selectedRows.clear();
@@ -173,7 +163,7 @@ class _TapPanelState extends TapeBuilder {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         refreshButton,
-                        if (isMultipleSelection)
+                        if (isMultipleSelection && selectedItems.isNotEmpty)
                           ElevatedButton.icon(
                             onPressed: () async {
                               await TapPrintMultipleStickers(selectedItems);
@@ -186,7 +176,7 @@ class _TapPanelState extends TapeBuilder {
                             ),
                           ),
                         if (isMultipleSelection) SizedBox(width: 10),
-                        if (isMultipleSelection)
+                        if (isMultipleSelection && selectedItems.isNotEmpty)
                           MultiDeleteButton(
                             selectedItems: selectedItems
                                 .map((item) => item.toJson())
@@ -216,6 +206,7 @@ class _TapPanelState extends TapeBuilder {
                                 baseID: baseID,
                                 micID: micID,
                                 widthID: widthID,
+                                tapeLength: tapLengthSearchController.text,
                                 fromDate: fromDateController.text.trim(),
                                 toDate: toDateController.text.trim(),
                               ),

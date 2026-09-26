@@ -46,6 +46,7 @@ abstract class ViewCoreBuilder extends State<ViewCorePanel> {
       spacing: 10,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        refreshButton,
         if (isMultipleSelection) buildSelectionActions(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

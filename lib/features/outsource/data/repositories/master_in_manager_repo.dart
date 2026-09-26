@@ -14,20 +14,11 @@ class MasterInManagerRepository implements MasterInRepository {
     MasterStretchFilmModel masterData = MasterStretchFilmModel();
 
     try {
-      final response = await retry(
-        () =>
-            DioService.dioPostApiCall(
-              data: FormData.fromMap({
-                'activity': 'view-master-stretch-film',
-                'userKey': HiveService.getUserId(),
-              }),
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () => throw TimeoutException('Request timed out'),
-            ),
-        retryIf: (e) => e is TimeoutException || e is DioException,
-        maxAttempts: 3,
-        delayFactor: const Duration(seconds: 1),
+      final response = await DioService.dioPostApiCall(
+        data: FormData.fromMap({
+          'activity': 'view-master-stretch-film',
+          'userKey': HiveService.getUserId(),
+        }),
       );
       if (response.statusCode == 200) {
         masterData = MasterStretchFilmModel.fromJson(response.data);
@@ -54,20 +45,11 @@ class MasterInManagerRepository implements MasterInRepository {
     MasterProductTypeModel model = MasterProductTypeModel();
 
     try {
-      final response = await retry(
-        () =>
-            DioService.dioPostApiCall(
-              data: FormData.fromMap({
-                'activity': 'view-master-product-type',
-                'userKey': HiveService.getUserId(),
-              }),
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () => throw TimeoutException('Request timed out'),
-            ),
-        retryIf: (e) => e is TimeoutException || e is DioException,
-        maxAttempts: 3,
-        delayFactor: const Duration(seconds: 1),
+      final response = await DioService.dioPostApiCall(
+        data: FormData.fromMap({
+          'activity': 'view-master-product-type',
+          'userKey': HiveService.getUserId(),
+        }),
       );
       if (response.statusCode == 200) {
         model = MasterProductTypeModel.fromJson(response.data);

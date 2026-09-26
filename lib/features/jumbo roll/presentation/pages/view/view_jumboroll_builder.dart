@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:indogrip/Assets/assets.dart';
 import 'package:indogrip/core/constants/sizes.dart';
+import 'package:indogrip/core/utils/widgets/toast_service.dart';
 import 'package:indogrip/features/global/presentation/widget/base_filter_field.dart';
 import 'package:indogrip/features/global/presentation/widget/data_filtration.dart';
 import 'package:indogrip/features/global/presentation/widget/file_export_button.dart';
@@ -141,12 +142,11 @@ abstract class ViewJumboRollBuilder extends State<ViewJumboRollPanel> {
     List<Map<String, dynamic>> selectedItems,
   ) async {
     if (selectedItems.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No items selected for printing'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'No items selected for printing',
       );
+
       return;
     }
 
@@ -359,34 +359,25 @@ abstract class ViewJumboRollBuilder extends State<ViewJumboRollPanel> {
         format: PdfPageFormat(PdfPageFormat.inch * 4, PdfPageFormat.inch * 6),
       );
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Successfully sent ${selectedItems.length} stickers to printer',
-          ),
-          backgroundColor: Colors.green,
-        ),
+      ToastService.instance.showSuccess(
+        context,
+        'Successfully sent ${selectedItems.length} stickers to printer',
       );
     } catch (e) {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error printing stickers: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'Error printing stickers: ${e.toString()}',
       );
     }
   }
 
   Future<void> JumboPrintStickers(JumboRollRecord jumboRollData) async {
     if (jumboRollData == '') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No data available for printing'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'No data available for printing',
       );
+
       return;
     }
 
@@ -597,20 +588,14 @@ abstract class ViewJumboRollBuilder extends State<ViewJumboRollPanel> {
         format: PdfPageFormat(PdfPageFormat.inch * 4, PdfPageFormat.inch * 6),
       );
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Successfully sent sticker to printer'),
-          backgroundColor: Colors.green,
-        ),
+      ToastService.instance.showSuccess(
+        context,
+        'Successfully sent sticker to printer',
       );
     } catch (e) {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error printing stickers: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'Error printing stickers: ${e.toString()}',
       );
     }
   }
@@ -734,9 +719,9 @@ abstract class ViewJumboRollBuilder extends State<ViewJumboRollPanel> {
             ],
           ),
           SizedBox(width: 10),
-          refreshButton,
 
-          if (isMultipleSelection) buildSelectionActions(),
+          if (isMultipleSelection && selectedItems.isNotEmpty)
+            buildSelectionActions(),
           SizedBox(width: 10),
           FileExportButton(
             onPressed: () async {
@@ -780,6 +765,8 @@ abstract class ViewJumboRollBuilder extends State<ViewJumboRollPanel> {
           ),
         ],
       ),
+      SizedBox(height: 10),
+      Row(mainAxisAlignment: MainAxisAlignment.end, children: [refreshButton]),
       SizedBox(height: 15),
     ],
   );
@@ -829,12 +816,8 @@ abstract class ViewJumboRollBuilder extends State<ViewJumboRollPanel> {
 
   void handleBulkDelete() {
     if (selectedItems.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No items selected'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ToastService.instance.showError(context, 'No items selected');
+
       return;
     }
     // Implement bulk delete functionality
@@ -843,12 +826,8 @@ abstract class ViewJumboRollBuilder extends State<ViewJumboRollPanel> {
 
   void handleBulkEdit() {
     if (selectedItems.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No items selected'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ToastService.instance.showError(context, 'No items selected');
+
       return;
     }
     // Implement bulk edit functionality

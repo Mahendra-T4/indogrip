@@ -418,7 +418,8 @@ abstract class ViewStaffBuilder extends State<ViewStaffPanel> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             refreshButton,
-            if (isMultipleSelection) buildSelectionActions(),
+            if (isMultipleSelection && selectedItems.isNotEmpty)
+              buildSelectionActions(),
             TextButton.icon(
               onPressed: toggleMultipleSelection,
               icon: Icon(

@@ -618,7 +618,8 @@ abstract class ViewRoundBuilder extends State<ViewRoundPanel> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           refreshButton,
-          if (isMultipleSelection) buildSelectionActions(),
+          if (isMultipleSelection && selectedItems.isNotEmpty)
+            buildSelectionActions(),
           SizedBox(width: 10),
           FileExportButton(
             onPressed: () async {
@@ -629,7 +630,7 @@ abstract class ViewRoundBuilder extends State<ViewRoundPanel> {
                   filterBy: recordValue,
                   orderBy: filterValue.toString(),
                   pageNo: pageNo.toString(),
-                  sortBy: '2000',
+                  sortBy: entryValue,
                   cutMMMeterID: cutMMMeter,
                   micID: selectedMic,
                   baseID: selectedBase,
@@ -749,7 +750,7 @@ abstract class ViewRoundBuilder extends State<ViewRoundPanel> {
                 // const SizedBox(height: 16),
                 Expanded(
                   child: _buildSection('Production Details', [
-                    _buildDetailRow('Cut MM Meter', data.cutMMMeter.toString()),
+                    _buildDetailRow('Cut Width MM', data.cutMMMeter.toString()),
                     _buildDetailRow('Round Count', data.roundCount.toString()),
                     _buildDetailRow('Tape Length', data.tapeLength.toString()),
                     _buildDetailRow(

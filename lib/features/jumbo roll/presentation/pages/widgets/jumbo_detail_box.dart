@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:indogrip/core/theme/color_conts.dart';
-import 'package:indogrip/core/utils/widgets/text_field.dart';
+
 
 class JumboDetailBox extends StatelessWidget {
   const JumboDetailBox({

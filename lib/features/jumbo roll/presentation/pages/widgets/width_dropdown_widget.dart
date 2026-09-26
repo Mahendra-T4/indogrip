@@ -51,7 +51,7 @@ class _WidthDropdownWidgetState extends State<WidthDropdownWidget> {
                       TextFieldlabelText('Width'),
                       const SizedBox(height: 8),
                       Container(
-                        height: widget.size ?? 50,
+                        height: widget.size ?? null,
                         decoration: widget.isFilter
                             ? BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),

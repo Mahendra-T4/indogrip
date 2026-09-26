@@ -15,7 +15,6 @@ import 'package:indogrip/core/utils/widgets/toast_service.dart';
 import 'package:indogrip/features/global/presentation/widget/vendor_list_widget.dart';
 import 'package:indogrip/features/jumbo%20roll/presentation/pages/widgets/base_dropdown_widget.dart';
 import 'package:indogrip/features/jumbo%20roll/presentation/pages/widgets/micron_dropdown_widget.dart';
-import 'package:indogrip/features/jumbo%20roll/presentation/pages/widgets/width_dropdown_widget.dart';
 import 'package:indogrip/features/outsource/data/model/inventory_in_param.dart';
 import 'package:indogrip/features/outsource/data/model/upload_file_param.dart';
 import 'package:indogrip/features/outsource/presentation/outsource-out/panels/strach%20film/pages/stratch_film.dart';
@@ -138,7 +137,7 @@ abstract class OutsourceInBuilder extends State<OutSourceIN> {
     totalAmountController.clear();
     weightController.clear();
     srNoController.clear();
-
+    marginController.clear();
     selectedProduct = null;
     selectedVendor = null;
     fileVendor = null;
@@ -707,7 +706,7 @@ abstract class OutsourceInBuilder extends State<OutSourceIN> {
             Expanded(
               // flex: 2,
               child: GeneralOptionalField(
-                controller: totalAmountController,
+                controller: remarkController,
 
                 inputFormatters: [
                   // FilteringTextInputFormatter.digitsOnly,

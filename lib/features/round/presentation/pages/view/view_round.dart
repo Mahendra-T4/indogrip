@@ -615,7 +615,7 @@ class _ViewRoundPanelState extends ViewRoundBuilder {
         width: 150,
         label: Container(
           color: Colors.grey[100],
-          child: const Center(child: TextFieldlabelText('Cut MM Meter')),
+          child: const Center(child: TextFieldlabelText('Cut Width MM')),
         ),
       ),
       GridColumn(

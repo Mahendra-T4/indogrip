@@ -240,7 +240,8 @@ abstract class ViewClientBuilder extends State<ViewClientPanel> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             refreshButton,
-            if (isMultipleSelection) buildSelectionActions(),
+            if (isMultipleSelection && selectedItems.isNotEmpty)
+              buildSelectionActions(),
             SizedBox(width: 10),
             FileExportButton(
               onPressed: () async {

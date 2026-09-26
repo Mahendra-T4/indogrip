@@ -34,7 +34,7 @@ class _MasterProductTypeDBWidgetState extends State<MasterProductTypeDBWidget> {
           return Center(child: CircularProgressIndicator());
         } else if (state is MasterInProductTypeLoadedStatus) {
           final data = state.model;
-          List<ProductRecord> record = List.from(data.record!);
+          List<ProductRecord> record = List.from(data.record ?? []);
           record.insert(0, ProductRecord(productID: 0, productTypeName: 'All'));
 
           return data.status != 1

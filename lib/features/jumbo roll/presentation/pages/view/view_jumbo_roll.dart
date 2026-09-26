@@ -115,14 +115,11 @@ class _ViewJumboRollPanelState extends ViewJumboRollBuilder {
                     state.message.toString(),
                   );
                 } else if (state is GlobalDeleteMultipleRecordsSuccessStatus) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        state.deleteRecordEntity.message ?? 'try again later',
-                      ),
-                    ),
+                  ToastService.instance.showError(
+                    context,
+                    state.deleteRecordEntity.message ?? 'Try again later',
                   );
-                  // Refresh list after bulk delete
+
                   eventHandler();
                   // Clear selection
                   setState(() {
@@ -131,9 +128,10 @@ class _ViewJumboRollPanelState extends ViewJumboRollBuilder {
                     isMultipleSelection = false;
                   });
                 } else if (state is GlobalDeleteMultipleRecordsErrorStatus) {
-                  ScaffoldMessenger.of(
+                  ToastService.instance.showError(
                     context,
-                  ).showSnackBar(SnackBar(content: Text(state.message)));
+                    state.message.toString(),
+                  );
                 }
               },
               child: buildFilterFieldsDesktop,
@@ -518,14 +516,7 @@ class _ViewJumboRollPanelState extends ViewJumboRollBuilder {
           child: const Center(child: TextFieldlabelText("Bill No")),
         ),
       ),
-      GridColumn(
-        columnName: 'Roll/Packet No',
-        width: 150,
-        label: Container(
-          color: Colors.grey[100],
-          child: const Center(child: TextFieldlabelText("Roll/Packet No")),
-        ),
-      ),
+
       GridColumn(
         columnName: 'Base',
         width: 100,
@@ -550,22 +541,7 @@ class _ViewJumboRollPanelState extends ViewJumboRollBuilder {
           child: const Center(child: TextFieldlabelText("Length")),
         ),
       ),
-      GridColumn(
-        columnName: 'Consume Length',
-        width: 100,
-        label: Container(
-          color: Colors.grey[100],
-          child: const Center(child: TextFieldlabelText("Consume Length")),
-        ),
-      ),
-      GridColumn(
-        columnName: 'Available Length',
-        width: 100,
-        label: Container(
-          color: Colors.grey[100],
-          child: const Center(child: TextFieldlabelText("Available Length")),
-        ),
-      ),
+
       GridColumn(
         columnName: 'Width',
         width: 100,
@@ -613,6 +589,30 @@ class _ViewJumboRollPanelState extends ViewJumboRollBuilder {
         label: Container(
           color: Colors.grey[100],
           child: const Center(child: TextFieldlabelText("Remark")),
+        ),
+      ),
+      GridColumn(
+        columnName: 'Roll/Packet No',
+        width: 150,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText("Roll/Packet No")),
+        ),
+      ),
+      GridColumn(
+        columnName: 'Consume Length',
+        width: 100,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText("Consume Length")),
+        ),
+      ),
+      GridColumn(
+        columnName: 'Available Length',
+        width: 100,
+        label: Container(
+          color: Colors.grey[100],
+          child: const Center(child: TextFieldlabelText("Available Length")),
         ),
       ),
       GridColumn(

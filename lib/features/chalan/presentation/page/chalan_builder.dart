@@ -161,7 +161,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 5,
                 children: [
-                  LabelText('Invoice Challan Date'),
+                  LabelText('Invoice  Date'),
                   Container(
                     height: 37,
                     decoration: BoxDecoration(
@@ -179,7 +179,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: 'Enter Invoice Challan Date',
+                        hintText: 'Enter Invoice Date',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade600,
                           fontSize: 13,
@@ -236,7 +236,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 5,
                 children: [
-                  LabelText('Invoice Challan Number'),
+                  LabelText('Invoice Number'),
                   Container(
                     height: 37,
                     decoration: BoxDecoration(
@@ -255,7 +255,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: 'Enter Invoice Challan Number',
+                        hintText: 'Enter Invoice Number',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade600,
                           fontSize: 13,
@@ -792,7 +792,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           alignment: Alignment.center,
           child: const Text(
-            'Invoice Challan Date',
+            'Invoice Date',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -805,7 +805,7 @@ abstract class ChalanBuilder extends State<ChalanPanel> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           alignment: Alignment.center,
           child: const Text(
-            'Invoice Challan No',
+            'Invoice No',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),

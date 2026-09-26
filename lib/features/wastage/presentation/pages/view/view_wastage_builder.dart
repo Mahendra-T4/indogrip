@@ -113,12 +113,14 @@ abstract class ViewWastageBuilder extends State<ViewWastagePanel> {
   );
 
   Widget get buildFilterFieldsDesktop => Padding(
-    padding: const EdgeInsets.only(top: 20),
+    padding: const EdgeInsets.only(top: 20, bottom: 10, right: 16),
     child: Row(
       spacing: 10,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        if (isMultipleSelection) buildSelectionActions(),
+        refreshButton,
+        if (isMultipleSelection && selectedItems.isNotEmpty)
+          buildSelectionActions(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

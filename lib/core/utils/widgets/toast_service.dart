@@ -13,7 +13,6 @@ class ToastService {
     BuildContext context, {
     required String message,
     required ToastType type,
-    Duration duration = const Duration(seconds: 2),
   }) {
     if (!context.mounted) return;
 
@@ -37,7 +36,11 @@ class ToastService {
               alignment: Alignment.topCenter,
               child: Material(
                 color: Colors.transparent,
-                child: AppToast(message: message, type: type),
+                child: AppToast(
+                  message: message,
+                  type: type,
+                  onClose: () => hide(),
+                ),
               ),
             ),
           ),
@@ -46,17 +49,6 @@ class ToastService {
     );
 
     overlay.insert(_currentToast!);
-
-    Future.delayed(duration - _animationDuration, () {
-      if (_isVisible) {
-        _isVisible = false;
-        if (_currentToast != null) {
-          Future.delayed(_animationDuration, () {
-            hide();
-          });
-        }
-      }
-    });
   }
 
   void hide() {

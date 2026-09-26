@@ -51,7 +51,7 @@ class _BaseDropdownWidgetState extends State<BaseDropdownWidget> {
                       TextFieldlabelText('Base'),
                       const SizedBox(height: 8),
                       SizedBox(
-                        height: widget.size ?? 51,
+                        height: widget.size ?? null,
                         child: DropdownButtonFormField<String>(
                           hint: Text('Select Base'),
                           value:

@@ -38,3 +38,9 @@ final class ChangeJumboStatusEvent extends JumboRollEvent {
 
   ChangeJumboStatusEvent({required this.rKey, required this.rStatus});
 }
+
+final class GetJumboStockEvent extends JumboRollEvent {
+  final ViewRecordApiParam param;
+
+  GetJumboStockEvent({required this.param});
+}

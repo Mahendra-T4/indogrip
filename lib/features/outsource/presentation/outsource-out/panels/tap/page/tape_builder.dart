@@ -46,6 +46,7 @@ abstract class TapeBuilder extends State<TapPanel> {
   String? showValue;
   final remarkController = TextEditingController();
   final tapLengthController = TextEditingController();
+  final tapLengthSearchController = TextEditingController();
   final tapWidthController = TextEditingController();
   final displayMFGController = TextEditingController();
   final batchCodeController = TextEditingController();
@@ -101,7 +102,7 @@ abstract class TapeBuilder extends State<TapPanel> {
           widthID: widthID,
           fromDate: fromDateController.text,
           toDate: toDateController.text,
-          tapeLength: tapLengthController.text,
+          tapeLength: tapLengthSearchController.text,
           tapeWeight: tapWidthController.text,
           batchCode: batchCodeController.text,
         ),
@@ -114,11 +115,11 @@ abstract class TapeBuilder extends State<TapPanel> {
     fromDateController.text = '';
     toDateController.text = '';
     searchController.text = '';
-    tapLengthController.text = '';
-    tapWidthController.text = '';
+    tapLengthSearchController.clear();
+    tapWidthController.clear();
     fromDateController.clear();
     toDateController.clear();
-    tapLengthController.clear();
+    tapLengthSearchController.clear();
     tapWidthController.clear();
     searchController.clear();
     stockStatus = null;
@@ -128,6 +129,7 @@ abstract class TapeBuilder extends State<TapPanel> {
     widthID = null;
     baseID = null;
     micID = null;
+    vendorKey = null;
 
     refreshKey = UniqueKey();
 
@@ -192,7 +194,7 @@ abstract class TapeBuilder extends State<TapPanel> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    hintText: 'Enter BatchCode',
+                    hintText: 'Enter Batch Code',
                     hintStyle: TextStyle(
                       color: Colors.grey.shade600,
                       fontSize: 13,
@@ -399,7 +401,7 @@ abstract class TapeBuilder extends State<TapPanel> {
                     ),
                   );
                 },
-                tapLengthController,
+                tapLengthSearchController,
                 'Enter Tape Length',
                 'Tape Length',
               ),
@@ -421,7 +423,7 @@ abstract class TapeBuilder extends State<TapPanel> {
                         widthID: widthID,
                         fromDate: fromDateController.text,
                         toDate: toDateController.text,
-                        tapeLength: tapLengthController.text,
+                        tapeLength: tapLengthSearchController.text,
                         tapeWeight: value.toString(),
                       ),
                     ),
@@ -529,7 +531,7 @@ abstract class TapeBuilder extends State<TapPanel> {
                 const SizedBox(height: 16),
                 _buildSection('Production Details', [
                   _buildDetailRow(
-                    'Cut MM Meter',
+                    'Cut Width MM',
                     data.additionalInfo!.cutMMMeter.toString(),
                   ),
 
@@ -972,7 +974,7 @@ abstract class TapeBuilder extends State<TapPanel> {
           color: Colors.grey[100],
           alignment: Alignment.center,
           child: Text(
-            Tap.cutMMMeter,
+            'Cut Width MM',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -1177,12 +1179,11 @@ abstract class TapeBuilder extends State<TapPanel> {
 
   Future<void> TapPrintMultipleStickers(List<TapRecord> selectedItems) async {
     if (selectedItems.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No items selected for printing'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'No items selected for printing',
       );
+
       return;
     }
 
@@ -1252,7 +1253,7 @@ abstract class TapeBuilder extends State<TapPanel> {
         int quantity = 1;
         if (selectedItem.quantity != null) {
           try {
-            quantity = int.parse(selectedItem.quantity.toString());
+            quantity = int.parse(selectedItem.availableQuantity.toString());
           } catch (e) {
             log(name: 'Quantity Parse Error', e.toString());
             quantity = 1;
@@ -1438,9 +1439,9 @@ abstract class TapeBuilder extends State<TapPanel> {
       int totalStickers = 0;
       for (var item in selectedItems) {
         int itemQuantity = 1;
-        if (item.quantity != null) {
+        if (item.availableQuantity != null) {
           try {
-            itemQuantity = int.parse(item.quantity.toString());
+            itemQuantity = int.parse(item.availableQuantity.toString());
           } catch (e) {
             itemQuantity = 1;
           }
@@ -1448,25 +1449,17 @@ abstract class TapeBuilder extends State<TapPanel> {
         totalStickers += itemQuantity;
       }
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Successfully sent $totalStickers sticker(s) to printer',
-          ),
-          backgroundColor: Colors.green,
-        ),
+      ToastService.instance.showSuccess(
+        context,
+        'Successfully sent $totalStickers sticker(s) to printer',
       );
 
       // Keep selection - don't clear it so user can add more selections
       // User can manually clear by clicking the toggle button if needed
     } catch (e) {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error printing stickers: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'Error printing stickers: ${e.toString()}',
       );
     }
   }

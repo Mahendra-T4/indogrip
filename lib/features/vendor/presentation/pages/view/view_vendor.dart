@@ -61,10 +61,10 @@ class _ViewVendorPanelState extends ViewVendorBuilder {
       ViewVendorRecordsFetchingEvent(
         param: ViewRecordApiParam(
           keyword: searchController.text,
-          filterBy: recordValue.toString(),
-          orderBy: filterValue.toString(),
+          filterBy: filterValue ?? '',
+          orderBy: recordValue ?? '',
           pageNo: pageNo.toString(),
-          sortBy: entryValue.toString(),
+          sortBy: entryValue ?? '',
           fromDate: fromDateController.text,
           toDate: toDateController.text,
         ),
@@ -115,7 +115,8 @@ class _ViewVendorPanelState extends ViewVendorBuilder {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             refreshButton,
-            if (isMultipleSelection) buildSelectionActions(),
+            if (isMultipleSelection && selectedItems.isNotEmpty)
+              buildSelectionActions(),
             SizedBox(width: 10),
             FileExportButton(
               onPressed: () async {
@@ -123,8 +124,8 @@ class _ViewVendorPanelState extends ViewVendorBuilder {
                   context: context,
                   param: ViewRecordApiParam(
                     keyword: searchController.text,
-                    filterBy: recordValue,
-                    orderBy: filterValue,
+                    filterBy: filterValue,
+                    orderBy: recordValue,
                     pageNo: pageNo.toString(),
                     sortBy: entryValue,
                     fromDate: fromDateController.text,
@@ -446,26 +447,30 @@ class _ViewVendorPanelState extends ViewVendorBuilder {
                                 // Table Header
                                 ScrollConfiguration(
                                   behavior: HorizontalMouseScrollBehavior(),
+
                                   child: Container(
+                                    width: double.infinity,
                                     margin: const EdgeInsets.symmetric(
                                       horizontal: 16,
                                     ),
                                     color: Colors.grey[100],
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: buildGridColumns()
-                                            .map(
-                                              (column) => Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 12.0,
-                                                      vertical: 12.0,
-                                                    ),
-                                                child: column.label,
-                                              ),
-                                            )
-                                            .toList(),
+                                      child: Container(
+                                        child: Row(
+                                          children: buildGridColumns()
+                                              .map(
+                                                (column) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 12.0,
+                                                        vertical: 12.0,
+                                                      ),
+                                                  child: column.label,
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
                                       ),
                                     ),
                                   ),

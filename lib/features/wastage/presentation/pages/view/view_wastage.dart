@@ -223,7 +223,7 @@ class _ViewWastagePanelState extends ViewWastageBuilder {
             ),
           ),
 
-          refreshButton,
+         
           SizedBox(height: 15),
           if (isNotEmpty) _buildPaginationWidget,
 

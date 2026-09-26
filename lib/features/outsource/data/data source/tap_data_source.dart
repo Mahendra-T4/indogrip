@@ -14,7 +14,7 @@ class Tap {
   static final String cartonPrice = 'Carton Price';
   static final String transportPrice = 'Transport Price';
   static final String totalPrice = 'Total Price';
-  static final String cutMMMeter = 'Cut MM Meter';
+  static final String cutMMMeter = 'Cut Width MM';
   static final String roundMeter = 'Round Meter';
   static final String base = 'Base';
   static final String micLabel = 'Micron';

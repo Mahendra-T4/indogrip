@@ -41,7 +41,7 @@ class _MasterRoleSizeSelectorState extends State<MasterRoleSizeSelector> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Cut MM Meter*",
+          "Cut Width MM*",
           style: TextStyle(
             color: Color(0xFF3D475C),
             fontSize: 14,

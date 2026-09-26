@@ -256,7 +256,7 @@ abstract class StretchFilmBuilder extends State<StretchFilmPanel> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: 'Enter BatchCode',
+                        hintText: 'Enter Batch Code',
                         hintStyle: TextStyle(
                           color: Colors.grey.shade600,
                           fontSize: 13,
@@ -1113,12 +1113,11 @@ abstract class StretchFilmBuilder extends State<StretchFilmPanel> {
     List<StretchRecord> selectedItems,
   ) async {
     if (selectedItems.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('No items selected for printing'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'No items selected for printing',
       );
+
       return;
     }
 
@@ -1368,22 +1367,14 @@ abstract class StretchFilmBuilder extends State<StretchFilmPanel> {
         totalStickers += itemQuantity;
       }
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Successfully sent $totalStickers sticker(s) to printer',
-          ),
-          backgroundColor: Colors.green,
-        ),
+      ToastService.instance.showSuccess(
+        context,
+        'Successfully sent $totalStickers sticker(s) to printer',
       );
     } catch (e) {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error printing stickers: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'Error printing stickers: ${e.toString()}',
       );
     }
   }

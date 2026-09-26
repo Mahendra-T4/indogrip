@@ -86,13 +86,13 @@ class _SidebarPanelBuilderState extends State<SidebarPanelBuilder>
           leading: Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               widget.icon,
               size: 20,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ),
           title: Text(
@@ -100,7 +100,7 @@ class _SidebarPanelBuilderState extends State<SidebarPanelBuilder>
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ),
           trailing: RotationTransition(
@@ -108,7 +108,7 @@ class _SidebarPanelBuilderState extends State<SidebarPanelBuilder>
             child: Icon(
               Icons.expand_more_rounded,
               size: 18,
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
             ),
           ),
         ),
@@ -125,25 +125,26 @@ class _SidebarPanelBuilderState extends State<SidebarPanelBuilder>
                       horizontal: 8,
                       vertical: 2,
                     ),
-                    decoration: BoxDecoration(
+                    child: Material(
+                      color: Colors.white.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white.withOpacity(0.05),
-                    ),
-                    child: ListTile(
-                      onTap: () {
-                        context.goNamed(widget.routeName[0]);
-                      },
-                      leading: Icon(
-                        Icons.add_circle_outline,
-                        size: 20,
-                        color: Colors.white.withOpacity(0.9),
-                      ),
-                      title: Text(
-                        widget.panel1 ?? 'Add',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white.withOpacity(0.9),
+                      clipBehavior: Clip.antiAlias,
+                      child: ListTile(
+                        onTap: () {
+                          context.goNamed(widget.routeName[0]);
+                        },
+                        leading: Icon(
+                          Icons.add_circle_outline,
+                          size: 20,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                        title: Text(
+                          widget.panel1 ?? 'Add',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white.withValues(alpha: 0.9),
+                          ),
                         ),
                       ),
                     ),
@@ -154,25 +155,26 @@ class _SidebarPanelBuilderState extends State<SidebarPanelBuilder>
                     horizontal: 8,
                     vertical: 2,
                   ),
-                  decoration: BoxDecoration(
+                  child: Material(
+                    color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.white.withOpacity(0.05),
-                  ),
-                  child: ListTile(
-                    onTap: () {
-                      context.goNamed(widget.routeName[1]);
-                    },
-                    leading: Icon(
-                      Icons.remove_red_eye_outlined,
-                      size: 20,
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                    title: Text(
-                      widget.panel2 ?? 'View',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.9),
+                    clipBehavior: Clip.antiAlias,
+                    child: ListTile(
+                      onTap: () {
+                        context.goNamed(widget.routeName[1]);
+                      },
+                      leading: Icon(
+                        Icons.remove_red_eye_outlined,
+                        size: 20,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
+                      title: Text(
+                        widget.panel2 ?? 'View',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
                       ),
                     ),
                   ),

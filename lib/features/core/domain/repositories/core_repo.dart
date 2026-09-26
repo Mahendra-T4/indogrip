@@ -106,6 +106,10 @@ abstract class CoreRepository {
         viewCoreModel = ViewCoreModel.fromJson(response.data);
         developer.log(
           viewCoreModel.message.toString(),
+          name: 'View Core Success Message',
+        );
+        developer.log(
+          response.data.toString(),
           name: 'View Core Success Response',
         );
       } else {

@@ -57,7 +57,7 @@ class _MicronDropdownWidgetState extends State<MicronDropdownWidget> {
                       TextFieldlabelText('Mic'),
                       const SizedBox(height: 8),
                       Container(
-                        height: widget.size ?? 51,
+                        height: widget.size ?? null,
 
                         decoration: widget.isFilter
                             ? BoxDecoration(

@@ -590,7 +590,7 @@ class _MachineCalculationState extends State<MachineCalculation> {
                 fontWeight: FontWeight.w500,
               ),
               prefixIcon: Icon(
-                Icons.edit_outlined,
+                Icons.numbers_outlined,
                 color: Color(0xFF2D8FCF),
                 size: 22,
               ),

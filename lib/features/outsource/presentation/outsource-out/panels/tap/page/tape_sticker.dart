@@ -6,8 +6,9 @@ import 'package:indogrip/Assets/assets.dart';
 import 'package:indogrip/core/service/connectivity/internate%20connectivity-checker.dart';
 import 'package:indogrip/core/service/connectivity/not_connected.dart';
 import 'package:indogrip/core/utils/appbar/desktop_appbar.dart';
+import 'package:indogrip/core/utils/widgets/toast_service.dart';
 import 'package:indogrip/features/outsource/data/model/tap_sticker_info_model.dart';
-import 'package:indogrip/features/outsource/data/model/view_tap_in_model.dart';
+
 import 'package:indogrip/features/outsource/presentation/state/bloc.out/inventory_out_bloc.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
@@ -64,12 +65,11 @@ class _PrintStickerState extends State<PrintTapeSticker> {
 
   Future<void> printStickers(TapeStickerInfoModel data) async {
     if (selectedIndices.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select at least one sticker to print'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'Please select at least one sticker to print',
       );
+
       return;
     }
 
@@ -267,7 +267,7 @@ class _PrintStickerState extends State<PrintTapeSticker> {
                       mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                       children: [
                         pw.Text(
-                          'Remark: ${data.record!.inventoryInformation!.remark}',
+                          'Remark: ${data.record!.batchInformation?.batchRemark ?? "-"}',
                           style: style,
                         ),
                         pw.Text(
@@ -308,12 +308,9 @@ class _PrintStickerState extends State<PrintTapeSticker> {
         selectedIndices.clear();
       });
     } catch (e) {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error printing stickers: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
+      ToastService.instance.showError(
+        context,
+        'Error printing stickers: ${e.toString()}',
       );
     }
   }
@@ -720,8 +717,8 @@ class _PrintStickerState extends State<PrintTapeSticker> {
                                                       Text(
                                                         data
                                                             .record!
-                                                            .inventoryInformation!
-                                                            .remark
+                                                            .batchInformation!
+                                                            .batchRemark
                                                             .toString(),
 
                                                         style: TextStyle(

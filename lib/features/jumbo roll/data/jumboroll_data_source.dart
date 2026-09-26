@@ -74,10 +74,7 @@ class JumboRollDataSource extends DataGridSource {
             columnName: JumboRoll.billNo,
             value: data.jBillNumber.toString(),
           ),
-          DataGridCell<String>(
-            columnName: JumboRoll.rollPacketNo,
-            value: data.jRollNumber.toString(),
-          ),
+
           DataGridCell<String>(
             columnName: JumboRoll.base,
             value: data.baseLabel.toString(),
@@ -90,14 +87,7 @@ class JumboRollDataSource extends DataGridSource {
             columnName: JumboRoll.length,
             value: data.jLength.toString(),
           ),
-          DataGridCell<String>(
-            columnName: JumboRoll.consumeLength,
-            value: data.consumeLength.toString(),
-          ),
-          DataGridCell<String>(
-            columnName: JumboRoll.availableLength,
-            value: data.availableLength.toString(),
-          ),
+
           DataGridCell<String>(
             columnName: JumboRoll.width,
             value: data.jWidth.toString(),
@@ -124,10 +114,18 @@ class JumboRollDataSource extends DataGridSource {
             columnName: JumboRoll.remark,
             value: data.jRemark.toString(),
           ),
-          // DataGridCell<String>(
-          //   columnName: JumboRoll.jumboStatusLabel,
-          //   value: data.jumboStatusLabel.toString(),
-          // ),
+          DataGridCell<String>(
+            columnName: JumboRoll.rollPacketNo,
+            value: data.jRollNumber.toString(),
+          ),
+          DataGridCell<String>(
+            columnName: JumboRoll.consumeLength,
+            value: data.consumeLength.toString(),
+          ),
+          DataGridCell<String>(
+            columnName: JumboRoll.availableLength,
+            value: data.availableLength.toString(),
+          ),
           DataGridCell<Widget>(
             columnName: JumboRoll.jumboStatusLabel,
             value: StockStatus(
