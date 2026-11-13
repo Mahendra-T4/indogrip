@@ -50,11 +50,11 @@ AppBar DesktopAppBar(
     //           child: Container(
     //             margin: const EdgeInsets.symmetric(vertical: 8),
     //             decoration: BoxDecoration(
-    //               color: Colors.white.withOpacity(0.1),
+    //               color: Colors.white.withValues(alpha:0.1),
     //               borderRadius: BorderRadius.circular(12),
     //               boxShadow: [
     //                 BoxShadow(
-    //                   color: Colors.black.withOpacity(0.1),
+    //                   color: Colors.black.withValues(alpha:0.1),
     //                   blurRadius: 8,
     //                   offset: const Offset(0, 2),
     //                 ),
@@ -97,7 +97,7 @@ AppBar DesktopAppBar(
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha:0.1),
                       blurRadius: 12,
                       spreadRadius: 2,
                       offset: const Offset(0, 4),
@@ -163,7 +163,7 @@ AppBar DesktopAppBar(
                                         vertical: 4,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.2),
+                                        color: Colors.white.withValues(alpha:0.2),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: const Text(
@@ -225,25 +225,25 @@ AppBar DesktopAppBar(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.white.withOpacity(0.15),
-                        Colors.white.withOpacity(0.08),
+                        Colors.white.withValues(alpha:0.15),
+                        Colors.white.withValues(alpha:0.08),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.25),
+                      color: Colors.white.withValues(alpha:0.25),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha:0.2),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
                       BoxShadow(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withValues(alpha:0.1),
                         blurRadius: 4,
                         offset: const Offset(0, -1),
                       ),
@@ -261,7 +261,7 @@ AppBar DesktopAppBar(
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF3498DB).withOpacity(0.3),
+                              color: const Color(0xFF3498DB).withValues(alpha:0.3),
                               blurRadius: 8,
                               spreadRadius: 1,
                             ),
@@ -286,7 +286,7 @@ AppBar DesktopAppBar(
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF3498DB).withOpacity(0.2),
+                              color: const Color(0xFF3498DB).withValues(alpha:0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
@@ -312,7 +312,7 @@ AppBar DesktopAppBar(
                               const SizedBox(width: 4),
                               Icon(
                                 Icons.expand_more_rounded,
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha:0.8),
                                 size: 18,
                               ),
                             ],
@@ -335,7 +335,7 @@ AppBar DesktopAppBar(
         gradient: LinearGradient(
           colors: [
             const Color(0xFF2C3E50),
-            const Color(0xFF3498DB).withOpacity(0.8),
+            const Color(0xFF3498DB).withValues(alpha:0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -368,11 +368,11 @@ Widget _buildActionButton({
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha:0.1),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha:0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

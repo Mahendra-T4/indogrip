@@ -106,13 +106,13 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
               leading: Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   widget.icon,
                   size: 20,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha:0.9),
                 ),
               ),
               // title: Text(
@@ -120,7 +120,7 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
               //   style: TextStyle(
               //     fontSize: 14,
               //     fontWeight: FontWeight.w500,
-              //     color: Colors.white.withOpacity(0.9),
+              //     color: Colors.white.withValues(alpha:0.9),
               //   ),
               // ),
               trailing: RotationTransition(
@@ -128,7 +128,7 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                 child: Icon(
                   Icons.expand_more_rounded,
                   size: 18,
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white.withValues(alpha:0.5),
                 ),
               ),
             ),
@@ -150,7 +150,7 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white.withOpacity(0.05),
+                      color: Colors.white.withValues(alpha:0.05),
                     ),
                     child: Material(
                       color: Colors.transparent,
@@ -186,7 +186,7 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                                   Icon(
                                     Icons.add_circle_outline,
                                     size: 20,
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha:0.9),
                                   ),
                                 ],
                               ),
@@ -207,7 +207,7 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white.withOpacity(0.05),
+                      color: Colors.white.withValues(alpha:0.05),
                     ),
                     child: Material(
                       color: Colors.transparent,
@@ -242,7 +242,7 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                                   Icon(
                                     Icons.remove_red_eye_outlined,
                                     size: 20,
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha:0.9),
                                   ),
                                 ],
                               ),
@@ -260,7 +260,7 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                 //   ),
                 //   decoration: BoxDecoration(
                 //     borderRadius: BorderRadius.circular(8),
-                //     color: Colors.white.withOpacity(0.05),
+                //     color: Colors.white.withValues(alpha:0.05),
                 //   ),
                 //   child: ListTile(
                 //     onTap: () {
@@ -269,14 +269,14 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                 //     leading: Icon(
                 //       Icons.grain,
                 //       size: 20,
-                //       color: Colors.white.withOpacity(0.9),
+                //       color: Colors.white.withValues(alpha:0.9),
                 //     ),
                 //     title: Text(
                 //       widget.panel3 ?? 'Silica',
                 //       style: TextStyle(
                 //         fontSize: 14,
                 //         fontWeight: FontWeight.w500,
-                //         color: Colors.white.withOpacity(0.9),
+                //         color: Colors.white.withValues(alpha:0.9),
                 //       ),
                 //     ),
                 //   ),
@@ -288,7 +288,7 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                 //   ),
                 //   decoration: BoxDecoration(
                 //     borderRadius: BorderRadius.circular(8),
-                //     color: Colors.white.withOpacity(0.05),
+                //     color: Colors.white.withValues(alpha:0.05),
                 //   ),
                 //   child: ListTile(
                 //     onTap: () {
@@ -297,14 +297,14 @@ class _SidebarPanelBuilderState extends State<SmallOutSourceSidePanelBuilder>
                 //     leading: Icon(
                 //       Icons.add_box,
                 //       size: 20,
-                //       color: Colors.white.withOpacity(0.9),
+                //       color: Colors.white.withValues(alpha:0.9),
                 //     ),
                 //     title: Text(
                 //       widget.panel4 ?? 'Packing Strip',
                 //       style: TextStyle(
                 //         fontSize: 14,
                 //         fontWeight: FontWeight.w500,
-                //         color: Colors.white.withOpacity(0.9),
+                //         color: Colors.white.withValues(alpha:0.9),
                 //       ),
                 //     ),
                 //   ),

@@ -44,7 +44,7 @@ class DeleteConfirmationAlert extends StatefulWidget {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha:0.5),
       builder: (context) => DeleteConfirmationAlert(
         title: title,
         message: message,
@@ -120,7 +120,7 @@ class _DeleteConfirmationAlertState extends State<DeleteConfirmationAlert>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.red.withOpacity(0.15),
+            color: Colors.red.withValues(alpha:0.15),
             blurRadius: 30,
             spreadRadius: 5,
             offset: const Offset(0, 10),
@@ -167,10 +167,10 @@ class _DeleteConfirmationAlertState extends State<DeleteConfirmationAlert>
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.08),
+                  color: Colors.red.withValues(alpha:0.08),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Colors.red.withOpacity(0.2),
+                    color: Colors.red.withValues(alpha:0.2),
                     width: 1.5,
                   ),
                 ),
@@ -230,7 +230,7 @@ class _DeleteConfirmationAlertState extends State<DeleteConfirmationAlert>
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.red.withOpacity(0.3),
+              color: Colors.red.withValues(alpha:0.3),
               blurRadius: 20,
               spreadRadius: 5,
             ),
@@ -330,7 +330,7 @@ class _DeleteConfirmationAlertState extends State<DeleteConfirmationAlert>
               border: Border.all(color: Colors.grey.shade300, width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.red.withOpacity(0.3),
+                  color: Colors.red.withValues(alpha:0.3),
                   blurRadius: 12,
                   spreadRadius: 0,
                   offset: const Offset(0, 4),
@@ -381,7 +381,7 @@ class _DeleteConfirmationAlertState extends State<DeleteConfirmationAlert>
             boxShadow: isPrimary
                 ? [
                     BoxShadow(
-                      color: Colors.red.withOpacity(0.3),
+                      color: Colors.red.withValues(alpha:0.3),
                       blurRadius: 12,
                       spreadRadius: 0,
                       offset: const Offset(0, 4),

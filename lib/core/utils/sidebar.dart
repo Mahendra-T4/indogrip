@@ -9,9 +9,6 @@ import 'package:indogrip/features/core/presentation/pages/view/view_core.dart';
 import 'package:indogrip/features/dashboard/presentation/page/deshboard.dart';
 import 'package:indogrip/features/jumbo%20roll/presentation/pages/add/add_jumbo_roll.dart';
 import 'package:indogrip/features/jumbo%20roll/presentation/pages/view/view_jumbo_roll.dart';
-import 'package:indogrip/features/loss%20meters/pages/add/add_lossmeter.dart';
-import 'package:indogrip/features/loss%20meters/pages/view/view_loss_meter.dart';
-import 'package:indogrip/features/outsource/presentation/outside-in/pages/outsource_in.dart';
 import 'package:indogrip/features/round/presentation/pages/add/add_round.dart';
 import 'package:indogrip/features/round/presentation/pages/view/view_round.dart';
 import 'package:indogrip/features/staff/presentation/pages/add/add_statff.dart';
@@ -42,7 +39,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha:0.2),
             blurRadius: 20,
             offset: Offset(0, 2),
           ),
@@ -81,13 +78,13 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                     leading: Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withValues(alpha:0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
                         Icons.dashboard, // Transfer/Exchange icon
                         size: 20,
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha:0.9),
                       ),
                     ),
                     title: Text(
@@ -95,7 +92,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha:0.9),
                       ),
                     ),
                   ),
@@ -144,13 +141,13 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                   //   leading: Container(
                   //     padding: EdgeInsets.all(8),
                   //     decoration: BoxDecoration(
-                  //       color: Colors.white.withOpacity(0.1),
+                  //       color: Colors.white.withValues(alpha:0.1),
                   //       borderRadius: BorderRadius.circular(8),
                   //     ),
                   //     child: Icon(
                   //       Icons.swap_horiz_outlined, // Transfer/Exchange icon
                   //       size: 20,
-                  //       color: Colors.white.withOpacity(0.9),
+                  //       color: Colors.white.withValues(alpha:0.9),
                   //     ),
                   //   ),
                   //   title: Text(
@@ -158,7 +155,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                   //     style: TextStyle(
                   //       fontSize: 14,
                   //       fontWeight: FontWeight.w500,
-                  //       color: Colors.white.withOpacity(0.9),
+                  //       color: Colors.white.withValues(alpha:0.9),
                   //     ),
                   //   ),
                   // ),
@@ -238,23 +235,23 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
         leading: Container(
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 20, color: Colors.white.withOpacity(0.9)),
+          child: Icon(icon, size: 20, color: Colors.white.withValues(alpha:0.9)),
         ),
         title: Text(
           title,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha:0.9),
           ),
         ),
         trailing: Icon(
           Icons.expand_more,
           size: 18,
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha:0.5),
         ),
         children: List.generate(
           screenNames.length,
@@ -262,7 +259,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white.withOpacity(0.05),
+              color: Colors.white.withValues(alpha:0.05),
             ),
             child: ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 24),
@@ -270,7 +267,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                 screenNames[index],
                 style: TextStyle(
                   fontSize: 13,
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withValues(alpha:0.7),
                 ),
               ),
               leading: Icon(
@@ -278,7 +275,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                     ? Icons.add_circle_outline
                     : Icons.remove_red_eye_outlined,
                 size: 18,
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withValues(alpha:0.7),
               ),
               onTap: () {
                 Navigator.push(
@@ -286,7 +283,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                   MaterialPageRoute(builder: (context) => screens[index]),
                 );
               },
-              hoverColor: Colors.white.withOpacity(0.1),
+              hoverColor: Colors.white.withValues(alpha:0.1),
             ),
           ),
         ),
@@ -306,23 +303,23 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
         leading: Container(
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 20, color: Colors.white.withOpacity(0.9)),
+          child: Icon(icon, size: 20, color: Colors.white.withValues(alpha:0.9)),
         ),
         title: Text(
           title,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha:0.9),
           ),
         ),
         trailing: Icon(
           Icons.expand_more,
           size: 18,
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha:0.5),
         ),
         children: List.generate(
           screenNames.length,
@@ -330,7 +327,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white.withOpacity(0.05),
+              color: Colors.white.withValues(alpha:0.05),
             ),
             child: ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 24),
@@ -338,7 +335,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                 screenNames[index],
                 style: TextStyle(
                   fontSize: 13,
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withValues(alpha:0.7),
                 ),
               ),
               leading: Icon(
@@ -346,7 +343,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                     ? Icons.add_circle_outline
                     : Icons.remove_red_eye_outlined,
                 size: 18,
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withValues(alpha:0.7),
               ),
               onTap: () {
                 Navigator.push(
@@ -354,7 +351,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                   MaterialPageRoute(builder: (context) => screens[index]),
                 );
               },
-              hoverColor: Colors.white.withOpacity(0.1),
+              hoverColor: Colors.white.withValues(alpha:0.1),
             ),
           ),
         ),

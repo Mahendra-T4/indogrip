@@ -83,7 +83,7 @@ class _ForgotPasswordPanelState extends State<ForgotPasswordPanel> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.grey.withValues(alpha:0.1),
                             spreadRadius: 5,
                             blurRadius: 15,
                             offset: const Offset(0, 3),

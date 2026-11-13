@@ -272,7 +272,7 @@ class _StaffListDropdownState extends State<StaffListDropdown> {
                         border: Border.all(color: Colors.grey.shade300),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.black.withValues(alpha:0.05),
                             blurRadius: 4,
                             offset: Offset(0, 2),
                           ),

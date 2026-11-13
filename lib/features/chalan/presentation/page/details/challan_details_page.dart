@@ -297,7 +297,7 @@ class _ChallanDetailsPageState extends State<ChallanDetailsPage> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha:0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -343,7 +343,7 @@ class _ChallanDetailsPageState extends State<ChallanDetailsPage> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, color: color, size: 20),
@@ -385,7 +385,7 @@ class _ChallanDetailsPageState extends State<ChallanDetailsPage> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha:0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -444,7 +444,7 @@ class _ChallanDetailsPageState extends State<ChallanDetailsPage> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha:0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -506,7 +506,7 @@ class _ChallanDetailsPageState extends State<ChallanDetailsPage> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF8B5CF6).withOpacity(0.1),
+                    color: const Color(0xFF8B5CF6).withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -554,9 +554,9 @@ class _ChallanDetailsPageState extends State<ChallanDetailsPage> {
   ) {
     return Container(
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.2), width: 1),
+        border: Border.all(color: color.withValues(alpha:0.2), width: 1),
       ),
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -567,7 +567,7 @@ class _ChallanDetailsPageState extends State<ChallanDetailsPage> {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: color.withOpacity(0.7),
+              color: color.withValues(alpha:0.7),
             ),
           ),
           const SizedBox(height: 6),

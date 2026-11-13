@@ -146,7 +146,7 @@ class _CustomDataTableState extends State<CustomDataTable> {
         border: Border.all(color: const Color(0xFFEDF2F7), width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.04),
+            color: Colors.grey.withValues(alpha:0.04),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),

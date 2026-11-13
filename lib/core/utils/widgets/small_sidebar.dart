@@ -106,13 +106,13 @@ class _SmallSidebarPanelBuilderState extends State<SmallSidebarPanelBuilder>
               leading: Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   widget.icon,
                   size: 20,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha:0.9),
                 ),
               ),
               // title: Text(
@@ -120,7 +120,7 @@ class _SmallSidebarPanelBuilderState extends State<SmallSidebarPanelBuilder>
               //   style: TextStyle(
               //     fontSize: 14,
               //     fontWeight: FontWeight.w500,
-              //     color: Colors.white.withOpacity(0.9),
+              //     color: Colors.white.withValues(alpha:0.9),
               //   ),
               // ),
               trailing: RotationTransition(
@@ -128,7 +128,7 @@ class _SmallSidebarPanelBuilderState extends State<SmallSidebarPanelBuilder>
                 child: Icon(
                   Icons.expand_more_rounded,
                   size: 18,
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white.withValues(alpha:0.5),
                 ),
               ),
             ),
@@ -152,7 +152,7 @@ class _SmallSidebarPanelBuilderState extends State<SmallSidebarPanelBuilder>
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.white.withOpacity(0.05),
+                        color: Colors.white.withValues(alpha:0.05),
                       ),
                       child: Material(
                         color: Colors.transparent,
@@ -188,7 +188,7 @@ class _SmallSidebarPanelBuilderState extends State<SmallSidebarPanelBuilder>
                                     Icon(
                                       Icons.add_circle_outline,
                                       size: 20,
-                                      color: Colors.white.withOpacity(0.9),
+                                      color: Colors.white.withValues(alpha:0.9),
                                     ),
                                   ],
                                 ),
@@ -209,7 +209,7 @@ class _SmallSidebarPanelBuilderState extends State<SmallSidebarPanelBuilder>
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white.withOpacity(0.05),
+                      color: Colors.white.withValues(alpha:0.05),
                     ),
                     child: Material(
                       color: Colors.transparent,
@@ -244,7 +244,7 @@ class _SmallSidebarPanelBuilderState extends State<SmallSidebarPanelBuilder>
                                   Icon(
                                     Icons.remove_red_eye_outlined,
                                     size: 20,
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha:0.9),
                                   ),
                                 ],
                               ),

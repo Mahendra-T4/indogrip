@@ -14,7 +14,7 @@ class NotificationPopup {
     return showDialog(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.2),
+      barrierColor: Colors.black.withValues(alpha:0.2),
       builder: (context) => Dialog(
         alignment: Alignment.topRight,
         insetPadding: const EdgeInsets.all(16),
@@ -28,7 +28,7 @@ class NotificationPopup {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: color.withOpacity(0.15),
+                color: color.withValues(alpha:0.15),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
               ),
@@ -44,7 +44,7 @@ class NotificationPopup {
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [color, color.withOpacity(0.85)],
+                      colors: [color, color.withValues(alpha:0.85)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -54,7 +54,7 @@ class NotificationPopup {
                       Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha:0.2),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(

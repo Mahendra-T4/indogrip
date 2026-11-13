@@ -288,7 +288,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha:0.2),
                         blurRadius: 20,
                         offset: Offset(0, 2),
                       ),
@@ -338,13 +338,13 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                 leading: Container(
                                   padding: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: Colors.white.withValues(alpha:0.1),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
                                     Icons.dashboard, // Transfer/Exchange icon
                                     size: 20,
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha:0.9),
                                   ),
                                 ),
                                 title: Text(
@@ -352,7 +352,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha:0.9),
                                   ),
                                 ),
                               ),
@@ -367,13 +367,13 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                   leading: Container(
                                     padding: EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.1),
+                                      color: Colors.white.withValues(alpha:0.1),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Icon(
                                       Icons.note, // Transfer/Exchange icon
                                       size: 20,
-                                      color: Colors.white.withOpacity(0.9),
+                                      color: Colors.white.withValues(alpha:0.9),
                                     ),
                                   ),
                                   title: Text(
@@ -381,7 +381,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.white.withOpacity(0.9),
+                                      color: Colors.white.withValues(alpha:0.9),
                                     ),
                                   ),
                                 ),
@@ -393,13 +393,13 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                 leading: Container(
                                   padding: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: Colors.white.withValues(alpha:0.1),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
                                     Icons.calculate, // Transfer/Exchange icon
                                     size: 20,
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha:0.9),
                                   ),
                                 ),
                                 title: Text(
@@ -407,7 +407,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha:0.9),
                                   ),
                                 ),
                               ),
@@ -545,7 +545,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                   leading: Container(
                                     padding: EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.1),
+                                      color: Colors.white.withValues(alpha:0.1),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Image.asset(
@@ -559,7 +559,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.white.withOpacity(0.9),
+                                      color: Colors.white.withValues(alpha:0.9),
                                     ),
                                   ),
                                 ),
@@ -573,7 +573,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                               //   leading: Container(
                               //     padding: EdgeInsets.all(8),
                               //     decoration: BoxDecoration(
-                              //       color: Colors.white.withOpacity(0.1),
+                              //       color: Colors.white.withValues(alpha:0.1),
                               //       borderRadius: BorderRadius.circular(8),
                               //     ),
                               //     child: Image.asset(
@@ -587,7 +587,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                               //     style: TextStyle(
                               //       fontSize: 14,
                               //       fontWeight: FontWeight.w500,
-                              //       color: Colors.white.withOpacity(0.9),
+                              //       color: Colors.white.withValues(alpha:0.9),
                               //     ),
                               //   ),
                               // ),
@@ -614,44 +614,44 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                   ],
                                 ),
 
-                              // SidebarPanelBuilder(
-                              //   // isRolePanel: HiveService.getRole() == '2'
-                              //   //     ? false
-                              //   //     : true,
-                              //   currentTap: isSilica,
-                              //   onTap: () {
-                              //     setState(() {
-                              //       isSilica = !isSilica;
-                              //     });
-                              //   },
-                              //   panel1: 'Add',
-                              //   panel2: 'View',
-                              //   icon: Icons.circle_rounded,
-                              //   title: 'Silica',
-                              //   routeName: [
-                              //     AdditionalInventoryRecordPanel.routeName,
-                              //     ViewSilicaRecordTablePanel.routeName,
-                              //   ],
-                              // ),
-                              // SidebarPanelBuilder(
-                              //   // isRolePanel: HiveService.getRole() == '2'
-                              //   //     ? false
-                              //   //     : true,
-                              //   currentTap: isPackingStrip,
-                              //   onTap: () {
-                              //     setState(() {
-                              //       isPackingStrip = !isPackingStrip;
-                              //     });
-                              //   },
-                              //   panel1: 'Add',
-                              //   panel2: 'View',
-                              //   icon: Icons.circle_rounded,
-                              //   title: 'Packing Strip',
-                              //   routeName: [
-                              //     AddPackingStripRecordPanel.routeName,
-                              //     ViewStripRecordTablePanel.routeName,
-                              //   ],
-                              // ),
+                              SidebarPanelBuilder(
+                                // isRolePanel: HiveService.getRole() == '2'
+                                //     ? false
+                                //     : true,
+                                currentTap: isSilica,
+                                onTap: () {
+                                  setState(() {
+                                    isSilica = !isSilica;
+                                  });
+                                },
+                                panel1: 'Add',
+                                panel2: 'View',
+                                icon: Icons.circle_rounded,
+                                title: 'Silica',
+                                routeName: [
+                                  AdditionalInventoryRecordPanel.routeName,
+                                  ViewSilicaRecordTablePanel.routeName,
+                                ],
+                              ),
+                              SidebarPanelBuilder(
+                                // isRolePanel: HiveService.getRole() == '2'
+                                //     ? false
+                                //     : true,
+                                currentTap: isPackingStrip,
+                                onTap: () {
+                                  setState(() {
+                                    isPackingStrip = !isPackingStrip;
+                                  });
+                                },
+                                panel1: 'Add',
+                                panel2: 'View',
+                                icon: Icons.circle_rounded,
+                                title: 'Packing Strip',
+                                routeName: [
+                                  AddPackingStripRecordPanel.routeName,
+                                  ViewStripRecordTablePanel.routeName,
+                                ],
+                              ),
 
                               // _buildSectionHeader('Outsource-OUT'),
                               if (HiveService.getPanels()!.contains('6') ||
@@ -796,7 +796,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha:0.2),
                         blurRadius: 20,
                         offset: Offset(0, 2),
                       ),
@@ -853,14 +853,14 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                     leading: Container(
                                       padding: EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.1),
+                                        color: Colors.white.withValues(alpha:0.1),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Icon(
                                         Icons
                                             .dashboard, // Transfer/Exchange icon
                                         size: 20,
-                                        color: Colors.white.withOpacity(0.9),
+                                        color: Colors.white.withValues(alpha:0.9),
                                       ),
                                     ),
                                     // title: Text(
@@ -868,7 +868,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                     //   style: TextStyle(
                                     //     fontSize: 14,
                                     //     fontWeight: FontWeight.w500,
-                                    //     color: Colors.white.withOpacity(0.9),
+                                    //     color: Colors.white.withValues(alpha:0.9),
                                     //   ),
                                     // ),
                                   ),
@@ -889,7 +889,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                       leading: Container(
                                         padding: EdgeInsets.all(8),
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.1),
+                                          color: Colors.white.withValues(alpha:0.1),
                                           borderRadius: BorderRadius.circular(
                                             8,
                                           ),
@@ -897,7 +897,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                         child: Icon(
                                           Icons.note, // Transfer/Exchange icon
                                           size: 20,
-                                          color: Colors.white.withOpacity(0.9),
+                                          color: Colors.white.withValues(alpha:0.9),
                                         ),
                                       ),
                                       // title: Text(
@@ -905,7 +905,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                       //   style: TextStyle(
                                       //     fontSize: 14,
                                       //     fontWeight: FontWeight.w500,
-                                      //     color: Colors.white.withOpacity(0.9),
+                                      //     color: Colors.white.withValues(alpha:0.9),
                                       //   ),
                                       // ),
                                     ),
@@ -1048,7 +1048,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                       leading: Container(
                                         padding: EdgeInsets.all(8),
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.1),
+                                          color: Colors.white.withValues(alpha:0.1),
                                           borderRadius: BorderRadius.circular(
                                             8,
                                           ),
@@ -1057,7 +1057,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                           Icons
                                               .swap_horiz_outlined, // Transfer/Exchange icon
                                           size: 20,
-                                          color: Colors.white.withOpacity(0.9),
+                                          color: Colors.white.withValues(alpha:0.9),
                                         ),
                                       ),
                                       // title: Text(
@@ -1065,7 +1065,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                                       //   style: TextStyle(
                                       //     fontSize: 14,
                                       //     fontWeight: FontWeight.w500,
-                                      //     color: Colors.white.withOpacity(0.9),
+                                      //     color: Colors.white.withValues(alpha:0.9),
                                       //   ),
                                       // ),
                                     ),
@@ -1255,23 +1255,23 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
         leading: Container(
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 20, color: Colors.white.withOpacity(0.9)),
+          child: Icon(icon, size: 20, color: Colors.white.withValues(alpha:0.9)),
         ),
         title: Text(
           title,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha:0.9),
           ),
         ),
         trailing: Icon(
           Icons.expand_more_rounded,
           size: 18,
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha:0.5),
         ),
         children: List.generate(
           screenNames.length,
@@ -1279,7 +1279,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white.withOpacity(0.05),
+              color: Colors.white.withValues(alpha:0.05),
             ),
             child: ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 24),
@@ -1287,7 +1287,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                 screenNames[index],
                 style: TextStyle(
                   fontSize: 13,
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withValues(alpha:0.7),
                 ),
               ),
               leading: Icon(
@@ -1307,10 +1307,10 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                           ? Icons.add_rounded
                           : Icons.visibility_rounded),
                 size: 18,
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withValues(alpha:0.7),
               ),
               onTap: onTap,
-              hoverColor: Colors.white.withOpacity(0.1),
+              hoverColor: Colors.white.withValues(alpha:0.1),
             ),
           ),
         ),
@@ -1332,23 +1332,23 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
         leading: Container(
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 20, color: Colors.white.withOpacity(0.9)),
+          child: Icon(icon, size: 20, color: Colors.white.withValues(alpha:0.9)),
         ),
         title: Text(
           title,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha:0.9),
           ),
         ),
         trailing: Icon(
           Icons.expand_more_rounded,
           size: 18,
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha:0.5),
         ),
         children: List.generate(
           screenNames.length,
@@ -1356,7 +1356,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
             margin: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white.withOpacity(0.05),
+              color: Colors.white.withValues(alpha:0.05),
             ),
             child: ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 24),
@@ -1364,7 +1364,7 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                 screenNames[index],
                 style: TextStyle(
                   fontSize: 13,
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withValues(alpha:0.7),
                 ),
               ),
               leading: Icon(
@@ -1384,10 +1384,10 @@ class _ShellScaffoldState extends ConsumerState<ShellScaffold>
                           ? Icons.add_rounded
                           : Icons.visibility_rounded),
                 size: 18,
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withValues(alpha:0.7),
               ),
               onTap: onTap,
-              hoverColor: Colors.white.withOpacity(0.1),
+              hoverColor: Colors.white.withValues(alpha:0.1),
             ),
           ),
         ),

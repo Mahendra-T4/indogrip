@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:indogrip/core/responsive/responsive.dart';
 import 'package:indogrip/core/utils/appbar/desktop_appbar.dart';
 import 'package:indogrip/core/utils/appbar/mobile_appbar.dart';
 import 'package:indogrip/core/utils/sidebar.dart';
+import 'package:indogrip/core/utils/widgets/text_field.dart';
 import 'package:indogrip/core/widgets/labal_text.dart';
+import 'package:indogrip/features/machine/bloc/machine_bloc.dart';
+import 'package:indogrip/features/machine/models/machine_cal_model.dart';
 
 class MachineCalculation extends StatefulWidget {
   const MachineCalculation({super.key});
@@ -15,71 +19,65 @@ class MachineCalculation extends StatefulWidget {
 }
 
 class _MachineCalculationState extends State<MachineCalculation> {
+  late final MachineBloc _machineBloc;
   // late AnimationController _animationController;
   TextEditingController meterController = TextEditingController();
-  TextEditingController machine1FirstStepController = TextEditingController();
-  TextEditingController machine2FirstStepController = TextEditingController();
-  TextEditingController machine1SecondStepController = TextEditingController();
-  TextEditingController machine2SecondStepController = TextEditingController();
-  TextEditingController machine1ThirdStepController = TextEditingController();
-  TextEditingController machine2ThirdStepController = TextEditingController();
+  // TextEditingController machine1FirstStepController = TextEditingController();
+  // TextEditingController machine2FirstStepController = TextEditingController();
+  // TextEditingController machine1SecondStepController = TextEditingController();
+  // TextEditingController machine2SecondStepController = TextEditingController();
+  // TextEditingController machine1ThirdStepController = TextEditingController();
+  // TextEditingController machine2ThirdStepController = TextEditingController();
 
   @override
   void initState() {
-    // _animationController = AnimationController(
-    //   duration: const Duration(milliseconds: 600),
-    //   vsync: this,
-    // );
-    // _animationController.forward();
+    _machineBloc = MachineBloc();
     super.initState();
   }
+
+  bool isCalculationON = false;
 
   @override
   void dispose() {
     // _animationController.dispose();
     meterController.dispose();
-    machine1FirstStepController.dispose();
-    machine2FirstStepController.dispose();
-    machine1SecondStepController.dispose();
-    machine2SecondStepController.dispose();
-    machine1ThirdStepController.dispose();
-    machine2ThirdStepController.dispose();
+
     super.dispose();
   }
 
-  calculateMachine1() {
-    double meter = double.tryParse(meterController.text) ?? 0;
+  // calculateMachine1() {
+  //   double meter = double.tryParse(meterController.text) ?? 0;
 
-    final machine1Result = meter * (100 / 90) * 7.34;
+  //   final machine1Result = meter * (100 / 90) * 7.34;
 
-    machine1FirstStepController.text = meterController.text != ''
-        ? (machine1Result - 60).round().toString()
-        : '';
-    machine1SecondStepController.text = meterController.text != ''
-        ? (machine1Result - 11).round().toString()
-        : '';
-    machine1ThirdStepController.text = meterController.text != ''
-        ? machine1Result.round().toString()
-        : '';
-    setState(() {});
-  }
+  //   machine1FirstStepController.text = meterController.text != ''
+  //       ? (machine1Result - 60).round().toString()
+  //       : '';
+  //   machine1SecondStepController.text = meterController.text != ''
+  //       ? (machine1Result - 11).round().toString()
+  //       : '';
+  //   machine1ThirdStepController.text = meterController.text != ''
+  //       ? machine1Result.round().toString()
+  //       : '';
+  //   setState(() {});
+  // }
 
-  calculateMachine2() {
-    double meter = double.tryParse(meterController.text) ?? 0;
+  // calculateMachine2() {
+  //   double meter = double.tryParse(meterController.text) ?? 0;
 
-    final machine2Result = meter * 1.61;
+  //   final machine2Result = meter * 1.61;
 
-    machine2FirstStepController.text = meterController.text != ''
-        ? (machine2Result - 100).round().toString()
-        : '';
-    machine2SecondStepController.text = meterController.text != ''
-        ? (machine2Result - 23).round().toString()
-        : '';
-    machine2ThirdStepController.text = meterController.text != ''
-        ? machine2Result.round().toString()
-        : '';
-    setState(() {});
-  }
+  //   machine2FirstStepController.text = meterController.text != ''
+  //       ? (machine2Result - 100).round().toString()
+  //       : '';
+  //   machine2SecondStepController.text = meterController.text != ''
+  //       ? (machine2Result - 23).round().toString()
+  //       : '';
+  //   machine2ThirdStepController.text = meterController.text != ''
+  //       ? machine2Result.round().toString()
+  //       : '';
+  //   setState(() {});
+  // }
 
   final GlobalKey<ScaffoldState> stateKey = GlobalKey<ScaffoldState>();
 
@@ -145,33 +143,56 @@ class _MachineCalculationState extends State<MachineCalculation> {
     );
   }
 
-  Widget get contentWidget => SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    physics: const BouncingScrollPhysics(),
-    child: Row(
-      spacing: 24,
-      children: [
-        _buildMachineCard(
-          'Machine 1',
-          'OLD',
-          const [0xFF2D8FCF, 0xFF1E5BA8],
-          'machine1',
-          0xFF2D8FCF,
-        ),
-        _buildMachineCard(
-          'Machine 2',
-          'NEW',
-          const [0xFF10B981, 0xFF059669],
-          'machine2',
-          0xFF10B981,
-        ),
-      ],
-    ),
+  Widget get contentWidget => BlocBuilder(
+    bloc: _machineBloc,
+    builder: (context, state) {
+      switch (state.runtimeType) {
+        case MachineLoadingState:
+          return Center(child: CircularProgressIndicator());
+        case MachineCalculationLoadedSuccessState:
+          final data = (state as MachineCalculationLoadedSuccessState).model;
+          String getMsg = data.message == 'Required field(s) are missing!!'
+              ? 'Enter Meter for Calculations?'
+              : data.message.toString();
+          return data.status != 1
+              ? Center(child: TextFieldlabelText(getMsg))
+              : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    spacing: 24,
+                    children: [
+                      _buildMachineCard(
+                        'Machine 1',
+                        'OLD',
+                        data,
+                        const [0xFF2D8FCF, 0xFF1E5BA8],
+                        'machine1',
+                        0xFF2D8FCF,
+                      ),
+                      _buildMachineCard(
+                        'Machine 2',
+                        'NEW',
+                        data,
+                        const [0xFF10B981, 0xFF059669],
+                        'machine2',
+                        0xFF10B981,
+                      ),
+                    ],
+                  ),
+                );
+        case MachineErrorState:
+          return Center(child: Text('Opps! Something went wrong...'));
+        default:
+          return Center(child: Text('Enter Meter for Calculations'));
+      }
+    },
   );
 
   Widget _buildMachineCard(
     String machineName,
     String status,
+    MachineCalculationModel data,
     List<int> gradientColors,
     String machineType,
     int primaryColor,
@@ -219,24 +240,24 @@ class _MachineCalculationState extends State<MachineCalculation> {
                     _buildMetricRow(
                       'First Step',
                       machineType == 'machine1'
-                          ? machine1FirstStepController
-                          : machine2FirstStepController,
+                          ? data.machineOne!.firstStep.toString()
+                          : data.machineTwo!.firstStep.toString(),
                       Icons.trending_up_rounded,
                       Color(primaryColor),
                     ),
                     _buildMetricRow(
                       'Second Step',
                       machineType == 'machine1'
-                          ? machine1SecondStepController
-                          : machine2SecondStepController,
+                          ? data.machineOne!.secondStep.toString()
+                          : data.machineTwo!.secondStep.toString(),
                       Icons.auto_graph_rounded,
                       Color(primaryColor),
                     ),
                     _buildMetricRow(
                       'Final Result',
                       machineType == 'machine1'
-                          ? machine1ThirdStepController
-                          : machine2ThirdStepController,
+                          ? data.machineOne!.finalStep.toString()
+                          : data.machineTwo!.finalStep.toString(),
                       Icons.check_circle_rounded,
                       Color(primaryColor),
                     ),
@@ -339,7 +360,7 @@ class _MachineCalculationState extends State<MachineCalculation> {
 
   Widget _buildMetricRow(
     String label,
-    TextEditingController controller,
+    String value,
     IconData icon,
     Color color,
   ) {
@@ -380,7 +401,7 @@ class _MachineCalculationState extends State<MachineCalculation> {
                   ),
                 ),
                 Text(
-                  controller.text.isEmpty ? '0.00' : controller.text,
+                  value.isEmpty ? '0.00' : value,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -527,8 +548,19 @@ class _MachineCalculationState extends State<MachineCalculation> {
               Expanded(
                 child: meterTF(
                   (value) {
-                    calculateMachine1();
-                    calculateMachine2();
+                    if (meterController.text != '' &&
+                        meterController.text.isNotEmpty) {
+                      setState(() {
+                        isCalculationON = false;
+                      });
+                    } else {
+                      setState(() {
+                        isCalculationON = true;
+                      });
+                    }
+                    _machineBloc.add(
+                      MachineCalculationEvent(meters: meterController.text),
+                    );
                   },
                   meterController,
                   'Enter Meter',

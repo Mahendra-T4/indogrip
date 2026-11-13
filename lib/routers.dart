@@ -50,6 +50,7 @@ import 'package:indogrip/features/outsource/presentation/outsource-out/panels/st
 import 'package:indogrip/features/outsource/presentation/outsource-out/panels/strach%20film/pages/stratch_film.dart';
 import 'package:indogrip/features/outsource/presentation/outsource-out/panels/tap/page/tap_panel.dart';
 import 'package:indogrip/features/outsource/presentation/outsource-out/panels/tap/page/tape_sticker.dart';
+import 'package:indogrip/features/outsource/presentation/packing-strip/presentation/page/add/add_packing_strip.dart';
 
 import 'package:indogrip/features/outsource/presentation/packing-strip/presentation/page/table/view_packing_strip_record_table.dart';
 import 'package:indogrip/features/outsource/presentation/additional-inventory/presenation/page/add/add_additional_inv.dart';
@@ -1100,27 +1101,27 @@ GoRouter routers = GoRouter(
           // },
         ),
 
-        //* strip routes
-        // GoRoute(
-        //   path: AddPackingStripRecordPanel.routeName,
-        //   name: AddPackingStripRecordPanel.routeName,
-        //   pageBuilder: (context, state) {
-        //     return CustomTransitionPage(
-        //       key: state.pageKey, // Required for unique page identification
-        //       child:
-        //           const AddPackingStripRecordPanel(), // The screen to display
-        //       transitionsBuilder:
-        //           (context, animation, secondaryAnimation, child) {
-        //             // Define a fade transition to avoid bouncing
-        //             return FadeTransition(opacity: animation, child: child);
-        //           },
-        //       transitionDuration: const Duration(
-        //         milliseconds: 300,
-        //       ), // Animation duration
-        //     );
-        //   },
-        //   // builder: (context, state) => AddCorePanel(),
-        // ),
+        // * strip routes
+        GoRoute(
+          path: AddPackingStripRecordPanel.routeName,
+          name: AddPackingStripRecordPanel.routeName,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey, // Required for unique page identification
+              child:
+                  const AddPackingStripRecordPanel(), // The screen to display
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    // Define a fade transition to avoid bouncing
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+              transitionDuration: const Duration(
+                milliseconds: 300,
+              ), // Animation duration
+            );
+          },
+          // builder: (context, state) => AddCorePanel(),
+        ),
         GoRoute(
           path: ViewStripRecordTablePanel.routeName,
           name: ViewStripRecordTablePanel.routeName,

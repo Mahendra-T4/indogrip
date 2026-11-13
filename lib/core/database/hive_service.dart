@@ -28,7 +28,7 @@ class HiveService {
 
   // Update this version number whenever you release a new version
   // This helps clear stale login data when app is updated or reinstalled
-  static const String currentAppVersion = '1.21.0';
+  static const String currentAppVersion = '1.22.0';
 
   /// Initialize Hive and open box
   static Future<void> init() async {

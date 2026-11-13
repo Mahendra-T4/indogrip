@@ -45,11 +45,11 @@ AppBar DesktopAppBarNotification(
     //     child: Container(
     //       margin: const EdgeInsets.symmetric(vertical: 8),
     //       decoration: BoxDecoration(
-    //         color: Colors.white.withOpacity(0.1),
+    //         color: Colors.white.withValues(alpha:0.1),
     //         borderRadius: BorderRadius.circular(12),
     //         boxShadow: [
     //           BoxShadow(
-    //             color: Colors.black.withOpacity(0.1),
+    //             color: Colors.black.withValues(alpha:0.1),
     //             blurRadius: 8,
     //             offset: const Offset(0, 2),
     //           ),
@@ -79,7 +79,7 @@ AppBar DesktopAppBarNotification(
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha:0.1),
                   blurRadius: 10,
                   offset: const Offset(0, 5),
                 ),
@@ -291,7 +291,7 @@ AppBar MobileAppBarNotificaton(
     leading: Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: IconButton(
@@ -318,7 +318,7 @@ AppBar MobileAppBarNotificaton(
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha:0.1),
                   blurRadius: 10,
                   offset: const Offset(0, 5),
                 ),

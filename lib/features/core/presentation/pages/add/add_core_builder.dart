@@ -8,7 +8,6 @@ import 'package:indogrip/core/utils/widgets/button.dart';
 import 'package:indogrip/core/utils/widgets/heading_text.dart';
 import 'package:indogrip/core/utils/widgets/text_field.dart';
 import 'package:indogrip/core/utils/widgets/toast_service.dart';
-import 'package:indogrip/features/carton/presentation/widgets/master_carton_type.dart';
 import 'package:indogrip/features/core/data/models/core_api_param_entity.dart';
 import 'package:indogrip/features/core/presentation/bloc/core_bloc.dart';
 import 'package:indogrip/features/core/presentation/pages/add/add_core.dart';

@@ -112,13 +112,13 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Color(0xFFFF6B35).withOpacity(0.9),
-                            Color(0xFFFF4500).withOpacity(0.8),
+                            Color(0xFFFF6B35).withValues(alpha:0.9),
+                            Color(0xFFFF4500).withValues(alpha:0.8),
                           ],
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Color(0xFFFF6B35).withOpacity(0.4),
+                            color: Color(0xFFFF6B35).withValues(alpha:0.4),
                             blurRadius: 30,
                             spreadRadius: 10,
                             offset: const Offset(0, 10),
@@ -138,10 +138,10 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                                   child: Container(
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.2),
+                                      color: Colors.white.withValues(alpha:0.2),
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
-                                        color: Colors.white.withOpacity(0.3),
+                                        color: Colors.white.withValues(alpha:0.3),
                                       ),
                                     ),
                                     child: Icon(
@@ -172,7 +172,7 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                                       style: GoogleFonts.poppins(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
-                                        color: Colors.white.withOpacity(0.7),
+                                        color: Colors.white.withValues(alpha:0.7),
                                         letterSpacing: 0.3,
                                       ),
                                     ),
@@ -195,24 +195,24 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Colors.white.withOpacity(0.08),
-                                  Colors.white.withOpacity(0.03),
+                                  Colors.white.withValues(alpha:0.08),
+                                  Colors.white.withValues(alpha:0.03),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.25),
+                                color: Colors.white.withValues(alpha:0.25),
                                 width: 1.2,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color(0xFFFF6B35).withOpacity(0.2),
+                                  color: Color(0xFFFF6B35).withValues(alpha:0.2),
                                   blurRadius: 25,
                                   spreadRadius: 2,
                                   offset: const Offset(0, 8),
                                 ),
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
+                                  color: Colors.black.withValues(alpha:0.3),
                                   blurRadius: 15,
                                   spreadRadius: 0,
                                   offset: const Offset(0, 4),
@@ -229,7 +229,7 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                                       decoration: BoxDecoration(
                                         color: Color(
                                           0xFFFF6B35,
-                                        ).withOpacity(0.3),
+                                        ).withValues(alpha:0.3),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Icon(
@@ -244,7 +244,7 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                                       style: GoogleFonts.poppins(
                                         fontSize: 11,
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.white.withOpacity(0.9),
+                                        color: Colors.white.withValues(alpha:0.9),
                                         letterSpacing: 0.5,
                                       ),
                                     ),
@@ -371,19 +371,19 @@ class _MissRecordPanelState extends State<MissRecordPanel>
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.4),
+            color: color.withValues(alpha:0.4),
             blurRadius: 30,
             spreadRadius: 6,
             offset: const Offset(0, 8),
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha:0.2),
             blurRadius: 15,
             spreadRadius: 1,
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+        border: Border.all(color: Colors.white.withValues(alpha:0.2), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,11 +391,11 @@ class _MissRecordPanelState extends State<MissRecordPanel>
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.25),
+              color: Colors.white.withValues(alpha:0.25),
               borderRadius: BorderRadius.circular(14),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withValues(alpha:0.15),
                   blurRadius: 8,
                   spreadRadius: 1,
                 ),
@@ -419,7 +419,7 @@ class _MissRecordPanelState extends State<MissRecordPanel>
             style: GoogleFonts.poppins(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: Colors.white.withOpacity(0.85),
+              color: Colors.white.withValues(alpha:0.85),
               letterSpacing: 0.4,
             ),
           ),
@@ -448,13 +448,13 @@ class _MissRecordPanelState extends State<MissRecordPanel>
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.25),
+                color: Colors.black.withValues(alpha:0.25),
                 blurRadius: 25,
                 spreadRadius: 2,
                 offset: const Offset(0, 8),
               ),
               BoxShadow(
-                color: Color(0xFFFF6B35).withOpacity(0.15),
+                color: Color(0xFFFF6B35).withValues(alpha:0.15),
                 blurRadius: 15,
                 spreadRadius: 0,
                 offset: const Offset(0, 4),
@@ -467,13 +467,13 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.white.withOpacity(0.11),
-                  Colors.white.withOpacity(0.04),
+                  Colors.white.withValues(alpha:0.11),
+                  Colors.white.withValues(alpha:0.04),
                 ],
               ),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha:0.2),
                 width: 1.2,
               ),
             ),
@@ -499,7 +499,7 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color(0xFFFF6B35).withOpacity(0.4),
+                                  color: Color(0xFFFF6B35).withValues(alpha:0.4),
                                   blurRadius: 20,
                                   spreadRadius: 4,
                                 ),
@@ -577,10 +577,10 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFFF6B35).withOpacity(0.2),
+                                  color: Color(0xFFFF6B35).withValues(alpha:0.2),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: Color(0xFFFF6B35).withOpacity(0.3),
+                                    color: Color(0xFFFF6B35).withValues(alpha:0.3),
                                   ),
                                 ),
                                 child: Icon(
@@ -604,13 +604,13 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Color(0xFFFF6B35).withOpacity(0.25),
-                              Color(0xFFFF6B35).withOpacity(0.12),
+                              Color(0xFFFF6B35).withValues(alpha:0.25),
+                              Color(0xFFFF6B35).withValues(alpha:0.12),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: Color(0xFFFF6B35).withOpacity(0.4),
+                            color: Color(0xFFFF6B35).withValues(alpha:0.4),
                             width: 1.2,
                           ),
                         ),
@@ -654,7 +654,7 @@ class _MissRecordPanelState extends State<MissRecordPanel>
                     decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
-                          color: Colors.white.withOpacity(0.12),
+                          color: Colors.white.withValues(alpha:0.12),
                           width: 1.2,
                         ),
                       ),
@@ -699,7 +699,7 @@ class _MissRecordPanelState extends State<MissRecordPanel>
           style: GoogleFonts.poppins(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: Colors.white.withOpacity(0.75),
+            color: Colors.white.withValues(alpha:0.75),
             letterSpacing: 0.2,
           ),
         ),
@@ -709,17 +709,17 @@ class _MissRecordPanelState extends State<MissRecordPanel>
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [color, color.withOpacity(0.7)],
+              colors: [color, color.withValues(alpha:0.7)],
             ),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: color.withOpacity(0.4),
+                color: color.withValues(alpha:0.4),
                 blurRadius: 15,
                 spreadRadius: 2,
               ),
             ],
-            border: Border.all(color: Colors.white.withOpacity(0.15), width: 1),
+            border: Border.all(color: Colors.white.withValues(alpha:0.15), width: 1),
           ),
           child: Text(
             value,

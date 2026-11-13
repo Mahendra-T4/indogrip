@@ -59,37 +59,42 @@ class _IndoGripDashboardState extends DashboardBuilder {
             if (Responsive.isDesktop(context))
               DesktopAppBar(context, _stateKey, 'Dashboard', false),
 
-            HiveService.getRole() == '1'
-                ? Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          _buildWelcomeHeader,
-                          // MachineCalculation(),
-                          ProfitandLossAnalyticsWidget(
-                            fromDateController: fromDateController,
-                            toDateController: toDateController,
-                            // onFromChanged: (value) {},
-                            // onToChanged: (value) {},
-                          ),
-                          // productWidget,
-                          // SalesDashboard(),
-                          TapeStockWidget(),
-                          JumboStockWidget(),
-                          SizedBox(height: 16),
-                          StretchStockWidget(),
-                          SizedBox(height: 16),
-                          buildPredictCalculationFormWidget,
-                          SizedBox(height: 16),
-                          buildPredictCalculation2FormWidget,
-                          desktopWidgetWrapper,
-                          DefaultSettingWidget(),
-                          const SizedBox(height: 200),
-                        ],
+            // HiveService.getRole() == '1'
+            //     ?
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildWelcomeHeader,
+                    // MachineCalculation(),
+                    if (HiveService.getRole() != '3')
+                      ProfitandLossAnalyticsWidget(
+                        fromDateController: fromDateController,
+                        toDateController: toDateController,
+                        // onFromChanged: (value) {},
+                        // onToChanged: (value) {},
                       ),
-                    ),
-                  )
-                : _buildWelcomeHeader,
+                    // productWidget,
+                    // SalesDashboard(),
+                    if (HiveService.getRole() == '1' ||
+                        HiveService.getRole() == '3') ...[
+                      TapeStockWidget(),
+                      JumboStockWidget(),
+                      SizedBox(height: 16),
+                      StretchStockWidget(),
+                      SizedBox(height: 16),
+                      buildPredictCalculationFormWidget,
+                      SizedBox(height: 16),
+                      buildPredictCalculation2FormWidget,
+                      desktopWidgetWrapper,
+                      DefaultSettingWidget(),
+                      const SizedBox(height: 200),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            // : _buildWelcomeHeader,
           ],
         );
       },
@@ -111,13 +116,13 @@ class _IndoGripDashboardState extends DashboardBuilder {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Color(0xFF3498DB).withOpacity(0.25),
+            color: Color(0xFF3498DB).withValues(alpha: 0.25),
             spreadRadius: 2,
             blurRadius: 30,
             offset: const Offset(0, 12),
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha:0.08),
             spreadRadius: 0,
             blurRadius: 15,
             offset: const Offset(0, 6),
@@ -135,9 +140,9 @@ class _IndoGripDashboardState extends DashboardBuilder {
               width: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.08),
+                color: Colors.white.withValues(alpha:0.08),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white.withValues(alpha:0.1),
                   width: 2,
                 ),
               ),
@@ -151,14 +156,14 @@ class _IndoGripDashboardState extends DashboardBuilder {
               width: 90,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.06),
+                color: Colors.white.withValues(alpha:0.06),
                 border: Border.all(
                   color: const Color.fromRGBO(
                     255,
                     255,
                     255,
                     1,
-                  ).withOpacity(0.08),
+                  ).withValues(alpha:0.08),
                   width: 2,
                 ),
               ),
@@ -189,7 +194,7 @@ class _IndoGripDashboardState extends DashboardBuilder {
                         'Here\'s what\'s happening with your inventory today.',
                         style: TextStyle(
                           fontSize: Responsive.isDesktop(context) ? 16 : 14,
-                          color: Colors.white.withOpacity(0.92),
+                          color: Colors.white.withValues(alpha:0.92),
                           letterSpacing: 0.3,
                           fontWeight: FontWeight.w500,
                         ),
@@ -201,10 +206,10 @@ class _IndoGripDashboardState extends DashboardBuilder {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
+                          color: Colors.white.withValues(alpha:0.15),
                           borderRadius: BorderRadius.circular(24),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha:0.2),
                             width: 1.5,
                           ),
                         ),
@@ -213,14 +218,14 @@ class _IndoGripDashboardState extends DashboardBuilder {
                           children: [
                             Icon(
                               Icons.schedule,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha:0.9),
                               size: 16,
                             ),
                             SizedBox(width: 8),
                             Text(
                               'Last updated: ${DateTime.now().hour.toString().padLeft(2, '0')}:${DateTime.now().minute.toString().padLeft(2, '0')}',
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha:0.9),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -235,15 +240,15 @@ class _IndoGripDashboardState extends DashboardBuilder {
                 Container(
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.12),
+                    color: Colors.white.withValues(alpha:0.12),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.15),
+                      color: Colors.white.withValues(alpha:0.15),
                       width: 1.5,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha:0.1),
                         blurRadius: 15,
                         offset: const Offset(0, 4),
                       ),

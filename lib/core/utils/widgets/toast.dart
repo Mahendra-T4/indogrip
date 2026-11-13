@@ -185,13 +185,13 @@ class _ToastOverlayState extends State<_ToastOverlay>
   Color _getShadowColor() {
     switch (widget.type) {
       case ToastType.success:
-        return Colors.green.withOpacity(0.2);
+        return Colors.green.withValues(alpha:0.2);
       case ToastType.error:
-        return Colors.red.withOpacity(0.2);
+        return Colors.red.withValues(alpha:0.2);
       case ToastType.warning:
-        return Colors.orange.withOpacity(0.2);
+        return Colors.orange.withValues(alpha:0.2);
       case ToastType.info:
-        return Colors.blue.withOpacity(0.2);
+        return Colors.blue.withValues(alpha:0.2);
     }
   }
 

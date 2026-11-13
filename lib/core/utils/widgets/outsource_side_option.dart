@@ -180,64 +180,64 @@ class _SidebarPanelBuilderState extends State<OutSourceSidePanelBuilder>
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
-                  child: Material(
-                    color: Colors.white.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(8),
-                    clipBehavior: Clip.antiAlias,
-                    child: ListTile(
-                      onTap: () {
-                        context.goNamed(widget.routeName[2]);
-                      },
-                      leading: Icon(
-                        Icons.grain,
-                        size: 20,
-                        color: Colors.white.withValues(alpha: 0.9),
-                      ),
-                      title: Text(
-                        widget.panel3 ?? 'Silica',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white.withValues(alpha: 0.9),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
-                  child: Material(
-                    color: Colors.white.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(8),
-                    clipBehavior: Clip.antiAlias,
-                    child: ListTile(
-                      onTap: () {
-                        context.goNamed(widget.routeName[3]);
-                      },
-                      leading: Icon(
-                        Icons.add_box,
-                        size: 20,
-                        color: Colors.white.withValues(alpha: 0.9),
-                      ),
-                      title: Text(
-                        widget.panel4 ?? 'Packing Strip',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white.withValues(alpha: 0.9),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   margin: const EdgeInsets.symmetric(
+                //     horizontal: 8,
+                //     vertical: 2,
+                //   ),
+                //   child: Material(
+                //     color: Colors.white.withValues(alpha: 0.05),
+                //     borderRadius: BorderRadius.circular(8),
+                //     clipBehavior: Clip.antiAlias,
+                //     child: ListTile(
+                //       onTap: () {
+                //         context.goNamed(widget.routeName[2]);
+                //       },
+                //       leading: Icon(
+                //         Icons.grain,
+                //         size: 20,
+                //         color: Colors.white.withValues(alpha: 0.9),
+                //       ),
+                //       title: Text(
+                //         widget.panel3 ?? 'Silica',
+                //         style: TextStyle(
+                //           fontSize: 14,
+                //           fontWeight: FontWeight.w500,
+                //           color: Colors.white.withValues(alpha: 0.9),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   margin: const EdgeInsets.symmetric(
+                //     horizontal: 8,
+                //     vertical: 2,
+                //   ),
+                //   child: Material(
+                //     color: Colors.white.withValues(alpha: 0.05),
+                //     borderRadius: BorderRadius.circular(8),
+                //     clipBehavior: Clip.antiAlias,
+                //     child: ListTile(
+                //       onTap: () {
+                //         context.goNamed(widget.routeName[3]);
+                //       },
+                //       leading: Icon(
+                //         Icons.add_box,
+                //         size: 20,
+                //         color: Colors.white.withValues(alpha: 0.9),
+                //       ),
+                //       title: Text(
+                //         widget.panel4 ?? 'Packing Strip',
+                //         style: TextStyle(
+                //           fontSize: 14,
+                //           fontWeight: FontWeight.w500,
+                //           color: Colors.white.withValues(alpha: 0.9),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

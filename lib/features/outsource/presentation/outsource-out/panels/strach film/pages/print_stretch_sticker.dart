@@ -237,9 +237,13 @@ class _PrintStickerState extends State<PrintStretchFilmSticker> {
                           style: style,
                         ),
                         pw.Text(
-                          'MRP: ${data.record!.batchInformation!.batchMRP}',
+                          'Weight: ${data.record!.inventoryInformation!.additionalInfo!.grossWeight.toString().toString()}',
                           style: style,
                         ),
+                        // pw.Text(
+                        //   'MRP: ${data.record!.batchInformation!.batchMRP}',
+                        //   style: style,
+                        // ),
                       ],
                     ),
 
@@ -256,21 +260,16 @@ class _PrintStickerState extends State<PrintStretchFilmSticker> {
                           'Size/Width: ${data.record!.inventoryInformation!.additionalInfo!.stretchFilmSize}',
                           style: style,
                         ),
-
                         pw.Text(
-                          'Weight: ${data.record!.inventoryInformation!.additionalInfo!.grossWeight.toString().toString()}',
+                          'Operation: ${data.record!.inventoryInformation!.additionalInfo!.coreCode.toString()}',
                           style: style,
                         ),
                       ],
                     ),
                     pw.SizedBox(height: 5),
                     pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: pw.MainAxisAlignment.start,
                       children: [
-                        pw.Text(
-                          'Operation: ${data.record!.inventoryInformation!.additionalInfo!.coreCode.toString()}',
-                          style: style,
-                        ),
                         pw.Text(
                           'Remark: ${data.record!.batchInformation!.batchRemark.toString()}',
                           style: style,
@@ -573,10 +572,12 @@ class _PrintStickerState extends State<PrintStretchFilmSticker> {
                                                       .batchInformation!
                                                       .displayMFGLabel
                                                       .toString(),
-                                                  label2: 'MRP',
+                                                  label2: 'Weight',
                                                   value2: item
-                                                      .batchInformation!
-                                                      .batchMRP
+                                                      .inventoryInformation!
+                                                      .additionalInfo!
+                                                      .grossWeight
+                                                      .toString()
                                                       .toString(),
                                                 ),
                                                 _buildDetailRow(
@@ -587,17 +588,8 @@ class _PrintStickerState extends State<PrintStretchFilmSticker> {
                                                       .additionalInfo!
                                                       .coreCode
                                                       .toString(),
-                                                  label2: 'Weight',
+                                                  label2: 'Size/Width',
                                                   value2: item
-                                                      .inventoryInformation!
-                                                      .additionalInfo!
-                                                      .grossWeight
-                                                      .toString()
-                                                      .toString(),
-                                                ),
-                                                _buildDetailRow2(
-                                                  label1: 'Size/Width',
-                                                  value1: item
                                                       .inventoryInformation!
                                                       .additionalInfo!
                                                       .stretchFilmSize

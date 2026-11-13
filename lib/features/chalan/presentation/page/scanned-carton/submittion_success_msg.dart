@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:indogrip/core/responsive/responsive.dart';
 import 'package:indogrip/core/utils/appbar/desktop_appbar.dart';
 import 'package:indogrip/core/utils/appbar/mobile_appbar.dart';
 import 'package:indogrip/core/utils/sidebar.dart';
-import 'package:indogrip/features/dashboard/presentation/page/deshboard.dart';
 
 class SubmittingSuccessMsg extends StatefulWidget {
   const SubmittingSuccessMsg({super.key, required this.successMessage});
@@ -90,7 +88,7 @@ class _SubmittingSuccessMsgState extends State<SubmittingSuccessMsg>
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.green.withOpacity(0.3),
+                              color: Colors.green.withValues(alpha:0.3),
                               blurRadius: 30,
                               spreadRadius: 10,
                             ),
@@ -137,7 +135,7 @@ class _SubmittingSuccessMsgState extends State<SubmittingSuccessMsg>
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha:0.05),
                               blurRadius: 20,
                               spreadRadius: 0,
                             ),

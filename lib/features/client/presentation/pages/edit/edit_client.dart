@@ -43,7 +43,7 @@ class _EditClientState extends EditClientBuilder {
   late ClientBloc _clientBloc;
   final GlobalKey<ScaffoldState> _statekey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _isSubmitted = false; // Add this to track form submission attempts
+  // bool _isSubmitted = false; // Add this to track form submission attempts
 
   _formSubmit() {
     if (_formKey.currentState!.validate()) {

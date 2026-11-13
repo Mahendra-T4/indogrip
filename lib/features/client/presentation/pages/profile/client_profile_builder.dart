@@ -26,7 +26,7 @@ abstract class ClientProfileBuilder extends State<ClientProfile> {
             margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: Colors.grey.withOpacity(.08),
+              color: Colors.grey.withValues(alpha:.08),
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -208,7 +208,7 @@ abstract class ClientProfileBuilder extends State<ClientProfile> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.3),
+            color: Colors.blue.withValues(alpha:0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -308,10 +308,10 @@ abstract class ClientProfileBuilder extends State<ClientProfile> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.12), width: 1),
+        border: Border.all(color: color.withValues(alpha:0.12), width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.06),
+            color: Colors.grey.withValues(alpha:0.06),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -324,7 +324,7 @@ abstract class ClientProfileBuilder extends State<ClientProfile> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: color.withOpacity(0.08),
+              color: color.withValues(alpha:0.08),
               borderRadius: BorderRadius.circular(8),
             ),
             padding: const EdgeInsets.all(8),

@@ -19,8 +19,6 @@ import 'package:indogrip/core/utils/widgets/toast_service.dart';
 import 'package:indogrip/features/chalan/data/model/round_data_model.dart';
 import 'package:indogrip/features/chalan/data/model/round_details_model.dart';
 import 'package:indogrip/features/chalan/presentation/page/details/challan_details_page.dart';
-import 'package:indogrip/features/chalan/presentation/page/scanned-carton/miss_record.dart';
-import 'package:indogrip/features/chalan/presentation/page/scanned-carton/submittion_success_msg.dart';
 import 'package:indogrip/features/global/data/repositories/global_manager_repo.dart';
 import 'package:indogrip/features/global/presentation/bloc/global_bloc.dart';
 
@@ -252,17 +250,17 @@ class _ScannedCartonState extends State<ScannedCarton> {
                                                 colors: [
                                                   const Color(
                                                     0xFF2D7FD9,
-                                                  ).withOpacity(0.12),
+                                                  ).withValues(alpha:0.12),
                                                   const Color(
                                                     0xFF2D7FD9,
-                                                  ).withOpacity(0.06),
+                                                  ).withValues(alpha:0.06),
                                                 ],
                                               ),
                                               shape: BoxShape.circle,
                                               border: Border.all(
                                                 color: const Color(
                                                   0xFF2D7FD9,
-                                                ).withOpacity(0.2),
+                                                ).withValues(alpha:0.2),
                                                 width: 2,
                                               ),
                                             ),
@@ -271,7 +269,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                                               size: 72,
                                               color: const Color(
                                                 0xFF2D7FD9,
-                                              ).withOpacity(0.4),
+                                              ).withValues(alpha:0.4),
                                             ),
                                           ),
                                           const SizedBox(height: 24),
@@ -344,13 +342,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF2D7FD9).withOpacity(0.15),
+            color: const Color(0xFF2D7FD9).withValues(alpha:0.15),
             blurRadius: 30,
             spreadRadius: 4,
             offset: const Offset(0, 12),
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha:0.08),
             blurRadius: 40,
             spreadRadius: 0,
             offset: const Offset(0, 16),
@@ -371,13 +369,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colors.white.withOpacity(0.97),
-                      Colors.white.withOpacity(0.92),
+                      Colors.white.withValues(alpha:0.97),
+                      Colors.white.withValues(alpha:0.92),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: const Color(0xFF2D7FD9).withOpacity(0.15),
+                    color: const Color(0xFF2D7FD9).withValues(alpha:0.15),
                     width: 1.5,
                   ),
                 ),
@@ -410,7 +408,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF2D7FD9).withOpacity(0.4),
+                          color: const Color(0xFF2D7FD9).withValues(alpha:0.4),
                           blurRadius: 12,
                           offset: const Offset(0, 6),
                         ),
@@ -446,13 +444,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              const Color(0xFF2D7FD9).withOpacity(0.15),
-                              const Color(0xFF2D7FD9).withOpacity(0.08),
+                              const Color(0xFF2D7FD9).withValues(alpha:0.15),
+                              const Color(0xFF2D7FD9).withValues(alpha:0.08),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: const Color(0xFF2D7FD9).withOpacity(0.25),
+                            color: const Color(0xFF2D7FD9).withValues(alpha:0.25),
                             width: 1.2,
                           ),
                         ),
@@ -478,13 +476,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Colors.amber.withOpacity(0.15),
-                                Colors.orange.withOpacity(0.08),
+                                Colors.amber.withValues(alpha:0.15),
+                                Colors.orange.withValues(alpha:0.08),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: Colors.orange.withOpacity(0.25),
+                              color: Colors.orange.withValues(alpha:0.25),
                               width: 1.2,
                             ),
                           ),
@@ -513,7 +511,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                   ),
                   trailing: Container(
                     decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.08),
+                      color: Colors.red.withValues(alpha:0.08),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
@@ -534,8 +532,8 @@ class _ScannedCartonState extends State<ScannedCarton> {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        Colors.red.withOpacity(0.2),
-                                        Colors.orange.withOpacity(0.1),
+                                        Colors.red.withValues(alpha:0.2),
+                                        Colors.orange.withValues(alpha:0.1),
                                       ],
                                     ),
                                     borderRadius: BorderRadius.circular(12),
@@ -582,7 +580,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.red.withOpacity(0.3),
+                                      color: Colors.red.withValues(alpha:0.3),
                                       blurRadius: 12,
                                       offset: const Offset(0, 4),
                                     ),
@@ -644,7 +642,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                               gradient: LinearGradient(
                                 colors: [
                                   Colors.transparent,
-                                  const Color(0xFF2D7FD9).withOpacity(0.25),
+                                  const Color(0xFF2D7FD9).withValues(alpha:0.25),
                                   Colors.transparent,
                                 ],
                               ),
@@ -757,20 +755,20 @@ class _ScannedCartonState extends State<ScannedCarton> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF2D7FD9).withOpacity(0.08),
-                  const Color(0xFF2D7FD9).withOpacity(0.04),
+                  const Color(0xFF2D7FD9).withValues(alpha:0.08),
+                  const Color(0xFF2D7FD9).withValues(alpha:0.04),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: const Color(0xFF2D7FD9).withOpacity(0.15),
+                color: const Color(0xFF2D7FD9).withValues(alpha:0.15),
                 width: 1.3,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF2D7FD9).withOpacity(0.06),
+                  color: const Color(0xFF2D7FD9).withValues(alpha:0.06),
                   blurRadius: 12,
                   offset: const Offset(0, 3),
                 ),
@@ -811,20 +809,20 @@ class _ScannedCartonState extends State<ScannedCarton> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF2D7FD9).withOpacity(0.08),
-                  const Color(0xFF2D7FD9).withOpacity(0.04),
+                  const Color(0xFF2D7FD9).withValues(alpha:0.08),
+                  const Color(0xFF2D7FD9).withValues(alpha:0.04),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: const Color(0xFF2D7FD9).withOpacity(0.15),
+                color: const Color(0xFF2D7FD9).withValues(alpha:0.15),
                 width: 1.3,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF2D7FD9).withOpacity(0.06),
+                  color: const Color(0xFF2D7FD9).withValues(alpha:0.06),
                   blurRadius: 12,
                   offset: const Offset(0, 3),
                 ),
@@ -869,13 +867,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF2D7FD9).withOpacity(0.12),
+            color: const Color(0xFF2D7FD9).withValues(alpha:0.12),
             blurRadius: 30,
             spreadRadius: 4,
             offset: const Offset(0, -12),
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha:0.08),
             blurRadius: 40,
             spreadRadius: 0,
             offset: const Offset(0, -16),
@@ -895,13 +893,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFF2D7FD9).withOpacity(0.06),
-                    Colors.white.withOpacity(0.95),
+                    const Color(0xFF2D7FD9).withValues(alpha:0.06),
+                    Colors.white.withValues(alpha:0.95),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: const Color(0xFF2D7FD9).withOpacity(0.12),
+                  color: const Color(0xFF2D7FD9).withValues(alpha:0.12),
                   width: 1.5,
                 ),
               ),
@@ -930,8 +928,8 @@ class _ScannedCartonState extends State<ScannedCarton> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Colors.green.withOpacity(0.2),
-                                  Colors.green.withOpacity(0.1),
+                                  Colors.green.withValues(alpha:0.2),
+                                  Colors.green.withValues(alpha:0.1),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(8),
@@ -1034,7 +1032,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
             borderRadius: BorderRadius.circular(14),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF2D7FD9).withOpacity(0.45),
+                color: const Color(0xFF2D7FD9).withValues(alpha:0.45),
                 blurRadius: 16,
                 offset: const Offset(0, 8),
               ),
@@ -1055,7 +1053,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF2D7FD9).withOpacity(0.45),
+              color: const Color(0xFF2D7FD9).withValues(alpha:0.45),
               blurRadius: 24,
               spreadRadius: 4,
               offset: const Offset(0, 10),
@@ -1105,13 +1103,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
       color: Colors.white,
       boxShadow: [
         BoxShadow(
-          color: const Color(0xFF2D7FD9).withOpacity(0.12),
+          color: const Color(0xFF2D7FD9).withValues(alpha:0.12),
           blurRadius: 30,
           spreadRadius: 4,
           offset: const Offset(0, -12),
         ),
         BoxShadow(
-          color: Colors.black.withOpacity(0.08),
+          color: Colors.black.withValues(alpha:0.08),
           blurRadius: 40,
           spreadRadius: 0,
           offset: const Offset(0, -16),
@@ -1136,7 +1134,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
               boxShadow: addScannedBarcodeController.text.isNotEmpty
                   ? [
                       BoxShadow(
-                        color: const Color(0xFF2D8FCF).withOpacity(0.15),
+                        color: const Color(0xFF2D8FCF).withValues(alpha:0.15),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -1193,7 +1191,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                           padding: const EdgeInsets.all(12),
                           child: Icon(
                             Icons.close_rounded,
-                            color: const Color(0xFF2D8FCF).withOpacity(0.6),
+                            color: const Color(0xFF2D8FCF).withValues(alpha:0.6),
                             size: 22,
                           ),
                         ),
@@ -1276,7 +1274,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
               boxShadow: addScannedBarcodeController.text.isNotEmpty
                   ? [
                       BoxShadow(
-                        color: const Color(0xFF2D8FCF).withOpacity(0.35),
+                        color: const Color(0xFF2D8FCF).withValues(alpha:0.35),
                         blurRadius: 16,
                         offset: const Offset(0, 6),
                       ),
@@ -1303,7 +1301,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                 foregroundColor: Colors.white,
                 disabledForegroundColor: Colors.white,
                 elevation: 0,
-                shadowColor: const Color(0xFF2D8FCF).withOpacity(0.4),
+                shadowColor: const Color(0xFF2D8FCF).withValues(alpha:0.4),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),
@@ -1357,8 +1355,8 @@ class _ScannedCartonState extends State<ScannedCarton> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      const Color(0xFF2D7FD9).withOpacity(0.2),
-                      const Color(0xFF2D7FD9).withOpacity(0.1),
+                      const Color(0xFF2D7FD9).withValues(alpha:0.2),
+                      const Color(0xFF2D7FD9).withValues(alpha:0.1),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(12),
@@ -1439,7 +1437,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                               borderRadius: BorderRadius.circular(14),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.orange.withOpacity(0.3),
+                                  color: Colors.orange.withValues(alpha:0.3),
                                   blurRadius: 16,
                                   spreadRadius: 2,
                                   offset: const Offset(0, 8),
@@ -1482,7 +1480,7 @@ class _ScannedCartonState extends State<ScannedCarton> {
                                 BoxShadow(
                                   color: const Color(
                                     0xFF2D7FD9,
-                                  ).withOpacity(0.45),
+                                  ).withValues(alpha:0.45),
                                   blurRadius: 24,
                                   spreadRadius: 4,
                                   offset: const Offset(0, 10),
@@ -1594,13 +1592,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF2D7FD9).withOpacity(0.12),
+            color: const Color(0xFF2D7FD9).withValues(alpha:0.12),
             blurRadius: 30,
             spreadRadius: 4,
             offset: const Offset(0, 10),
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha:0.08),
             blurRadius: 40,
             spreadRadius: 0,
             offset: const Offset(0, 14),
@@ -1613,13 +1611,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.white.withOpacity(0.97),
-              Colors.white.withOpacity(0.93),
+              Colors.white.withValues(alpha:0.97),
+              Colors.white.withValues(alpha:0.93),
             ],
           ),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: const Color(0xFF2D7FD9).withOpacity(0.12),
+            color: const Color(0xFF2D7FD9).withValues(alpha:0.12),
             width: 1.3,
           ),
         ),
@@ -1674,13 +1672,13 @@ class _ScannedCartonState extends State<ScannedCarton> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF2D7FD9).withOpacity(0.12),
-                  const Color(0xFF2D7FD9).withOpacity(0.06),
+                  const Color(0xFF2D7FD9).withValues(alpha:0.12),
+                  const Color(0xFF2D7FD9).withValues(alpha:0.06),
                 ],
               ),
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: const Color(0xFF2D7FD9).withOpacity(0.2),
+                color: const Color(0xFF2D7FD9).withValues(alpha:0.2),
                 width: 1.2,
               ),
             ),

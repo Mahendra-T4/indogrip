@@ -55,7 +55,7 @@ class _CustomEnterKeyButtonState extends State<CustomEnterKeyButton> {
                     Set<MaterialState> states,
                   ) {
                     if (states.contains(MaterialState.focused)) {
-                      return Colors.white.withOpacity(0.2);
+                      return Colors.white.withValues(alpha:0.2);
                     }
                     return null;
                   }),

@@ -2,10 +2,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:indogrip/core/service/logger.dart';
 
 class EnvConfig {
-  static String get indoGripBaseUrl => dotenv.env['IndoGrip_BASE_URL'] ?? '';
+  static String get indoGripBaseUrl => dotenv.env['IndoGrip_BASE_URL2'] ?? '';
 
   static String get indoGripMobileBaseUrl =>
-      dotenv.env['INDOGRIP_MOBILE_BASE_URL'] ?? '';
+      dotenv.env['INDOGRIP_MOBILE_BASE_URL2'] ?? '';
 
   static Future<void> init() async {
     try {

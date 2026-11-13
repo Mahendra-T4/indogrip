@@ -11,7 +11,7 @@ import 'package:indogrip/core/theme/color_conts.dart';
 
 class AddPackingStripRecordPanel extends StatefulWidget {
   const AddPackingStripRecordPanel({super.key});
-  static const String routeName = '/outsource/packing-strip/add';
+  static const String routeName = '/outsource-packing-strip-add';
 
   @override
   State<AddPackingStripRecordPanel> createState() =>
